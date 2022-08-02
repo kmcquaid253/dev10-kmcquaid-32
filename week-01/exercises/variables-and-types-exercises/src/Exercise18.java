@@ -12,5 +12,13 @@ public class Exercise18 {
         // Gem Count: 12
         // Velocity: 33.654
         // Is Shiny: true
+
+        String firstOutput = "Gem Count: " + gemCount;
+        String secondOutput = "Velocity: " + velocity;
+        String thirdOutput = "Is Shiny: " + isShiny;
+
+        System.out.println(firstOutput);
+        System.out.println(secondOutput);
+        System.out.println(thirdOutput);
     }
 }

@@ -9,5 +9,10 @@ public class Exercise06 {
         // 1. Declare an integer variable `sum`.
         // 2. Calculate the sum of a, b, c and the literal value -13 and store it in sum.
         // 3. Print the result.
+
+        int sum;
+        sum = (a + b + c) + -13;
+
+        System.out.println(sum);
     }
 }

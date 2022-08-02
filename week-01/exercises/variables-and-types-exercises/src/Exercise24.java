@@ -7,9 +7,13 @@ public class Exercise24 {
                 + "Interrupti...\n"
                 + "Maa!";
 
+        System.out.println(knockKnock.replace('a', 'o'));
+
         // 1. Use the replace method to replace all occurrences of "a" with "o" from knockKnock.
         // 2. Assign the result to a new variable.
         // 3. Print it.
+
+
 
         // Expected Output:
         // Knock, knock.
