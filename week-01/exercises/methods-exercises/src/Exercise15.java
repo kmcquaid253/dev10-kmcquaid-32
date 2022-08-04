@@ -34,18 +34,18 @@ public class Exercise15 {
     Fizz
      */
     public static void main(String[] args) {
-        int userInt;
+        int userInt = 0;
 
         Scanner console = new java.util.Scanner(System.in);
 
-        System.out.println("Please enter a positive whole number: ");
-        userInt = Integer.parseInt(console.nextLine()) ;
+        System.out.print("Please enter a whole number: ");
+        userInt = console.nextInt(); ;
 
         if (userInt % 3 ==0){
             System.out.println("Fizz");
         } else if (userInt % 5 == 0 ){
             System.out.println("Buzz");
-        } else if (userInt % 3 ==0 && userInt % 5 == 0){
+        } else if (userInt % 3 ==0 && userInt % 5 ==0){
             System.out.println("Fizz Buzz");
         } else {
             System.out.println(userInt);
