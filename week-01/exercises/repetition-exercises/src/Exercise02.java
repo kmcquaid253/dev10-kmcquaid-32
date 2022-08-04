@@ -11,5 +11,19 @@ public class Exercise02 {
         // 8
         // 10
         // 12
+
+        int number = 1;
+        while (number < 13) {
+
+            if (number % 2 == 1) {
+                number++;
+            }
+
+            //Prints number
+            System.out.println(number);
+
+            //increment
+            number++;
+        }
     }
 }

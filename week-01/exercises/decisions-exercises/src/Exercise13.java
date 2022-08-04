@@ -20,6 +20,19 @@ public class Exercise13 {
         //    ury   Mercury      yes
         //    ury     curry       no
         //    mer   Mercury       no (case sensitive)
+
+        boolean haystackConttainsNeedle = haystack.contains(needle);
+
+        if(haystackConttainsNeedle){
+            System.out.println("The haystack does contain the needle");
+        } else {
+            System.out.println("Not found.");
+        }
+
         // 2. As a stretch goal, display the location (index) of needle in haystack.
+
+        int needleIndex = haystack.indexOf(needle);
+
+        System.out.println("The needle was found" + needleIndex);
     }
 }

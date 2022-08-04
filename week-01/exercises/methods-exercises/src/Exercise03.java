@@ -8,11 +8,29 @@ public class Exercise03 {
         System.out.println(milesToKilometers(123.45f)); // Expected: 198.7545
 
         // 2. Add at least one more milesToKilometers call and confirm it works.
+        System.out.println(milesToKilometers(5.0f));
     }
 
     // milesToKilometers converts miles to kilometers.
     // 1. Complete the milesToKilometers method.
     public static float milesToKilometers(float miles) {
-        return 0;
+        //8km = 5 miles
+        /*
+
+        //My code
+
+        double kilometers;
+        kilometers = miles * 1.6093;
+
+        return (float) kilometers;
+
+         */
+
+        //Teachers
+        float kmPerMile = 1.609344f;
+
+        float kilometers = miles * kmPerMile;
+
+        return kilometers;
     }
 }

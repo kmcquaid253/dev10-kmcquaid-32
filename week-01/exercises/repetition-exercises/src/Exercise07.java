@@ -15,7 +15,10 @@ public class Exercise07 {
 
         String result = "";
         for (int i = 0; i < phrase.length(); i++) {
-            result += phrase.charAt(i);
+            char atPositionI = phrase.charAt(i);
+            if (!Character.isWhitespace(atPositionI))
+
+            result += atPositionI;
         }
 
         System.out.println("Your phrase without whitespace is: " + result);

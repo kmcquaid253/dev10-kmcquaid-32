@@ -1,14 +1,28 @@
 public class Exercise01 {
 
     public static void main(String[] args) {
-
+        //Calling the method
         String firstCompliment = getRandomCompliment();
+        //Printing the result
         System.out.println(firstCompliment);
 
         // Call the getRandomCompliment method two more times.
         // 1. Store the result in a new string variable.
         // 2. Print the result.
         // 3. Print the value returned directly without an intermediate variable.
+        System.out.println(getRandomCompliment());
+
+        //Calling the method
+        String secondCompliment = getRandomCompliment();
+        //Printing the result
+        System.out.println(secondCompliment);
+
+        //Calling the method
+        String thirdCompliment = getRandomCompliment();
+        //Printing the result
+        System.out.println(thirdCompliment);
+
+
     }
 
     public static String getRandomCompliment() {

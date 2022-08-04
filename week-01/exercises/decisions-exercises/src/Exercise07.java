@@ -18,6 +18,25 @@ public class Exercise07 {
         // 1. Create if/else statements to enforce Abdi's homework rules.
         // 2. Print data-rich messages for each scenario.
 
+        //boolean dayOfWeekStartsWithS = dayOfWeek.toUpperCase().charAt(0) == 'S';
+        //boolean littleHomework = hoursOfHomework < 15;
+
+        //boolean willDoHomework = !dayOfWeekStartsWithS || !littleHomework;
+
+        //boolean willDoHomework = !(dayOfWeekStartsWithS && littleHomework);
+
+       // if (willDoHomework){
+        //    System.out.println("Time to do homework");
+       // } else {
+        //    System.out.println("Im taking today off");
+       // }
+        if(!(dayOfWeek.toUpperCase().charAt(0) != 'S') || hoursOfHomework >= 15){
+            System.out.println("Time to do HW");
+        }else {
+            System.out.println("Im taking off");
+        }
+
+
         // Examples
         // Hours of homework: 12
         // Day of week: Saturday

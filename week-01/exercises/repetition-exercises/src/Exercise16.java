@@ -22,5 +22,26 @@ public class Exercise16 {
         // (2X2)
         // **
         // **
+
+        int width = 5;
+        int height = 5;
+
+        //We're looping through all rows
+        //we're calling first row 1 (could be 0 if we wanted)
+        //and the last row height (could be the height -1, if we are doing 0 indexing)
+
+        for(int row = 1; row <= height; row ++){
+
+            for(int col = 1; col <= width; col++){
+
+                if(row == 1 || row == height || col ==1 || col == width) {
+
+                    System.out.print("*");
+                } else {
+                    System.out.println("#");
+                }
+            }
+            System.out.println();
+        }
     }
 }

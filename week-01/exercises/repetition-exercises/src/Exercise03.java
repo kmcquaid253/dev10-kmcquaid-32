@@ -11,5 +11,10 @@ public class Exercise03 {
         // 19
         // 18
         // 17
+
+        for (int count = 23; count >= 17; count--)
+        {
+            System.out.println(count);
+        }
     }
 }
