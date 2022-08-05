@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Exercise11 {
+public class   Exercise11 {
 
     public static void main(String[] args) {
         int[] values = makeRandomArray();
@@ -10,6 +10,19 @@ public class Exercise11 {
         // (We must count first to know the capacity to allocate.)
         // 3. Loop through `values` a second time. Add positive elements to the new array.
         // 4. Confirm the positive array is properly populated either by debugging or printing its elements.
+
+        int[] positiveArrays = new int[values.length];
+
+        for (int i = 0; i < values.length; i++){
+
+            if(values[i] >= 0){
+                System.out.println("" + values[i]);
+                positiveArrays[i]=values[i];
+            } else{
+                System.out.println("Value is negative");
+            }
+
+        }
     }
 
     public static int[] makeRandomArray() {

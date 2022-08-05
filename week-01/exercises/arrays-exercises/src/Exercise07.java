@@ -11,6 +11,18 @@ public class Exercise07 {
         // 2. Print the result.
         // Since the array is random, your result will vary during each run.
         // 3. Print the length of the array.
+
+        int sum = 0;
+
+        for(int i = 0; i < values.length; i++){
+
+            sum = sum + values[i];
+        }
+        //print the result
+        System.out.println("Sum of all values in array: " + sum);
+
+        //length of array
+        System.out.println("Length of array: " + values.length);
     }
 
     public static int[] makeRandomArray() {

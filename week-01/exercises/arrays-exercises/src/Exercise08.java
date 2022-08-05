@@ -2,21 +2,15 @@ import java.util.Random;
 
 public class Exercise08 {
 
-    // 1. Create a method.
-    // Name: sumArray
-    // Inputs: int[]
-    // Output: int
-    // Description: calculates the sum of the parameter's elements and returns it.
-
     public static void main(String[] args) {
         int[] values = makeRandomArray();
         // 2. Uncomment the code below and make it work.
-        /*
+
         int sum = sumArray(values);
         System.out.println(sum);
         System.out.println(sumArray(makeRandomArray()));
         System.out.println(sumArray(makeRandomArray()));
-         */
+
     }
 
     public static int[] makeRandomArray() {
@@ -26,5 +20,21 @@ public class Exercise08 {
             result[i] = random.nextInt(1000) - 500;
         }
         return result;
+    }
+
+    // 1. Create a method.
+    // Name: sumArray
+    // Inputs: int[]
+    // Output: int
+    // Description: calculates the sum of the parameter's elements and returns it.
+
+    public static int sumArray (int[]param){
+        int sum = 0;
+
+        for(int i = 0; i < param.length; i++){
+            sum = sum + param[i];
+        }
+
+        return sum;
     }
 }

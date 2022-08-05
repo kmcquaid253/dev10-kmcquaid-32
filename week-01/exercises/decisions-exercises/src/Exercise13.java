@@ -33,6 +33,6 @@ public class Exercise13 {
 
         int needleIndex = haystack.indexOf(needle);
 
-        System.out.println("The needle was found" + needleIndex);
+        System.out.println("The needle was found: " + needleIndex);
     }
 }
