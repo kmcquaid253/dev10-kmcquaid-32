@@ -38,7 +38,7 @@
 * Create a loop that loops through this request in case they enter a capsule that is unoccupied.
 * Some loops I am thinking about using for this action :
   * do
-  * if
+* Alternatively to a loop, I could use an if statement
 * Finally, if they enter an occupied capsule, output success message. 
 
 
