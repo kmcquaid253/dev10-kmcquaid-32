@@ -13,7 +13,7 @@
 * Display welcome message (call displayWelcome()).
 * On start prompt the user for a required positive number of rooms (loop until the user gets it right).
 * Initialize a String[] of rooms (really this is just guest names)
-* Display a main menu (call mainMenu() ) in a loop until the user chooses to exit.
+* Display a main menu (call nMenu() ) in a loop until the user chooses to exit.
  
 
 
