@@ -29,11 +29,12 @@ public class CapsuleHotel {
             if (userMenuChoice.equals("1")) {
                 checkIn(console, rooms, sizeOfArray);
             } else if (userMenuChoice.equals("2")) {
-                System.out.println("You selected check out!");
+                checkOut(console, rooms, sizeOfArray);
             } else if (userMenuChoice.equals("3")) {
                 viewGuests(rooms);
             } else if (userMenuChoice.equals("4")) {
-                System.out.println("goodbye!");
+                //System.out.println("goodbye!");
+                exit(console);
             } else {
                 System.out.println("I don't understand that option.");
             }
@@ -79,11 +80,45 @@ public class CapsuleHotel {
         }while (rooms[roomNumber] != null) ;
 
             rooms[roomNumber] = name;
+
+        System.out.println("Success :)\n" + name + " is booked in capsule #" + (roomNumber + 1));
     }
 
-    public static void checkOut() {
+    public static void checkOut(Scanner console, String[] rooms, int sizeOfArray) {
+        System.out.println("\nGuest Check Out");
+        System.out.println("===================");
 
+        int roomNumber;
+
+        do {
+            System.out.print("Capsule #[1-" + sizeOfArray  + "]: ");
+            roomNumber = Integer.parseInt(console.nextLine()) - 1;
+
+            if (roomNumber < 0 || roomNumber >= rooms.length) {
+                return;
+            }
+            //TO DO:
+            //check if array index is untaken
+        }while (rooms[roomNumber] == null) ;
+
+        rooms[roomNumber] = null;
+
+
+        System.out.println("Success :)\nCapsule#" + (roomNumber + 1) +" has been checked out");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     static void viewGuests(String[] rooms) {
         System.out.println("\nView Guests");
@@ -93,4 +128,20 @@ public class CapsuleHotel {
                     i + 1, rooms[i] == null ? "[unoccupied]" : rooms[i]);
         }
     }
-}
+
+
+
+
+
+
+
+
+    
+
+    public static void exit(Scanner console){
+        System.out.println("\nExit");
+        System.out.println("=========");
+
+        System.out.println("Goodbye!");
+        }
+    }
