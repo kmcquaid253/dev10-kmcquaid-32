@@ -1,6 +1,8 @@
+import java.util.Arrays;
 import java.util.Scanner;
 public class CapsuleHotel {
     public static void main(String[] args) {
+
         displayWelcome();
 
         Scanner console = new Scanner(System.in);
@@ -31,7 +33,7 @@ public class CapsuleHotel {
             } else if (userMenuChoice.equals("2")) {
                 checkOut(console, rooms, sizeOfArray);
             } else if (userMenuChoice.equals("3")) {
-                viewGuests(rooms);
+                viewGuests(rooms, console, sizeOfArray);
             } else if (userMenuChoice.equals("4")) {
                 //System.out.println("goodbye!");
                 exit(console);
@@ -120,12 +122,20 @@ public class CapsuleHotel {
 
 
 
-    static void viewGuests(String[] rooms) {
+    static void viewGuests(String[] rooms, Scanner console, int sizeOfArray) {
+        int roomNumber;
+
         System.out.println("\nView Guests");
         System.out.println("=================");
-        for (int i = 0; i < rooms.length; i++) {
-            System.out.printf("Capsule #%s: %s%n",
-                    i + 1, rooms[i] == null ? "[unoccupied]" : rooms[i]);
+
+        System.out.print("Capsule #[1-" + sizeOfArray  + "]: ");
+        roomNumber = Integer.parseInt(console.nextLine()) - 1;
+
+
+        for (int i = roomNumber;i < rooms.length; i ++ ) {
+
+
+            System.out.printf("Capsule #%s: %s%n",  i + 1, rooms[i] == null ? "[unoccupied]" : rooms[i]);
         }
     }
 
@@ -136,12 +146,17 @@ public class CapsuleHotel {
 
 
 
-    
+
 
     public static void exit(Scanner console){
+        String quit = "";
         System.out.println("\nExit");
         System.out.println("=========");
 
-        System.out.println("Goodbye!");
-        }
+        System.out.println("Are you sure you want to exit?");
+        System.out.println("All data will be lost.");
+        //System.out.print("Exit [yes/no]: ");
+        //String quit = console.nextLine();
+        
     }
+}

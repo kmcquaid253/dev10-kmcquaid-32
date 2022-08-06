@@ -58,6 +58,6 @@
 * implement getIntFromUser() (25 minutes)
 * initialize String[] for rooms (15 minutes)
 * implement mainMenu() (1.5 hours)
-* implement checkIn() (3 hours)
-* implement checkOut() (3 hours)
+* implement checkIn() (3 hours) = 4 hours
+* implement checkOut() (3 hours) = 30 min
 * implement viewGuest(2 hours)
