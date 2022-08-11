@@ -34,5 +34,20 @@ public class Exercise09 {
 //        psi:Infinity, exploded?:yes
 //        psi:Infinity, exploded?:yes
 //        psi:Infinity, exploded?:yes
+
+
+            //rotates only 1
+            int n = 1;
+
+
+            //Display Array
+            int [] array = new int [] {6, 2, 5, 3};
+
+            //Displays original array
+            System.out.println("Original array: ");
+            for (int i = 0; i < array.length; i++) {
+                System.out.print(array[i] + " ");
+            }
+        }
     }
-}
+

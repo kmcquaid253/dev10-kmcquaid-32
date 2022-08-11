@@ -1,4 +1,4 @@
-public class Exercise13 {
+public class   Exercise13 {
 
     // 1. Create a method.
     // Name: areInOrder

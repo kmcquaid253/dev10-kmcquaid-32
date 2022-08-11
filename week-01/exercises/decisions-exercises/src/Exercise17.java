@@ -20,5 +20,11 @@ public class Exercise17 {
         // You may choose to track data -- maybe a boolean for homework yes/no -- instead of printing a message in
         // each case. That's a lot of repeated typing.
         // Then print the detailed message after the switch.
+
+       // switch(hoursOfHomework >= 15){
+       //     case 6:
+       //         System.out.println("");
+       //         break;
+       // }
     }
 }

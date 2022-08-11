@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 public class CapsuleHotel {
     public static void main(String[] args) {
@@ -15,7 +16,7 @@ public class CapsuleHotel {
             System.out.print("Enter the number of capsules available: ");
             sizeOfArray = Integer.parseInt(console.nextLine());
 
-        } while (sizeOfArray < 0);
+        } while (sizeOfArray <= 0);
 
         System.out.println("There are " + sizeOfArray + " unoccupied capsules ready to be booked.");
 
@@ -41,7 +42,9 @@ public class CapsuleHotel {
                 System.out.println("I don't understand that option.");
             }
         } while (!userMenuChoice.equals("4"));
+
     }
+
 
     //Welcome message
     public static void displayWelcome() {
@@ -79,10 +82,10 @@ public class CapsuleHotel {
                 return;
             }
 
-        }while (rooms[roomNumber] != null) ;
+        } while (rooms[roomNumber] != null);
 
-            //Apply name to the room number (index) selected
-            rooms[roomNumber] = name;
+        //Apply name to the room number (index) selected
+        rooms[roomNumber] = name;
 
         System.out.println("Success :)\n" + name + " is booked in capsule #" + (roomNumber + 1));
     }
@@ -96,19 +99,19 @@ public class CapsuleHotel {
 
         //Loops until room number is not equal to null
         do {
-            System.out.print("Capsule #[1-" + sizeOfArray  + "]: ");
+            System.out.print("Capsule #[1-" + sizeOfArray + "]: ");
             roomNumber = Integer.parseInt(console.nextLine()) - 1;
 
             if (roomNumber < 0 || roomNumber >= rooms.length) {
                 return;
             }
 
-        }while (rooms[roomNumber] == null) ;
+        } while (rooms[roomNumber] == null);
 
         //Sets room number (index) selected to null
         rooms[roomNumber] = null;
 
-        System.out.println("Success :)\nCapsule #" + (roomNumber + 1) +" has been checked out");
+        System.out.println("Success :)\nCapsule #" + (roomNumber + 1) + " has been checked out");
     }
 
     //View Guests
@@ -118,38 +121,38 @@ public class CapsuleHotel {
         System.out.println("\nView Guests");
         System.out.println("=================");
 
-        System.out.print("Capsule #[1-" + sizeOfArray  + "]: ");
+        System.out.print("Capsule #[1-" + sizeOfArray + "]: ");
         roomNumber = Integer.parseInt(console.nextLine()) - 1;
 
 
         //Minimum Variable = room number(index) - 5,
         int minVariable = roomNumber - 5;
 
-        ////Maximum Variable = room number(index) + 6,
+        //Maximum Variable = room number(index) + 6,
         int maxVariable = roomNumber + 6;
 
         //Checks to see if the minVariable is too low
-        if (minVariable < 0){
+        if (minVariable < 0) {
             //if so, cap it at 0
             minVariable = 0;
         }
 
         //Checks to see if the maxVariable is too high
-        if(maxVariable > rooms.length){
+        if (maxVariable > rooms.length) {
             //if so, cap it at the length of the array
             maxVariable = rooms.length;
         }
 
         //Loop that goes from min to max and print out the room info for whatever rooms that loop hits
-        for (int i = minVariable ;i < maxVariable; i ++ ) {
+        for (int i = minVariable; i < maxVariable; i++) {
 
-            System.out.printf("Capsule #%s: %s%n",  i + 1, rooms[i] == null ? "[unoccupied]" : rooms[i]);
+            System.out.printf("Capsule #%s: %s%n", i + 1, rooms[i] == null ? "[unoccupied]" : rooms[i]);
 
         }
     }
 
     //Exit
-    public static void exit(){
+    public static void exit() {
 
         System.out.println("\nExit");
         System.out.println("=========\n");

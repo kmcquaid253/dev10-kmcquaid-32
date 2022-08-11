@@ -1,19 +1,15 @@
-/**
- * A Wallet stores money.
- * All positive deposits are allowed.
- * Withdraws are allowed up to the balance.
- */
-public class Wallet implements MoneyStorage {
-
+public class Vault implements MoneyStorage{
+    //fields
     private double balance;
     private String description;
 
+    private Wallet wallet;
 
-    public Wallet(double startingBalance, String description) {
+    //constructor
+    public Vault(double startingBalance, String description) {
         this.balance = startingBalance;
         this.description = description;
     }
-
 
     @Override
     public double getBalance() {
@@ -41,8 +37,14 @@ public class Wallet implements MoneyStorage {
             return 0.0;
         }
 
+        //cresult will hold the ACTUAL amount we do take out
+        //we cant take out more than the balance
+        //but we can take out less
+        //so we sue the min to figure out how much we'll really remove
         double result = Math.min(amount, balance);
         balance -= result;
+
         return result;
     }
 }
+

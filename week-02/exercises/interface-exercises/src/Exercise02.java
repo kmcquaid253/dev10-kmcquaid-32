@@ -7,6 +7,13 @@ public class Exercise02 {
     // Output: void
     // Description: prints the details for each MoneyStorage in the array.
 
+    public static void printAll(MoneyStorage[] storages){
+        for(MoneyStorage storage : storages){
+            System.out.println(storage.getDescription());
+            System.out.printf("Current balance: $%.2f%n", storage.getBalance());
+        }
+    }
+
     public static void main(String[] args) {
         MoneyStorage[] storages = {
                 new Wallet(3.25, "Red Wallet"),
@@ -17,6 +24,7 @@ public class Exercise02 {
         depositInAll(storages, 100.00);
 
         // 3. Pass storages as an argument to printAll.
+        printAll(storages);
 
         // Sample Output
         // Red Wallet: 103.25

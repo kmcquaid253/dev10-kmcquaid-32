@@ -19,22 +19,40 @@ public class Exercise06 {
         System.out.print("# of Shoppers: ");
         int shopperCount = Integer.parseInt(console.nextLine());
 
-        // 1. Apply if/else here.
-        if(snorkelerCount % 2 == 0){
-            System.out.println("All is well. Everyone gets their preferred activity");
 
-            System.out.println("Total snorkeler: " + snorkelerCount);
-            System.out.println("Total shopper: " + shopperCount);
-        }else {
+
+
+
+
+        //Apply if else here
+        if (snorkelerCount % 2 == 0){
+            System.out.println("Everyone gets to do their own activity!");
+        } else {
             int newCount;
-            newCount = snorkelerCount +shopperCount;
-
-            System.out.println("Total snorkeler: " + snorkelerCount);
-
-
-
+            newCount = snorkelerCount + shopperCount;
+            snorkelerCount == null;
 
         }
+
+        System.out.println("Snorkeler Count: " + snorkelerCount);
+        System.out.println("Shopper Count: " + snorkelerCount);
+
+        // 1. Apply if/else here.
+        //if(snorkelerCount % 2 == 0){
+        //    System.out.println("All is well. Everyone gets their preferred activity");
+//
+        //    System.out.println("Total snorkeler: " + snorkelerCount);
+        //    System.out.println("Total shopper: " + shopperCount);
+      //  }else {
+        //    int newCount;
+        //    newCount = snorkelerCount +shopperCount;
+//
+        //    System.out.println("Total snorkeler: " + snorkelerCount);
+
+
+
+
+       // }
         //System.out.println("Total snorkeler: " + snorkelerCount);
         //System.out.println("Total shopper: " + shopperCount);
     }
