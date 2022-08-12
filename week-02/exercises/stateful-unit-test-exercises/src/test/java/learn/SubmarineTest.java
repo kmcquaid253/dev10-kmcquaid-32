@@ -16,6 +16,15 @@ class SubmarineTest {
         assertEquals(9.0, submarine.getDepthInMeters(), 0.001);
     }
 
+    void shouldHaveCorrectDepthAfter5Dives() {
+        submarine.dive();
+        submarine.dive();
+        submarine.dive();
+        submarine.dive();
+        submarine.dive();
+        assertEquals(15.0, submarine.getDepthInMeters(), 0.001);
+    }
+
     @Test
     void shouldHaveCorrectPressureAfter3Dives() {
         submarine.dive();

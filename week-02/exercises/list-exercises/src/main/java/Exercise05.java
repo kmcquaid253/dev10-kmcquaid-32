@@ -10,5 +10,13 @@ public class Exercise05 {
         ArrayList<BoardGame> games = GameRepository.getAll();
 
         // 1. Loop over each BoardGame in `games` and print games with the "Adventure" category.
+        //FILTERING
+
+        for(BoardGame toCheck : games){
+            if(toCheck.getCategory().equals("Adventure")){
+                System.out.println(toCheck);
+                //System.out.println(toCheck.getName());
+            }
+        }
     }
 }
