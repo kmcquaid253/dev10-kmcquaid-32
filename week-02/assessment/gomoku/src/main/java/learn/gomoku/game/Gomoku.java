@@ -19,6 +19,7 @@ public class Gomoku {
     private Player winner;
     private boolean blacksTurn = true;
 
+
     public List<Stone> getStones() {
         return new ArrayList<>(stones);
     }
