@@ -8,6 +8,7 @@ import learn.gomoku.players.Player;
 import learn.gomoku.players.RandomPlayer;
 
 
+import java.util.List;
 import java.util.Scanner;
 
 public class GameController {
@@ -15,22 +16,25 @@ public class GameController {
     Gomoku game;
 
     public void run() {
-        setup();
-        play();
-        playAgain();
+        do {
+            setup();
+            playGame(game);
+        } while (playAgain());
+
+        System.out.println("Goodbye!");
+
     }
 
     private void setup() {
 
+        //Set player 1  and player 2
         Player p1 = getPlayer(1);
         Player p2 = getPlayer(2);
-
-        System.out.println("(Randomizing)\n");
 
         //Instantiate a Gomoku object using the two `Player` objects as arguments.
         game = new Gomoku(p1, p2);
 
-
+        System.out.println("(Randomizing)\n");
         System.out.println(game.getCurrent().getName() + " goes first.\n");
 
     }
@@ -51,8 +55,7 @@ public class GameController {
             switch (input) {
                 case "1":
                     //If human, collect a name from the user.
-                    System.out.print("\nPlayer " + whichPlayer + ", enter your name: ");
-                    String humanPlayerOneName = console.nextLine();
+                    String humanPlayerOneName = readRequiredString("\nPlayer " + whichPlayer + ", enter your name: ");
                     //use name to instantiate a `HumanPlayer`.
                     toReturn = new HumanPlayer(humanPlayerOneName);
                     break;
@@ -69,28 +72,51 @@ public class GameController {
         return toReturn;
     }
 
+    private void playGame(Gomoku game) {
+        Result result = null;
+        while (!game.isOver()) {
+            Player currentPlayer = game.getCurrent();
+            result = getPlayerMove(game, currentPlayer);
+            printBoard();
+        }
+
+        if (result.getMessage().equals("Game ends in a draw")) {
+            System.out.println("Game is a draw");
+        } else {
+            Player winner = game.getWinner();
+            System.out.printf("%s wins! %n%n", winner.getName());
+        }
+    }
+
     private void printBoard() {
 
         final int COLUMN = 15;
         final int ROW = 15;
 
+        //print top row
+        System.out.print("  ");
+        for (int col = 0; col < Gomoku.WIDTH; col++) {
+            System.out.printf(" %02d ", col + 1);
+        }
+        System.out.println();
+
         for (int r = 0; r < ROW; r++) {
+            System.out.printf("%02d", r + 1);
             for (int c = 0; c < COLUMN; c++) {
 
                 Stone localStone = findStone(r, c);
 
                 if (localStone == null) {
-                    System.out.print("-");
+                    System.out.print("  - ");
                 } else if (localStone.isBlack()) {
-                    System.out.print("x");
+                    System.out.print("  X ");
                 } else {
-                    System.out.print("o");
+                    System.out.print("  O ");
                 }
             }
             System.out.println();
         }
     }
-
 
     private Stone findStone(int targetRow, int targetCol) {
         for (Stone toCheck : game.getStones()) {
@@ -101,37 +127,32 @@ public class GameController {
         return null;
     }
 
-
-    private void play() {
-
-        Result result;
+    private Result getPlayerMove(Gomoku game, Player currentPlayer) {
+        Result result = null;
         Stone stone;
-        while(!game.isOver()){
-////          - display board
-            printBoard();
-//            - display current player
-            System.out.println(game.getCurrent().getName() + " turn.");
 
-//            - generate a stone from the current player
-                game.getCurrent().generateMove(game.getStones());
+        do {
+            System.out.printf("%n%s's turn %n", currentPlayer.getName());
 
-//            - place the stone and collect the result
-            game.place(game.getCurrent().generateMove(game.getStones()));
-            int row = readInt("Please enter the row: ", 1, 15) - 1;
-            int col = readInt("Please enter a column: ", 1, 15) - 1; //subtracting 1 because it's 0-indexed under the hood
-//
-//            - display result
-            game.getStones();
+            stone = currentPlayer.generateMove(game.getStones());//Getting concrete stone from user
+            if (stone == null) {//human
+                int row = readInt("Please enter the row: ", 1, 15) - 1;
+                int col = readInt("Please enter a column: ", 1, 15) - 1; //subtracting 1 because it's 0-indexed under the hood
+                stone = new Stone(row, col, game.isBlacksTurn());
+            }
+            //No need to check on random
+            System.out.printf("Stone placed at row %s and column %s%n", stone.getRow() + 1, stone.getColumn() + 1); // outputs row and column of random
 
-        } //repeat until game over
-//            - display win or draw
+            //Place
+            result = game.place(stone);
+            //validate result
+            if (!result.isSuccess()) {
+                System.out.printf("%n[ERROR] : %s%n%n", result.getMessage());
+            }
+        } while (!result.isSuccess());
 
-
-
-//            - uses: `printBoard`, `readInt` (for row and column)
-
+        return result;
     }
-
 
     private String readRequiredString(String message) {
 
@@ -158,11 +179,6 @@ public class GameController {
     }
 
     private boolean playAgain() {
-        /*
-            - asks the user if they want to play again
-            - returns `true` if yes, `false` for any other input
-            - may use: `readRequiredString`
-         */
         boolean repeat = false;
 
         String input = readRequiredString("Play again? [y/n]: ");
@@ -174,8 +190,4 @@ public class GameController {
         }
         return repeat;
     }
-
-
-
-
 }
