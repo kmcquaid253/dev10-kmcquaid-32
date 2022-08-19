@@ -54,4 +54,16 @@ class EncounterFileRepositoryTest {
         assertEquals(4, actual.getEncounterId());
     }
 
+    /*
+        Test findByType and update.
+        Tests for update should include both positive (found it) and negative (encounter doesn't exist) cases.
+     */
+
+    @Test
+    void shouldFindPositiveOfType() throws DataAccessException{
+        List<Encounter> creature = repository.findByType(EncounterType.CREATURE);
+        assertNotNull((creature));
+
+    }
+
 }

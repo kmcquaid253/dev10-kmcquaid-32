@@ -4,8 +4,7 @@ import learn.unexplained.models.Encounter;
 import learn.unexplained.models.EncounterType;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class EncounterFileRepository implements EncounterRepository {
 
@@ -112,4 +111,39 @@ public class EncounterFileRepository implements EncounterRepository {
         return value.replace(DELIMITER_REPLACEMENT, DELIMITER);
     }
 
+
+    /*
+            Name: findByType
+            Inputs: EncounterType
+            Output: List<Encounter>
+            Description: Returns all encounters with a given type as a list.
+
+            Name: update
+            Inputs: Encounter
+            Output: boolean
+            Description: Updates an existing encounter if it exists and returns true. If it doesn't exist, returns false.
+
+            Since EncounterFileRepository implements EncounterRepository, the method contracts must also be added to the interface.
+     */
+    public List<Encounter> findByType(EncounterType type) throws DataAccessException {
+        ArrayList<Encounter> encounter = new ArrayList<>();
+        for (Encounter encounterType : findAll()) {
+            if (encounterType.getType() == type) {
+                encounter.add(encounterType);
+            }
+
+        }   return encounter;
+    }
+
+    public boolean update(Encounter encounter) throws DataAccessException {
+        List<Encounter> all = findAll();
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getEncounterId() == encounter.getEncounterId()) {
+                all.set(i, encounter); // replace
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
+    }
 }
