@@ -87,4 +87,19 @@ public class PanelFileRepositoryTest {
         List<Panel> actual = repository.findPanelBySection("East House");
         assertEquals(2, actual.size()); // seed data has 2 shareable memories
     }
+
+    @Test
+    void shouldDeleteExisting() throws DataAccessException{
+        boolean actual = repository.deleteBySectionRowColumn("East House", 143, 1);
+        assertTrue(actual);
+
+    }
+
+    @Test
+    void shouldNotDeleteMissing() throws DataAccessException{
+        boolean actual = repository.deleteBySectionRowColumn("Te", 1, 2);
+        assertFalse(actual);
+    }
+
+
 }

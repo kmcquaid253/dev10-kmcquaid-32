@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PanelResult {
     private List<String> errorMessages = new ArrayList<>();
-    private Panel payload;
+    Panel payload;
     public boolean isSuccess(){
         return errorMessages.size() == 0;
     }
@@ -29,3 +29,5 @@ public class PanelResult {
     }
 
 }
+
+

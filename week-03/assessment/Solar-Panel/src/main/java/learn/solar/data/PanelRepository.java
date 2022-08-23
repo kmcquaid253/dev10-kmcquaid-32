@@ -11,7 +11,7 @@ public interface PanelRepository {
 
     boolean update(Panel editedPanel) throws DataAccessException;
 
-    boolean deleteBySectionRowColumn(int id);
+    boolean deleteBySectionRowColumn(String section, int row, int column) throws DataAccessException;
 
     List<Panel> findPanelBySection(String section) throws DataAccessException;
 

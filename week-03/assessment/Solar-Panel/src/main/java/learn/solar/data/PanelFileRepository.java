@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PanelFileRepository implements PanelRepository {
+public class PanelFileRepository implements PanelRepository{
 
     //Don't want to hardcode filepath/value, want to accept it
 
@@ -107,9 +107,6 @@ public class PanelFileRepository implements PanelRepository {
         return toBuild;
     }
 
-    //Update
-    //We expect to recieve a panel that has already been changed by user input
-
     @Override
     public boolean update(Panel editedPanel) throws DataAccessException { //Looking for an existing panel, if found, replace it and save it to the file
         List<Panel> all = findAll();
@@ -123,14 +120,20 @@ public class PanelFileRepository implements PanelRepository {
         return false;
     }
 
-    //D - Delete
-    //we'll just use void because if something goes wrong we'll
-    //end up throwing an exception anyway
-
-
     @Override
-    public boolean deleteBySectionRowColumn(int id) {
-            throw new UnsupportedOperationException();
+    public boolean deleteBySectionRowColumn(String section, int row, int column) throws DataAccessException {
+        List<Panel> all = findAll();
+        for (int i = 0; i < all.size(); i++){
+            if (all.get(i).getSection().equals(section) &&
+                    all.get(i).getRow() == row &&
+                    all.get(i).getColumn() == column){
+
+                all.remove(i);
+                writeAllPanels(all);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

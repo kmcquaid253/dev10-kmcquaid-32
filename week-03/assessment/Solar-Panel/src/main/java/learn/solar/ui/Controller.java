@@ -49,6 +49,7 @@ public class Controller {
                     Panel partiallyHydrated = view.getNewPanelDetails();
                     PanelResult fullyHydrated = service.addPanel(partiallyHydrated);
                     view.displayPanel(fullyHydrated.getPayLoad());
+
                     break;
                 case DISPLAY_PANEL_BY_SECTION:
                     String section = view.readPanelSectionType();
@@ -67,6 +68,21 @@ public class Controller {
                         PanelResult editResult = service.updatePanel( edited );//save in the backend
                     } else{
                         view.displayError(lookupResult.getErrorMessages().toString());
+                    }
+                    break;
+                case DELETE_PANEL:
+                    Panel lookup = view.getPanel();//Get panel info from user
+
+                    String lookupSection = lookup.getSection(); //section
+                    int lookupRow = lookup.getRow();            //row
+                    int lookupColumn = lookup.getColumn();      //column
+
+                    PanelResult result = service.deleteBySectionRowColumn(lookupSection, lookupRow, lookupColumn); // setting result to my "delete method" in my PanelService
+
+                    if(result.isSuccess()){
+                        System.out.println("[Success]");
+                    } else {
+                        view.displayError(result.getErrorMessages().toString());
                     }
             }
             } catch(InvalidMenuChoiceException ex){

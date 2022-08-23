@@ -17,8 +17,9 @@ public class View {
         System.out.println("1. Add a Panel");
         System.out.println("2. Find Panels by Section");
         System.out.println("3. Update a panel");
+        System.out.println("4. Delete a panel");
 
-        int userChoice = console.getInt("Select [0-4]", 0,3);
+        int userChoice = console.getInt("Select [0-4]", 0,4);
 
         switch (userChoice){
             case 0:
@@ -29,6 +30,8 @@ public class View {
                 return MainMenuChoice.DISPLAY_PANEL_BY_SECTION;
             case 3:
                 return MainMenuChoice.EDIT_PANEL;
+            case 4:
+                return MainMenuChoice.DELETE_PANEL;
             default:
                 throw new InvalidMenuChoiceException("Invalid input");
         }
@@ -69,6 +72,7 @@ public class View {
 
     public void displayError(String message) {
     }
+
 
     public void printHeader (String message){
         System.out.println();
@@ -163,4 +167,5 @@ public class View {
 
         return toBuild;
     }
+
 }

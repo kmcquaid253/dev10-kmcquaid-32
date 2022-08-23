@@ -20,7 +20,6 @@ public class Panel {
 
     private boolean isTracking;
 
-
     public int getPanelId() {
         return panelId;
     }
