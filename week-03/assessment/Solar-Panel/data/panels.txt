@@ -6,3 +6,4 @@ Panel ID~Section~Row~Column~Panel Materials~Year Installed~Is Tracking
 5~Sun Valley~108~206~MONOCRYSTALLINE_SILICON~2019~true
 6~Hidden Field~123~118~MULTICRYSTALLINE_SILICON~2018~false
 7~Sun Valley~39~12~AMORPHOUS_SILICON~2013~true
+8~Front~1~5~AMORPHOUS_SILICON~2021~true

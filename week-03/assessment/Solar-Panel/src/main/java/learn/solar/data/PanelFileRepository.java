@@ -46,8 +46,6 @@ public class PanelFileRepository implements PanelRepository{
         return toReturn;
     }
 
-
-
     @Override
     public Panel add(Panel toAdd) throws DataAccessException {
 

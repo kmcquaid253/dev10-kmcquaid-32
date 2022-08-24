@@ -67,26 +67,26 @@ public class PanelService {//talks to repo
 
     }
 
-    public PanelResult getPanelByLocation(Panel panel) {
-
-       PanelResult panelResult = new PanelResult();
-
-       Panel panelLooking = repository.getPanelByLocation(
-               panel.getSection(),
-               panel.getRow(),
-               panel.getColumn()
-       );
-
-       if(panelLooking == null){
-           panelResult.addErrorMessage("Panel not found.");
-
-       }else {
-           panelResult.setPayload(panelLooking);
-
-       }
-       return panelResult;
-
-    }
+//    public PanelResult getPanelByLocation(Panel panel) {
+//
+//       PanelResult panelResult = new PanelResult();
+//
+//       Panel panelLooking = repository.getPanelByLocation(
+//               panel.getSection(),
+//               panel.getRow(),
+//               panel.getColumn()
+//       );
+//
+//       if(panelLooking == null){
+//           panelResult.addErrorMessage("Panel not found.");
+//
+//       }else {
+//           panelResult.setPayload(panelLooking);
+//
+//       }
+//       return panelResult;
+//
+//    }
 
     public PanelResult updatePanel(Panel updated) throws DataAccessException {
         PanelResult result = validate( updated );
