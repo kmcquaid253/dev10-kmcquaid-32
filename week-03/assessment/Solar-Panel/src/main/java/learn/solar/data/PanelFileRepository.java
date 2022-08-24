@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class PanelFileRepository implements PanelRepository{
 
     //Don't want to hardcode filepath/value, want to accept it
@@ -44,6 +45,8 @@ public class PanelFileRepository implements PanelRepository{
 
         return toReturn;
     }
+
+
 
     @Override
     public Panel add(Panel toAdd) throws DataAccessException {
@@ -108,16 +111,23 @@ public class PanelFileRepository implements PanelRepository{
     }
 
     @Override
-    public boolean update(Panel editedPanel) throws DataAccessException { //Looking for an existing panel, if found, replace it and save it to the file
-        List<Panel> all = findAll();
-        for (int i = 0; i < all.size(); i++){
-            if (all.get(i).getPanelId() == editedPanel.getPanelId()){
-                all.set(i, editedPanel);
-                writeAllPanels(all);
-                return true;
+    public boolean update(Panel updated) throws DataAccessException {
+        if( updated == null ) throw new DataAccessException("Cannot update null Panel.");
+
+        boolean found = false;
+
+        List<Panel> allPanels = findAll();
+
+        for( int i = 0; i < allPanels.size(); i++ ){
+            if( allPanels.get(i).getPanelId() == updated.getPanelId() ){
+                allPanels.set( i, updated);
+                found = true;
+                writeAllPanels( allPanels );
+                break;
             }
         }
-        return false;
+
+        return found;
     }
 
     @Override

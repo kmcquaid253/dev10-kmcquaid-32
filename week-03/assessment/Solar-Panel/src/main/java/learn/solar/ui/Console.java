@@ -4,6 +4,8 @@ import learn.solar.models.Material;
 
 import java.util.Scanner;
 
+
+
 public class Console {
 
     Scanner scn = new Scanner(System.in);
@@ -63,6 +65,35 @@ public class Console {
         return response;
     }
 
+    public int editInt(String prompt, int incMin, int incMax, int originalVal) {
+        prompt = prompt + " (" + originalVal + "): ";
+        int toReturn = Integer.MIN_VALUE;
+        boolean validInput = false;
+        while( !validInput ){
+            String userInput = getString(prompt);
+            if(userInput.isEmpty()) return originalVal;
+            try{
+                toReturn = Integer.parseInt(userInput);
+                if( toReturn >= incMin && toReturn <= incMax){
+                    validInput = true;
+                }
+            } catch (NumberFormatException ex){
+                //do nothing
+            }
+        }
+
+        return toReturn;
+    }
+
+    public boolean editBoolean(String prompt, boolean originalVal) {
+        prompt = prompt + " (" + (originalVal ? "y" : "n") + "): ";
+
+        String userInput = getString(prompt);
+        if( userInput.isEmpty() ) return originalVal;
+
+        return userInput.toLowerCase().trim().startsWith("y");
+    }
+
     public Material getMaterialType(){
         System.out.println("Materials:");
         Material[] values = Material.values();
@@ -76,5 +107,17 @@ public class Console {
 
     public boolean getBoolean(String prompt){
         return getString(prompt).equals("y");
+    }
+
+    public void println(String line) {
+        print( line + "\n");
+    }
+
+    private void print(String toPrint) {
+        System.out.print(toPrint);
+    }
+
+
+    public void printHeader(String choose_material) {
     }
 }

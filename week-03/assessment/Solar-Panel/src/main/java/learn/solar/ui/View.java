@@ -104,54 +104,53 @@ public class View {
         }
     }
 
-    public Panel editPanel( Panel toEdit ){//take existing panel object
-        /*
-        section, row, column, panelMaterial, yearInstalled, isTracking;
-         */
+    public Panel editPanel(Panel toUpdate) {
 
-        System.out.println("\nUpdating Panel: "+ toEdit.getSection() + "-" + toEdit.getRow() + "-" + toEdit.getColumn() + '\n');
+        //Editing Treeline-10-5
+        //Press [Enter] to keep original value.
 
-        String updatedSection = console.editRequiredString(
-                "Enter a new section ["
-                        +toEdit.getSection()
-                        +"] (press enter to skip): ", toEdit.getSection());
+        console.println("Editing " + toUpdate.getSection() + "-" + toUpdate.getRow() + "-" + toUpdate.getColumn());
+        console.println("Press [Enter] to keep original value.");
+
+        toUpdate.setSection( console.editRequiredString( "Section", toUpdate.getSection() ) );
+        toUpdate.setRow( console.editInt( "Row", 1, 250, toUpdate.getRow()));
+        toUpdate.setColumn( console.editInt( "Col", 1, 250, toUpdate.getColumn()));
+        toUpdate.setYearInstalled( console.editInt( "Installation Year", Integer.MIN_VALUE, 2022, toUpdate.getYearInstalled()));
+
+        Material newMat = editMaterial( toUpdate.getPanelMaterial() );
+        toUpdate.setPanelMaterial( newMat );
+
+        toUpdate.setTracking( console.editBoolean( "Tracked", toUpdate.isTracking()));
+
+        return toUpdate;
+    }
+
+    private Material editMaterial(Material original) {
+        console.printHeader("Choose Material");
+        for( int i = 0; i < Material.values().length; i++){
+            console.println( (i+1) + ": " + Material.values()[i].getDisplayVal());
+        }
+        int userIndex = console.editInt("Please enter selection", 1, Material.values().length, original.ordinal() + 1) - 1;
+
+        return Material.values()[userIndex];
+    }
+
+    public void emptySection() {
+        displayError( "Section is empty." );
+    }
+
+    public Panel selectSectionPanel(String sectionName, List<Panel> sectionPanels) {
+        console.printHeader(sectionName);
+        for( int i = 0; i < sectionPanels.size(); i++){
+            Panel toDisplay = sectionPanels.get(i);
+
+            console.println( (i+1) +": [" + toDisplay.getRow() + ", " + toDisplay.getColumn() + "]");
+        }
+
+        int selectedIndex = console.getInt("Please choose Panel: ", 1, sectionPanels.size()) - 1;
 
 
-        int updatedRow = Integer.parseInt(console.editRequiredString(
-                "Enter a new Row ["
-                        +toEdit.getRow()
-                        + "] (press enter to skip): ", String.valueOf(toEdit.getRow())));
-
-        int updatedColumn = Integer.parseInt(console.editRequiredString(
-                "Enter a new Column ["
-                        +toEdit.getColumn()
-                        + "] (press enter to skip): ", String.valueOf(toEdit.getColumn())));
-
-        Material updatedMaterial = Material.valueOf(console.editRequiredString(
-                "Enter a new Material ["
-                        +toEdit.getPanelMaterial()
-                        +"] (press enter to skip): ", String.valueOf(toEdit.getPanelMaterial())));
-
-        int updatedYear = Integer.parseInt(console.editRequiredString(
-                "Enter a new Installation Year ["
-                        +toEdit.getYearInstalled()
-                        + "] (press enter to skip): ", String.valueOf(toEdit.getYearInstalled())));
-
-        boolean updatedTracking = Boolean.parseBoolean(console.editRequiredString(
-                "Enter a new tracking status ['true' = yes, 'false' = no]:  ["
-                        +toEdit.isTracking()
-                        +"] (press enter to skip): ", String.valueOf(toEdit.isTracking())));
-
-
-        toEdit.setSection(updatedSection);
-        toEdit.setRow(updatedRow);
-        toEdit.setColumn(updatedColumn);
-        toEdit.setPanelMaterial(updatedMaterial);
-        toEdit.setYearInstalled(updatedYear);
-        toEdit.setTracking(updatedTracking);
-
-        return toEdit; //Output the updated panel
-
+        return sectionPanels.get(selectedIndex);
     }
 
     public Panel getPanel() {
@@ -167,5 +166,14 @@ public class View {
 
         return toBuild;
     }
+
+    public void updateSuccess(Panel payload) {
+        console.println( payload.getSection() + "-" + payload.getRow() + "-" + payload.getColumn() + " successfully updated!");
+    }
+
+    public void printErrorMessage(List<String> messages) {
+        throw new UnsupportedOperationException();
+    }
+
 
 }

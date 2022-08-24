@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PanelResult {
-    private List<String> errorMessages = new ArrayList<>();
+    List<String> messages = new ArrayList<>();
     Panel payload;
     public boolean isSuccess(){
-        return errorMessages.size() == 0;
+        return messages.size() == 0;
     }
 
     public void setPayload(Panel payload) {
@@ -21,11 +21,19 @@ public class PanelResult {
     }
 
     public void addErrorMessage(String message){
-        errorMessages.add(message);
+        messages.add(message);
     }
 
-    public List<String> getErrorMessages() {
-        return errorMessages;
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void addMessage(String message) {
+        messages.add( message );
+    }
+
+    public Panel getPayload() {
+        return payload;
     }
 
 }

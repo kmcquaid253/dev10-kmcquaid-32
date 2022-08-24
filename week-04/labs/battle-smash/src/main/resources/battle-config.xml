@@ -9,4 +9,15 @@
     A bean definition registers an instance of a data type with the DI container.
     -->
 
+    <bean id = "loc" class = "learn.battle.environment.Location">
+        <constructor-arg value=" The location of the fight"/>
+    </bean>
+    <bean id = "fighter" class ="learn.battle.fighter.Fighter">
+        <constructor-arg value=" The name of the fighter"/>
+    </bean>
+    <bean class = "learn.battle.environment.Battle">
+        <constructor-arg ref="loc"/>
+        <constructor-arg ref="fighter"/>
+    </bean>
+
 </beans>

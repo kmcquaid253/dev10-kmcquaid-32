@@ -21,7 +21,7 @@ public class PanelRepositoryTestDouble implements PanelRepository{
         p1.setSection("lol");
         p1.setRow(10);
         p1.setColumn(34);
-        p1.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
+        p1.setPanelMaterial(Material.AMORPHOUS_SILICON);
         p1.setYearInstalled(1964);
         p1.setTracking(true);
 
@@ -31,22 +31,23 @@ public class PanelRepositoryTestDouble implements PanelRepository{
         p2.setSection("Null East West");
         p2.setRow(249);
         p2.setColumn(19);
-        p2.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
+        p2.setPanelMaterial(Material.COPPER_INDIUM_GALLIUM_SELENIDE);
         p2.setYearInstalled(1975);
         p2.setTracking(false);
 
         Panel p3 = new Panel();
-//
-//        p2.setPanelId(300);
-//        p2.setSection("East Village");
-//        p2.setRow(154);
-//        p2.setColumn(147);
-//        p2.setPanelMaterial(Material.valueOf("MONOCRYSTALLINE_SILICON"));
-//        p2.setYearInstalled(1899);
-//        p2.setTracking(true);
+
+        p2.setPanelId(300);
+        p2.setSection("East Village");
+        p2.setRow(154);
+        p2.setColumn(147);
+        p2.setPanelMaterial(Material.MONOCRYSTALLINE_SILICON);
+        p2.setYearInstalled(1899);
+        p2.setTracking(true);
 
         panels.add(p1);
         panels.add(p2);
+        panels.add(p3);
 
 
 
@@ -66,8 +67,22 @@ public class PanelRepositoryTestDouble implements PanelRepository{
 
     @Override
     public boolean update(Panel editedPanel) throws DataAccessException {
-        return false;
+        //copy to protect our data from setter manipulation in the tests
+        Panel copy = new Panel(editedPanel);
+
+        boolean found = false;
+
+        for( int i = 0; i < panels.size(); i++ ){
+            if( panels.get(i).getPanelId() == editedPanel.getPanelId() ){
+                panels.set( i, copy);
+                found = true;
+                break;
+            }
+        }
+
+        return found;
     }
+
 
     @Override
     public boolean deleteBySectionRowColumn(String section, int row, int column) throws DataAccessException {
@@ -76,7 +91,16 @@ public class PanelRepositoryTestDouble implements PanelRepository{
 
     @Override
     public List<Panel> findPanelBySection(String section) throws DataAccessException {
-        return null;
+        List<Panel> sectionPanels = new ArrayList<>();
+
+        for( Panel toCheck : panels ){
+            if( toCheck.getSection().equals(section)){
+                //sectionPanels.add( new Panel(toCheck));
+                sectionPanels.add(new Panel(toCheck));
+            }
+        }
+
+        return sectionPanels;
     }
 
     @Override

@@ -20,6 +20,23 @@ public class Panel {
 
     private boolean isTracking;
 
+    //default constructor
+    public Panel(){
+
+    }
+
+    //copy constructor
+    public Panel( Panel that ){
+        this.panelId = that.panelId;
+        this.row = that.row;
+        this.column = that.column;
+        this.panelMaterial = that.panelMaterial;
+        this.yearInstalled = that.yearInstalled;
+        this.isTracking = that.isTracking;
+        this.section = that.section;
+    }
+
+
     public int getPanelId() {
         return panelId;
     }

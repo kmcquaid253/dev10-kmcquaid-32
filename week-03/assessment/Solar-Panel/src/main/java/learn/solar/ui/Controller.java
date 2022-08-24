@@ -1,12 +1,9 @@
 package learn.solar.ui;
 
 import learn.solar.data.DataAccessException;
-import learn.solar.data.PanelFileRepository;
 import learn.solar.domain.PanelResult;
 import learn.solar.domain.PanelService;
-import learn.solar.models.Material;
 import learn.solar.models.Panel;
-import learn.solar.ui.View;
 
 
 import java.util.List;
@@ -48,7 +45,11 @@ public class Controller {
                 case CREATE_PANEL:
                     Panel partiallyHydrated = view.getNewPanelDetails();
                     PanelResult fullyHydrated = service.addPanel(partiallyHydrated);
-                    view.displayPanel(fullyHydrated.getPayLoad());
+                    if(fullyHydrated.isSuccess()){
+                        view.displayPanel(fullyHydrated.getPayLoad());
+                    } else {
+                        view.displayError("[ERROR]cUnable to add Panel.");
+                    }
 
                     break;
                 case DISPLAY_PANEL_BY_SECTION:
@@ -58,16 +59,32 @@ public class Controller {
                     break;
 
                 case EDIT_PANEL:
-                    Panel panel = view.getPanel();//Ask to get panel
-                    PanelResult lookupResult = service.getPanelByLocation(panel);//Ask service layer to give me that panel
+                    //1. get which panel we want to update
+                    //1a. have user enter section name
+                    String sectionName = view.readPanelSectionType();
 
-                    if(lookupResult.isSuccess()){
-                        Panel toEdit = lookupResult.getPayLoad();//have a panel object that can be edited
+                    //1b. grab all panels in that section from the service
+                    List<Panel> sectionPanels = service.findPanelBySection( sectionName );
 
-                        Panel edited = view.editPanel(toEdit);
-                        PanelResult editResult = service.updatePanel( edited );//save in the backend
-                    } else{
-                        view.displayError(lookupResult.getErrorMessages().toString());
+                    if( sectionPanels.isEmpty() ){
+                        view.emptySection();
+                        return;
+                    }
+
+                    //1c. have user select one panel from the list (by number)
+                    Panel selectedPanel = view.selectSectionPanel( sectionName, sectionPanels );
+
+                    //2. let the user update it
+                    Panel updated = view.editPanel( selectedPanel );
+
+                    //3. save the changes by passing it to the service.
+                    PanelResult updateResult = service.updatePanel( updated );
+
+                    //4. display the results
+                    if( updateResult.isSuccess() ){
+                        view.updateSuccess( updateResult.getPayload() );
+                    } else {
+                        view.printErrorMessage( updateResult.getMessages() );
                     }
                     break;
                 case DELETE_PANEL:
@@ -82,7 +99,7 @@ public class Controller {
                     if(result.isSuccess()){
                         System.out.println("[Success]");
                     } else {
-                        view.displayError(result.getErrorMessages().toString());
+                        view.displayError(result.getMessages().toString());
                     }
             }
             } catch(InvalidMenuChoiceException ex){

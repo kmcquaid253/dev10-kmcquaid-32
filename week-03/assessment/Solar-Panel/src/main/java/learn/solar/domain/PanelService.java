@@ -4,6 +4,7 @@ import learn.solar.data.DataAccessException;
 import learn.solar.data.PanelRepository;
 import learn.solar.models.Panel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class PanelService {//talks to repo
@@ -60,8 +61,10 @@ public class PanelService {//talks to repo
     }
 
     public List<Panel> findPanelBySection(String section) throws DataAccessException{
-        List<Panel> fullyhydrated = repository.findPanelBySection(section);
-        return fullyhydrated;
+//        List<Panel> fullyhydrated = repository.findPanelBySection(section);
+//        return fullyhydrated;
+        return repository.findPanelBySection( section );
+
     }
 
     public PanelResult getPanelByLocation(Panel panel) {
@@ -85,23 +88,69 @@ public class PanelService {//talks to repo
 
     }
 
-    public PanelResult updatePanel(Panel edited) throws DataAccessException {
+    public PanelResult updatePanel(Panel updated) throws DataAccessException {
+        PanelResult result = validate( updated );
 
-        PanelResult result = new PanelResult();
+        if( !result.isSuccess() ) return result;
 
+        Panel atDestinationLocation = null;
+        List<Panel> sectionPanels = repository.findPanelBySection(updated.getSection() );
 
-        if (edited == null) {
-            result.addErrorMessage("Panel is required");
-        }
-
-        if (result.isSuccess()) {
-            if (repository.update(edited)) {
-                result.setPayload(edited);
-            } else {
-                String message = String.format("Panel not found");
-                result.addErrorMessage(message);
+        for( Panel toCheck : sectionPanels ){
+            if( toCheck.getRow() == updated.getRow() && toCheck.getColumn() == updated.getColumn()){
+                atDestinationLocation = toCheck;
+                break;
             }
         }
+
+        if( atDestinationLocation != null && atDestinationLocation.getPanelId() != updated.getPanelId()){
+            //we're trying to move a Panel on top of a different panel
+            //if the ids match, that just means we found the old record
+
+            result.addMessage("Cannot place Panel on occupied location.");
+
+        }
+
+        if( result.isSuccess() ){
+            boolean success = repository.update( updated );
+            if( success ){
+                result.setPayload( updated );
+            } else {
+                result.addMessage( "Could not find matching Panel.");
+            }
+        }
+
+        return result;
+    }
+
+    private PanelResult validate(Panel toValidate) {
+        PanelResult result = new PanelResult();
+
+        if( toValidate == null ){
+            result.addMessage("Cannot have null Panel.");
+            return result;
+        }
+
+        if( toValidate.getColumn() < 1 || toValidate.getColumn() > 250 ){
+            result.addMessage("Panel column must be between 1 and 250.");
+        }
+
+        if( toValidate.getRow() < 1 || toValidate.getRow() > 250 ){
+            result.addMessage("Panel row must be between 1 and 250.");
+        }
+
+        if( toValidate.getPanelMaterial() == null ){
+            result.addMessage("Cannot have Panel with missing Material.");
+        }
+
+        if( toValidate.getSection() == null || toValidate.getSection().isBlank() ){
+            result.addMessage("Cannot have Panel with missing section.");
+        }
+
+        if( toValidate.getYearInstalled() > LocalDate.now().getYear()){
+            result.addMessage("Cannot have Panel with future year.");
+        }
+
         return result;
     }
 
