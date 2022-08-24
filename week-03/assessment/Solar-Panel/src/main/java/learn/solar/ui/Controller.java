@@ -48,7 +48,7 @@ public class Controller {
                     if(fullyHydrated.isSuccess()){
                         view.displayPanel(fullyHydrated.getPayLoad());
                     } else {
-                        view.displayError("[ERROR] Unable to add Panel.");
+                        view.displayError(fullyHydrated.getMessages().toString());
                     }
 
                     break;

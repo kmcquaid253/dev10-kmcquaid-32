@@ -144,6 +144,7 @@ public class PanelFileRepository implements PanelRepository{
         return false;
     }
 
+
     @Override
     public List<Panel> findPanelBySection(String section) throws DataAccessException{
         ArrayList<Panel> result = new ArrayList<>();
