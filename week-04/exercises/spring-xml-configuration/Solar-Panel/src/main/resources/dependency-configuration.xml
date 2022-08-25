@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Define beans here. -->
+
+
+    <!--************************************************* Repository *************************************************************************-->
+    <!-- The service requires an interface. We provide a concrete implementation of that interface.-->
+    <!-- We include an id so we can use it later in a ref attribute. -->
+
+    <bean id="panelRepository" class="learn.solar.data.PanelFileRepository">
+        <!-- File path to the data file. -->
+        <constructor-arg value="./data/panels.txt"/>
+    </bean>
+
+
+
+
+
+
+
+
+    <!-- ****************************************************Service ************************************************************************-->
+    <!--Configure the MemoryService. It requires a reference to the repository. -->
+    <bean id="panelService" class="learn.solar.domain.PanelService">
+        <!-- ref points to the configured repository using its id. -->
+        <constructor-arg ref="panelRepository"/>
+    </bean>
+
+
+
+
+
+
+
+
+
+    <!-- ********************************************************** TextIO OR/AND Console ******************************************************-->
+    <!--  Controller requires View which requires TextIO, so we have to work backward.
+            Configure TextIO. Again, it's an interface, so we supply a concrete type. -->
+
+    <!-- No constructor arguments required. -->
+    <bean id="io" class="learn.solar.ui.Console"/>
+
+
+
+
+
+
+
+
+
+    <!-- ********************************************************** View *********************************************************************-->
+    <!-- Configure the View by providing a TextIO reference, which is actually a concrete ConsoleIO. -->
+    <bean id="view" class="learn.solar.ui.View">
+     <!-- If the view does NOT have a constructor this part (inside the <bean>) can be empty.
+     if the view DOES have a constructor input something like this in this section (inside the <bean>):
+
+     <constructor-arg ref="io"/>
+
+     -->
+    </bean>
+
+
+
+
+
+
+
+
+    <!--************************************************************* Controller ***************************************************************-->
+    <!-- Last, configure the Controller with a View and PanelService reference.
+        The controller doesn't need an id since it's never injected via a reference
+        and it's the only configured controller. It's unique. -->
+    <bean class="learn.solar.ui.Controller">
+        <constructor-arg ref="view"/>
+        <constructor-arg ref="panelService"/>
+    </bean>
+
+</beans>
