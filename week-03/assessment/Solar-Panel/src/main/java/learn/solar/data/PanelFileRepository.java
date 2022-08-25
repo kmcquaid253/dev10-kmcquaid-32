@@ -159,7 +159,6 @@ public class PanelFileRepository implements PanelRepository{
 
     @Override
     public Panel getPanelByLocation(String section, int row, int column) {
-
         for(Panel panel : findAll()){
             if(panel.getSection().equals(section) && panel.getRow() == row && panel.getColumn() == column){
                 return panel;

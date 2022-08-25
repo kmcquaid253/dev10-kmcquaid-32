@@ -49,14 +49,10 @@ public class PanelService {//talks to repo
             return result;
         }
 
-
-
         if(result.isSuccess()) {
             Panel fullyHydrated = repository.add(partiallyHydrated);
             result.setPayload(fullyHydrated);
         }
-
-
         return result;
     }
 
@@ -64,28 +60,6 @@ public class PanelService {//talks to repo
 //        List<Panel> fullyhydrated = repository.findPanelBySection(section);
 //        return fullyhydrated;
         return repository.findPanelBySection( section );
-
-    }
-
-    public PanelResult getPanelByLocation(Panel panel) {
-
-       PanelResult panelResult = new PanelResult();
-
-       Panel panelLooking = repository.getPanelByLocation(
-               panel.getSection(),
-               panel.getRow(),
-               panel.getColumn()
-       );
-
-       if(panelLooking == null){
-           panelResult.addErrorMessage("Panel not found.");
-
-       }else {
-           panelResult.setPayload(panelLooking);
-
-       }
-       return panelResult;
-
     }
 
     public PanelResult updatePanel(Panel updated) throws DataAccessException {
@@ -96,6 +70,7 @@ public class PanelService {//talks to repo
         Panel atDestinationLocation = null;
         List<Panel> sectionPanels = repository.findPanelBySection(updated.getSection() );
 
+
         for( Panel toCheck : sectionPanels ){
             if( toCheck.getRow() == updated.getRow() && toCheck.getColumn() == updated.getColumn()){
                 atDestinationLocation = toCheck;
@@ -104,11 +79,7 @@ public class PanelService {//talks to repo
         }
 
         if( atDestinationLocation != null && atDestinationLocation.getPanelId() != updated.getPanelId()){
-            //we're trying to move a Panel on top of a different panel
-            //if the ids match, that just means we found the old record
-
             result.addMessage("Cannot place Panel on occupied location.");
-
         }
 
         if( result.isSuccess() ){

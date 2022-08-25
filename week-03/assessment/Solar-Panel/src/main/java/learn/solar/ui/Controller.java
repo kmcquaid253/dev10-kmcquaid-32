@@ -42,16 +42,18 @@ public class Controller {
                     System.out.println("\nGoodBye");
                     System.out.println("========");
                     break;
+
                 case CREATE_PANEL:
                     Panel partiallyHydrated = view.getNewPanelDetails();
                     PanelResult fullyHydrated = service.addPanel(partiallyHydrated);
                     if(fullyHydrated.isSuccess()){
                         view.displayPanel(fullyHydrated.getPayLoad());
                     } else {
-                        view.displayError("[ERROR]cUnable to add Panel.");
+                        //view.displayError("[ERROR]Unable to add Panel.");
+                        view.displayError(fullyHydrated.getMessages().toString());
                     }
-
                     break;
+
                 case DISPLAY_PANEL_BY_SECTION:
                     String section = view.readPanelSectionType();
                     List fully = service.findPanelBySection(section);
@@ -68,7 +70,7 @@ public class Controller {
 
                     if( sectionPanels.isEmpty() ){
                         view.emptySection();
-                        return;
+                        break;
                     }
 
                     //1c. have user select one panel from the list (by number)
@@ -87,6 +89,7 @@ public class Controller {
                         view.printErrorMessage( updateResult.getMessages() );
                     }
                     break;
+
                 case DELETE_PANEL:
                     Panel lookup = view.getPanel();//Get panel info from user
 
@@ -101,6 +104,7 @@ public class Controller {
                     } else {
                         view.displayError(result.getMessages().toString());
                     }
+                    break;
             }
             } catch(InvalidMenuChoiceException ex){
                 //print the exception

@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +22,6 @@ public class PanelServiceTest {
         PanelRepositoryTestDouble repository = new PanelRepositoryTestDouble();
         service = new PanelService(repository);
     }
-
 
     @Test
     void shouldNotAddNullPanel() throws DataAccessException {
@@ -299,7 +300,6 @@ public class PanelServiceTest {
     @Test
     void shouldDeletePanelByExistingSectionRowColumn() throws DataAccessException{
         PanelResult updateResult = service.deleteBySectionRowColumn("lol", 10, 34);
-
         assertTrue( updateResult.isSuccess() );
     }
 
