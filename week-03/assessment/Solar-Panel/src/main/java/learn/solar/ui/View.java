@@ -3,7 +3,6 @@ package learn.solar.ui;
 import learn.solar.models.Material;
 import learn.solar.models.Panel;
 
-import java.sql.SQLOutput;
 import java.util.List;
 public class View {
 
@@ -72,7 +71,7 @@ public class View {
     }
 
     public void displayError(String message) {
-        System.out.println("[ERROR]");
+        //System.out.println("[ERROR]");
     }
 
 
@@ -174,9 +173,10 @@ public class View {
     }
 
     public void printErrorMessage(List<String> messages) {
-        printHeader("Errors:");
-        for (String error : messages) {
-            console.println(error);
-        }
+//        printHeader("Errors:");
+//        for (String error : messages) {
+//            console.println(error);
+//        }
+        throw new UnsupportedOperationException();
     }
 }
