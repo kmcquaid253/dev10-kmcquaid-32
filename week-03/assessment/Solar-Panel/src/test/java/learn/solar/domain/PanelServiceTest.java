@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +32,7 @@ public class PanelServiceTest {
     @Test
     void shouldAdd() throws DataAccessException {
         Panel panel = new Panel();
-        panel.setSection("Zonda View");
+        panel.setSection("Zonda Itscowics");
         panel.setRow(4);
         panel.setColumn(6);
         panel.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
@@ -48,24 +46,12 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithLargeRow() throws DataAccessException {
-        /*
-        p1.setPanelId(100);
-        p1.setSection("lol");
-        p1.setRow(10);
-        p1.setColumn(34);
-        p1.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
-        p1.setYearInstalled(1964);
-        p1.setTracking(true);
-         */
-
         Panel panel = new Panel();
-
-        panel.setPanelId(100);
-        panel.setSection("lol");
+        panel.setSection("Zonda Western");
         panel.setRow(251);
         panel.setColumn(10);
-        panel.setPanelMaterial(Material.CADMIUM_TELLURIDE);
-        panel.setYearInstalled(1964);
+        panel.setPanelMaterial(Material.valueOf("CADMIUM_TELLURIDE"));
+        panel.setYearInstalled(1990);
         panel.setTracking(true);
 
         PanelResult result = service.addPanel(panel);
@@ -75,22 +61,12 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithNonPositiveRow() throws DataAccessException{
-        /*
-            p2.setPanelId(200);
-            p2.setSection("Null East West");
-            p2.setRow(249);
-            p2.setColumn(19);
-            p2.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
-            p2.setYearInstalled(1975);
-            p2.setTracking(false);
-         */
         Panel panel = new Panel();
-        panel.setPanelId(200);
-        panel.setSection("Null East West");
+        panel.setSection("Manor Farm");
         panel.setRow(-90);
-        panel.setColumn(19);
-        panel.setPanelMaterial(Material.COPPER_INDIUM_GALLIUM_SELENIDE);
-        panel.setYearInstalled(1975);
+        panel.setColumn(17);
+        panel.setPanelMaterial(Material.valueOf("MULTICRYSTALLINE_SILICON"));
+        panel.setYearInstalled(1980);
         panel.setTracking(false);
 
         PanelResult result = service.addPanel(panel);
@@ -100,24 +76,13 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithLargeCol() throws DataAccessException{
-        /*
-        p2.setPanelId(300);
-        p2.setSection("East Village");
-        p2.setRow(154);
-        p2.setColumn(147);
-        p2.setPanelMaterial(Material.valueOf("MONOCRYSTALLINE_SILICON"));
-        p2.setYearInstalled(1899);
-        p2.setTracking(true);
-         */
         Panel panel = new Panel();
-
-        panel.setPanelId(300);
-        panel.setSection("East Village");
-        panel.setRow(154);
+        panel.setSection("West-East Valley");
+        panel.setRow(68);
         panel.setColumn(300);
-        panel.setPanelMaterial(Material.MONOCRYSTALLINE_SILICON);
-        panel.setYearInstalled(1899);
-        panel.setTracking(true);
+        panel.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
+        panel.setYearInstalled(2011);
+        panel.setTracking(false);
 
         PanelResult result = service.addPanel(panel);
 
@@ -126,23 +91,12 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithNonPositiveCol() throws DataAccessException{
-        /*
-        p2.setPanelId(300);
-        p2.setSection("East Village");
-        p2.setRow(154);
-        p2.setColumn(147);
-        p2.setPanelMaterial(Material.valueOf("MONOCRYSTALLINE_SILICON"));
-        p2.setYearInstalled(1899);
-        p2.setTracking(true);
-         */
-
         Panel panel = new Panel();
-        panel.setPanelId(300);
-        panel.setSection("East Village");
-        panel.setRow(154);
+        panel.setSection("Ranch Valley");
+        panel.setRow(10);
         panel.setColumn(-7);
-        panel.setPanelMaterial(Material.MONOCRYSTALLINE_SILICON);
-        panel.setYearInstalled(1899);
+        panel.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
+        panel.setYearInstalled(1990);
         panel.setTracking(true);
 
         PanelResult result = service.addPanel(panel);
@@ -152,23 +106,12 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithFutureInstallYear() throws DataAccessException{
-        /*
-            p2.setPanelId(200);
-            p2.setSection("Null East West");
-            p2.setRow(249);
-            p2.setColumn(19);
-            p2.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
-            p2.setYearInstalled(1975);
-            p2.setTracking(false);
-         */
-
         Panel panel = new Panel();
 
-        panel.setPanelId(200);
-        panel.setSection("Null East West");
-        panel.setRow(249);
-        panel.setColumn(19);
-        panel.setPanelMaterial(Material.COPPER_INDIUM_GALLIUM_SELENIDE);
+        panel.setSection("Great Farms");
+        panel.setRow(111);
+        panel.setColumn(60);
+        panel.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
         panel.setYearInstalled(2023);
         panel.setTracking(false);
 
@@ -179,25 +122,14 @@ public class PanelServiceTest {
 
     @Test
     void shouldNotAddPanelWithNullMaterial() throws DataAccessException {
-        /*
-        p1.setPanelId(100);
-        p1.setSection("lol");
-        p1.setRow(10);
-        p1.setColumn(34);
-        p1.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
-        p1.setYearInstalled(1964);
-        p1.setTracking(true);
-         */
-
         Panel panel = new Panel();
 
-        panel.setPanelId(100);
-        panel.setSection("lol");
-        panel.setRow(10);
-        panel.setColumn(34);
+        panel.setSection("Ivy Ridge");
+        panel.setRow(203);
+        panel.setColumn(242);
         panel.setPanelMaterial(null);
-        panel.setYearInstalled(1964);
-        panel.setTracking(true);
+        panel.setYearInstalled(1908);
+        panel.setTracking(false);
 
         PanelResult result = service.addPanel(panel);
 

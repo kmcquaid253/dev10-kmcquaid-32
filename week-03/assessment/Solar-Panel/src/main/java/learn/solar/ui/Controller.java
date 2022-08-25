@@ -48,7 +48,7 @@ public class Controller {
                     if(fullyHydrated.isSuccess()){
                         view.displayPanel(fullyHydrated.getPayLoad());
                     } else {
-                        view.displayError(fullyHydrated.getMessages().toString());
+                        view.displayError("[ERROR]cUnable to add Panel.");
                     }
 
                     break;
@@ -65,7 +65,6 @@ public class Controller {
 
                     //1b. grab all panels in that section from the service
                     List<Panel> sectionPanels = service.findPanelBySection( sectionName );
-
 
                     if( sectionPanels.isEmpty() ){
                         view.emptySection();

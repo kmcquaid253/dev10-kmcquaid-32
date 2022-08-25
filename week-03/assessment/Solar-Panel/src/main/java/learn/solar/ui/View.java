@@ -71,7 +71,6 @@ public class View {
     }
 
     public void displayError(String message) {
-        //System.out.println("[ERROR]");
     }
 
 
@@ -113,7 +112,7 @@ public class View {
         console.println("Editing " + toUpdate.getSection() + "-" + toUpdate.getRow() + "-" + toUpdate.getColumn());
         console.println("Press [Enter] to keep original value.");
 
-        toUpdate.setSection( console.editRequiredString( "Section: ", toUpdate.getSection() ) );
+        toUpdate.setSection( console.editRequiredString( "Section", toUpdate.getSection() ) );
         toUpdate.setRow( console.editInt( "Row", 1, 250, toUpdate.getRow()));
         toUpdate.setColumn( console.editInt( "Col", 1, 250, toUpdate.getColumn()));
         toUpdate.setYearInstalled( console.editInt( "Installation Year", Integer.MIN_VALUE, 2022, toUpdate.getYearInstalled()));
@@ -173,10 +172,8 @@ public class View {
     }
 
     public void printErrorMessage(List<String> messages) {
-//        printHeader("Errors:");
-//        for (String error : messages) {
-//            console.println(error);
-//        }
         throw new UnsupportedOperationException();
     }
+
+
 }

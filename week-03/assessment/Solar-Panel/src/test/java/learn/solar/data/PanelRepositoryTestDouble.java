@@ -21,7 +21,7 @@ public class PanelRepositoryTestDouble implements PanelRepository{
         p1.setSection("lol");
         p1.setRow(10);
         p1.setColumn(34);
-        p1.setPanelMaterial(Material.AMORPHOUS_SILICON);
+        p1.setPanelMaterial(Material.valueOf("AMORPHOUS_SILICON"));
         p1.setYearInstalled(1964);
         p1.setTracking(true);
 
@@ -31,7 +31,7 @@ public class PanelRepositoryTestDouble implements PanelRepository{
         p2.setSection("Null East West");
         p2.setRow(249);
         p2.setColumn(19);
-        p2.setPanelMaterial(Material.COPPER_INDIUM_GALLIUM_SELENIDE);
+        p2.setPanelMaterial(Material.valueOf("COPPER_INDIUM_GALLIUM_SELENIDE"));
         p2.setYearInstalled(1975);
         p2.setTracking(false);
 
@@ -41,7 +41,7 @@ public class PanelRepositoryTestDouble implements PanelRepository{
         p2.setSection("East Village");
         p2.setRow(154);
         p2.setColumn(147);
-        p2.setPanelMaterial(Material.MONOCRYSTALLINE_SILICON);
+        p2.setPanelMaterial(Material.valueOf("MONOCRYSTALLINE_SILICON"));
         p2.setYearInstalled(1899);
         p2.setTracking(true);
 

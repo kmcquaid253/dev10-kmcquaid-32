@@ -46,6 +46,8 @@ public class PanelFileRepository implements PanelRepository{
         return toReturn;
     }
 
+
+
     @Override
     public Panel add(Panel toAdd) throws DataAccessException {
 
@@ -143,7 +145,6 @@ public class PanelFileRepository implements PanelRepository{
         }
         return false;
     }
-
 
     @Override
     public List<Panel> findPanelBySection(String section) throws DataAccessException{

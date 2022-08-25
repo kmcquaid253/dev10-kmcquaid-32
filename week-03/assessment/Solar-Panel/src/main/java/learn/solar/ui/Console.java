@@ -119,8 +119,5 @@ public class Console {
 
 
     public void printHeader(String choose_material) {
-        System.out.println();
-        System.out.println(choose_material);
-        System.out.println("=".repeat(choose_material.length()));
     }
 }
