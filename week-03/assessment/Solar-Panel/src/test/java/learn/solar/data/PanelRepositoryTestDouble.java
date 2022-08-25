@@ -86,6 +86,17 @@ public class PanelRepositoryTestDouble implements PanelRepository{
 
     @Override
     public boolean deleteBySectionRowColumn(String section, int row, int column) throws DataAccessException {
+        List<Panel> all = findAll();
+        for (int i = 0; i < all.size(); i++){
+            if (all.get(i).getSection().equals(section) &&
+                    all.get(i).getRow() == row &&
+                    all.get(i).getColumn() == column){
+
+                all.remove(i);
+
+                return true;
+            }
+        }
         return false;
     }
 

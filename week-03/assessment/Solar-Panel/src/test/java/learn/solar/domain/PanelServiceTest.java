@@ -296,4 +296,11 @@ public class PanelServiceTest {
         assertEquals("Panel row must be between 1 and 250.", updateResult.getMessages().get(0));
     }
 
+    @Test
+    void shouldDeletePanelByExistingSectionRowColumn() throws DataAccessException{
+        PanelResult updateResult = service.deleteBySectionRowColumn("lol", 10, 34);
+
+        assertTrue( updateResult.isSuccess() );
+    }
+
 }
