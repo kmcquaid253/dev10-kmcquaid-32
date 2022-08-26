@@ -101,6 +101,15 @@ _SUMMARY:_  **[FIX]**
 - The combination of first name, last name, and state cannot be duplicated.
 - Forager ID is a system-generated GUID (globally unique identifier).
 
+
+### View a Forager **[FIX]**
+- Implement a new option where you are allowed to view a forager
+- Add to file repository and Forager Service.
+- Create new tests to test changes
+- Add to  Controller
+
+_SUMMARY:_  **[FIX]**
+
 ___________________________________________________________________________________________________________________________________________________________________
 
 ## Technical Requirements 
