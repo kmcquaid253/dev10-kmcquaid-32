@@ -13,7 +13,7 @@ import learn.foraging.models.Item;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Controller {
+public class  Controller {
 
     private final ForagerService foragerService;
     private final ForageService forageService;
