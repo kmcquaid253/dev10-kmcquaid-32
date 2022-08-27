@@ -10,7 +10,9 @@ public enum MainMenuOption {
     ADD_ITEM(5, "Add an Item", false),
     REPORT_KG_PER_ITEM(6, "Report: Kilograms of Item", false),
     REPORT_CATEGORY_VALUE(7, "Report: Item Category Value", false),
-    GENERATE(8, "Generate Random Forages", true);
+    GENERATE(8, "Generate Random Forages", true),
+
+    VIEW_FORAGERS(9, "View Foragers", false);
 
     private int value;
     private String message;

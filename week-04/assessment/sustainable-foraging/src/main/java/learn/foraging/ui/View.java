@@ -62,10 +62,12 @@ public class View {
         String message = String.format("Select a forager by their index [0-%s]: ", index);
 
         index = io.readInt(message, 0, index);
+
         if (index <= 0) {
             return null;
         }
         return foragers.get(index - 1);
+
     }
 
     public Category getItemCategory() {
@@ -191,6 +193,20 @@ public class View {
 
         for (Item item : items) {
             io.printf("%s: %s, %s, %.2f $/kg%n", item.getId(), item.getName(), item.getCategory(), item.getDollarPerKilogram());
+        }
+    }
+
+    public void displayForagers(List<Forager> foragers) {
+        if (foragers == null || foragers.isEmpty()) {
+            io.println("No foragers found.");
+            return;
+        }
+        for (Forager forager : foragers) {
+            io.printf("%nName: %s %s  - State: %s",
+                    forager.getFirstName(),
+                    forager.getLastName(),
+                    forager.getState()
+            );
         }
     }
 }

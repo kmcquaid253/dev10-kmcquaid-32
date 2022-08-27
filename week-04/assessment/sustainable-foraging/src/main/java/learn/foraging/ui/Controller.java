@@ -66,6 +66,9 @@ public class  Controller {
                     view.displayStatus(false, "NOT IMPLEMENTED");
                     view.enterToContinue();
                     break;
+                case VIEW_FORAGERS:
+                    viewForagers();
+                    break;
                 case GENERATE:
                     generate();
                     break;
@@ -88,6 +91,15 @@ public class  Controller {
         view.displayHeader("Items");
         view.displayItems(items);
         view.enterToContinue();
+    }
+
+    private void viewForagers() {
+        view.displayHeader(MainMenuOption.VIEW_FORAGERS.getMessage());
+        String forager = view.getForagerNamePrefix();
+        List<Forager> foragersName = foragerService.findByLastName(forager);
+        view.displayHeader("Foragers");
+        view.chooseForager(foragersName);
+        view.displayForagers(foragersName);
     }
 
     private void addForage() throws DataException {
