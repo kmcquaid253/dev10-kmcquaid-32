@@ -124,7 +124,7 @@ ________________________________________________________________________________
 - Create tests.
 
 
-### 7. Report: Item Category Value
+### 7. Report: Item Category Value **[FIX]**
 - Currently shows as not implemented
 - Create a report that displays the kilograms of each Item collected on one day.
 - Create tests.

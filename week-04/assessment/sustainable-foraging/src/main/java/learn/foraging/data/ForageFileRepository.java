@@ -3,6 +3,8 @@ package learn.foraging.data;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -10,12 +12,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ForageFileRepository implements ForageRepository {
 
     private static final String HEADER = "id,forager_id,item_id,kg";
     private final String directory;
 
-    public ForageFileRepository(String directory) {
+    static final String DELIMITER = ",";
+
+    public ForageFileRepository(@Value("${dataDirectory}")String directory) {
         this.directory = directory;
     }
 
@@ -61,6 +66,36 @@ public class ForageFileRepository implements ForageRepository {
         return false;
     }
 
+    @Override
+    public List<Forage> findAll(LocalDate date) {///////////////////////////////////////////////////////////////////////////
+        ArrayList<Forage> result = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(directory))) {
+
+            reader.readLine(); // read header
+
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+
+                String[] fields = line.split(",", -1);
+                if (fields.length == 4) {
+                    result.add(deserialize(fields, date));
+                }
+            }
+        } catch (IOException ex) {
+            // don't throw on read
+        }
+        return result;
+    }
+
+    @Override
+    public Forage getForageByLocation(LocalDate date, Forager forager, Item item) {//////////////////////////////////////////
+        for(Forage forage : findAll(date)){
+            if(forage.getDate().equals(date) && forage.getForager().equals(forager) && forage.getItem().equals(item)){
+                return forage;
+            }
+        }
+
+        return null;
+    }
     private String getFilePath(LocalDate date) {
         return Paths.get(directory, date + ".csv").toString();
     }

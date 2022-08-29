@@ -1,21 +1,34 @@
 package learn.foraging.data;
 
 import learn.foraging.models.Forager;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOError;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class ForagerFileRepository implements ForagerRepository {
 
     private final String filePath;
 
-    public ForagerFileRepository(String filePath) {
+    private static final String HEADER = "id,first_name,last_name,state";
+
+    public ForagerFileRepository(@Value("${dataFilePath}")String filePath) {
         this.filePath = filePath;
+    }
+
+    @Override
+    public Forager add(Forager forager) throws DataException {///////////////////////////////////////////////////////////
+        List<Forager> all = findAll();
+        forager.setId(java.util.UUID.randomUUID().toString());
+        all.add(forager);
+        writeAll(all);
+        return forager;
     }
 
     @Override
@@ -39,6 +52,16 @@ public class ForagerFileRepository implements ForagerRepository {
     }
 
     @Override
+    public Forager getForagerByLocation(String firstName, String lastName, String state) {
+        for(Forager forager : findAll()){
+            if(forager.getFirstName().equals(firstName) && forager.getLastName().equals(lastName) && forager.getState().equals(state)){
+                return forager;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Forager findById(String id) {
         return findAll().stream()
                 .filter(i -> i.getId().equalsIgnoreCase(id))
@@ -52,6 +75,31 @@ public class ForagerFileRepository implements ForagerRepository {
                 .filter(i -> i.getState().equalsIgnoreCase(stateAbbr))
                 .collect(Collectors.toList());
     }
+
+    private void writeAll(List<Forager> all) throws DataException{
+        try (PrintWriter writer = new PrintWriter(getFilePath())) {//////////////////////////////////////////////////////
+
+            writer.println(HEADER);
+
+            for (Forager item : all) {
+                writer.println(serialize(item));
+            }
+        } catch (FileNotFoundException ex) {
+            throw new DataException(ex);
+        }
+    }
+
+    private String serialize(Forager item) {/////////////////////////////////////////////////////////////////////////////
+        return String.format("%s,%s,%s,%s",
+                item.getId(),
+                item.getFirstName(),
+                item.getLastName(),
+                item.getState());
+    }
+
+    private String getFilePath() {
+        return Paths.get(filePath).toString();
+    }///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     private Forager deserialize(String[] fields) {
         Forager result = new Forager();

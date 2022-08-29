@@ -7,6 +7,7 @@ import learn.foraging.data.ItemRepository;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+@Service
 public class ForageService {
 
     private final ForageRepository forageRepository;
@@ -45,6 +47,7 @@ public class ForageService {
 
     public Result<Forage> add(Forage forage) throws DataException {
         Result<Forage> result = validate(forage);
+
         if (!result.isSuccess()) {
             return result;
         }
@@ -87,6 +90,8 @@ public class ForageService {
     private Result<Forage> validate(Forage forage) {
 
         Result<Forage> result = validateNulls(forage);
+
+
         if (!result.isSuccess()) {
             return result;
         }
@@ -106,6 +111,13 @@ public class ForageService {
 
         if (forage == null) {
             result.addErrorMessage("Nothing to save.");
+            return result;
+        }
+
+        Forage existingPanel = forageRepository.getForageByLocation(forage.getDate(), forage.getForager(), forage.getItem());///////////////////////////////////////////////////////////////////////
+
+        if(existingPanel != null){/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            result.addErrorMessage("Cannot add duplicate Foragers");
             return result;
         }
 

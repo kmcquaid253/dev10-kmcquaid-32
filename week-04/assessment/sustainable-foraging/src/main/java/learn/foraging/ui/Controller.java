@@ -9,17 +9,26 @@ import learn.foraging.models.Category;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class  Controller {
 
+    @Autowired // direct field injection
     private final ForagerService foragerService;
+
+    @Autowired // direct field injection
     private final ForageService forageService;
+
+    @Autowired // direct field injection
     private final ItemService itemService;
     private final View view;
 
+    @Autowired // indicates both a view and service should be injected.
     public Controller(ForagerService foragerService, ForageService forageService, ItemService itemService, View view) {
         this.foragerService = foragerService;
         this.forageService = forageService;
@@ -52,15 +61,13 @@ public class  Controller {
                     addForage();
                     break;
                 case ADD_FORAGER:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    addForager();
                     break;
                 case ADD_ITEM:
                     addItem();
                     break;
                 case REPORT_KG_PER_ITEM:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    kilogramsReport();
                     break;
                 case REPORT_CATEGORY_VALUE:
                     view.displayStatus(false, "NOT IMPLEMENTED");
@@ -74,6 +81,16 @@ public class  Controller {
                     break;
             }
         } while (option != MainMenuOption.EXIT);
+    }
+
+    private void kilogramsReport() {
+        view.displayHeader(MainMenuOption.REPORT_KG_PER_ITEM.getMessage());
+        LocalDate date = view.getForageDate();
+        List<Forage> forages = forageService.findByDate(date);
+
+        //Create a report that displays the kilograms of each Item collected on one day.
+
+        
     }
 
     // top level menu
@@ -97,9 +114,11 @@ public class  Controller {
         view.displayHeader(MainMenuOption.VIEW_FORAGERS.getMessage());
         String forager = view.getForagerNamePrefix();
         List<Forager> foragersName = foragerService.findByLastName(forager);
+
         view.displayHeader("Foragers");
-        view.chooseForager(foragersName);
-        view.displayForagers(foragersName);
+
+        Forager fori = view.chooseForager(foragersName);
+        view.displayForagers(fori);
     }
 
     private void addForage() throws DataException {
@@ -118,6 +137,21 @@ public class  Controller {
             view.displayStatus(false, result.getErrorMessages());
         } else {
             String successMessage = String.format("Forage %s created.", result.getPayload().getId());
+            view.displayStatus(true, successMessage);
+        }
+    }
+
+    private void addForager() throws DataException {//////////////////////////////////////////////////////////////////////////////////////////
+        view.displayHeader(MainMenuOption.ADD_FORAGER.getMessage());
+        Forager partiallyHydrated = view.getNewForagerDetails();
+        Result fullyHydrated = foragerService.add(partiallyHydrated);
+
+        //Result<Forager> result = foragerService.add(partiallyHydrated);
+
+        if (!fullyHydrated.isSuccess()) {
+            view.displayStatus(false, fullyHydrated.getErrorMessages());
+        } else {
+            String successMessage = String.format("[SUCCESS]");
             view.displayStatus(true, successMessage);
         }
     }

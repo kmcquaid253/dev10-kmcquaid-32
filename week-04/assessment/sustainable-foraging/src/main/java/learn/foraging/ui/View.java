@@ -4,12 +4,14 @@ import learn.foraging.models.Category;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class View {
 
     private final ConsoleIO io;
@@ -32,6 +34,27 @@ public class View {
 
         String message = String.format("Select [%s-%s]: ", min, max - 1);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
+    }
+
+    public Forager getNewForagerDetails() {//////////////////////////////////////////////////////////////////////////////////
+        /*
+            private String id;
+            private String firstName;
+            private String lastName;
+            private String state;
+
+         */
+        Forager toBuild = new Forager();
+
+        String firstName = io.readRequiredString("First Name: ");
+        String lastName = io.readRequiredString("Last Name: ");
+        String state= io.readRequiredString("State: ");
+
+        toBuild.setFirstName(firstName);
+        toBuild.setLastName(lastName);
+        toBuild.setState(state);
+
+        return toBuild;
     }
 
     public LocalDate getForageDate() {
@@ -196,17 +219,15 @@ public class View {
         }
     }
 
-    public void displayForagers(List<Forager> foragers) {
-        if (foragers == null || foragers.isEmpty()) {
-            io.println("No foragers found.");
+    public void displayForagers(Forager foragers) {
+        if (foragers == null) {
+            io.println("\nNo foragers found.");
             return;
         }
-        for (Forager forager : foragers) {
-            io.printf("%nName: %s %s  - State: %s",
-                    forager.getFirstName(),
-                    forager.getLastName(),
-                    forager.getState()
+            io.printf("%nName: %s %s  - State: %s%n",
+                    foragers.getFirstName(),
+                    foragers.getLastName(),
+                    foragers.getState()
             );
-        }
     }
 }
