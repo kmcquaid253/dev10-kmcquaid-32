@@ -12,8 +12,14 @@ import learn.foraging.models.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class  Controller {
@@ -88,7 +94,22 @@ public class  Controller {
         LocalDate date = view.getForageDate();
         List<Forage> forages = forageService.findByDate(date);
 
-        //Create a report that displays the kilograms of each Item collected on one day.
+//        //Create a report that displays the kilograms of each Item collected on one day.
+//        // 12. Stream rows from CSV file, store fields in HashMap
+//        Stream<String> rows = "./data/forage_data".lines();
+//        Map<String, Double> map = new HashMap<>();
+//        map = rows
+//                .map(x -> x.split(","))
+//                .filter(x -> )
+//                .filter(x -> Integer.parseInt(x[1]) > 15)
+//                .collect(Collectors.toMap(//has two lambda functions
+//                        x -> x[0],//recieves row array and returns first item
+//                        x -> Integer.parseInt(x[1])));//parses out the first item in that row array
+//        rows.close();
+//        for (String key : map.keySet()) {
+//            System.out.println(key + "  " + map.get(key));
+//        }
+//        //prints out 2 items, <key,value>
 
 
     }
