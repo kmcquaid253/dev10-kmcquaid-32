@@ -1,7 +1,7 @@
 # Don't Wreck My Home Plan
 
-Don't Wreck My House is similar to Airbnb. A guest chooses a place to stay for a specific 
-date range. If the host location is available, it may be reserved by the guest. Reserved 
+Don't Wreck My House is similar to Airbnb. A guest chooses a place to stay for a specific
+date range. If the host location is available, it may be reserved by the guest. Reserved
 locations are not available to other guests during reserved dates
 _______________________________________________________________________________________________________________________
 ## High-Level Requirements
@@ -28,24 +28,61 @@ src
 │   └───java
 │   │   └───learn
 │   │        └───solar
-│   │            │   App.java                                -- app entry point
+│   │            │   App.java                                                                                               -- app entry point
 │   │            │
 │   │            ├───data
-│   │            │       DataException.java                  -- data layer custom exception
-│   │            │       ReservationFileRepository.java      -- concrete repository
+│   │            │       DataException.java                                                                                 -- data layer custom exception
+│   │            │                       ├─── public DataAccessException(String message) 
+│   │            │                       └─── public DataAccessException( String message, Throwable innerException )
+│   │            │ 
+│   │            │ 
+│   │            │       ReservationFileRepository.java                                                                     -- concrete repository
+│   │            │                                   ├─── public List<Reservation> findAll()
+│   │            │                                   ├─── public Reservation add(Reservation toAdd)
+│   │            │                                   ├─── public boolean update(Reservation updated)
+│   │            │                                   ├─── public boolean deleteById()
+│   │            │                                   ├─── private writeAllReservation(List<Reservationl> toWrite)<- Needed to add Reservation, writes the whole List
+│   │            │                                   ├─── private Reservation convertLineToReservation(String line) <- Needed for find all AKA deserialize
+│   │            │                                   └─── public Reservation getReservationByDates(String section, int row, int column) {} <- This method will help with checking that 
+│   │            │                                                                                                                           there are no duplicate dates
 │   │            │       ReservationRepository.java          -- repository interface
+│   │            │
 │   │            │       HostFileRepository.java             -- concrete repository
+│   │            │                   ├─── public List<Host> findAll()
+│   │            │                   ├─── public Host findByEmail(String email)
+│   │            │                   └─── private Host convertLineToHost(String line) <- Needed for findAll AKA deserialize
+│   │            │                   
 │   │            │       HostRepository.java                 -- repository interface
+│   │            │
 │   │            │       GuestFileRepository                 -- concrete repository
+    │            │                  ├─── public List<Guest> findAll()
+│   │            │                  ├─── public Guest findByEmail(String email)
+│   │            │                  └─── private Guest convertLineToGuest(String line) <- Needed for findAll AKA deserialize
+│   │            │
 │   │            │       GuestRepository                     -- repository interface
 │   │            │
 │   │            │
 │   │            ├───domain
 │   │            │       ReservationResult.java              -- domain result for handling success/failure
+│   │            │                          ├─── getPayload()
+│   │            │                          ├─── setPayload()
+│   │            │                          ├─── boolean isSuccess()
+│   │            │                          ├─── addErrorMessage(String message){}
+│   │            │                          └─── List<String> getMessages()
+│   │            │                                          
 │   │            │       ReservationService.java             -- Reservation validation/rules
-│   │            │       HostService.java
-│   │            │       GuestService.java
+│   │            │                       ├─── addReservation(Reservation partiallyHydrated)
+│   │            │                       ├─── validate(Reservation reservation)
+│   │            │                       ├─── validateNulls(Reservation reservation) <- validation in order to add a reservation, goes along with addReservation()
+│   │            │                       ├─── viewByEmail(String hostEmail) <- in order to view a reservation you need the host email
+│   │            │                       ├─── deleteById()
+│   │            │                       └──  findByEmail() <- Host of email required in order to view
 │   │            │
+│   │            │       HostService.java
+│   │            │                   └─── public List<Host> LookupByEmail (String email) 
+│   │            │                   
+│   │            │       GuestService.java
+│   │            │                └─── public List<Guest> LookupByEmail (String email) 
 │   │            │
 │   │            │
 │   │            ├───models
@@ -88,31 +125,10 @@ ________________________________________________________________________________
 - @ComponentScan & @PropertySource() goes here, before the class
 - Since I am going to be doing Spring Annotations I will need my annotations here
 
-    -  Pass the App.class as a constructor argument
-    - Set 'context.getBean' (Works the same as the XML document)
+  -  Pass the App.class as a constructor argument
+  - Set 'context.getBean' (Works the same as the XML document)
 
 - Include the run method from the controller
-
-
-### data/ DataException.java
-_______________________________________________________________________________________________________________________
-
-- public DataAccessException(String message){}
-- public DataAccessException( String message, Throwable innerException ){}
-
-
-### data/ ReservationFileRepository.java
-_______________________________________________________________________________________________________________________
-
--  public List<Reservation> **findAll()** {}
--  public Reservation **add**(Reservation toAdd)
--  public boolean **update**(Reservation updated)
--  public boolean **deleteById**(){}
--  public List<Resrvation> **findByEmail**(String email) {}
--  private **writeAllReservation**(List<Reservationl> toWrite) {} <- Needed to add Panel, writes the whole List
--  private Reservation **convertLineToReservation**(String line) {}     <- Needed for 'writeAllPanels method'
--  public Reservation getReservationByDates(String section, int row, int column) {} <- This method will help with checking that 
-                                                                                       there are no duplicate dates
 
 
 ### data/ ReservationRepository.java
@@ -122,26 +138,6 @@ ________________________________________________________________________________
 
 Will have all methods as ReservationFile Repository
 
-
-### domain/ ReservationResult.java
-_______________________________________________________________________________________________________________________
-
--  getPayload() {}
--  setPayload() {}
--  boolean isSuccess(){}
--  addErrorMessage(String message){}
--  List<String> getMessages()
-
-
-### domain/ ReservationService.java
-_______________________________________________________________________________________________________________________
-
-- addReservation(Reservation partiallyHydrated){}
-- validate(Reservation reservation){}            <- validation in order to add a reservation, goes along with addReservation()
-- validateNulls(Reservation reservation){}       <- validation in order to add a reservation, goes along with addReservation()
-- viewByEmail(String hostEmail){}                <- in order to view a reservation you need the host email
-- deleteById() {}
-- findByEmail() {}                               <- Host of email required in order to view
 
 ### models/ Reservation.java
 _______________________________________________________________________________________________________________________
@@ -169,6 +165,8 @@ int phone?
 String address?
 String city?
 String postalCode?
+
+public BigDecimal getValue() <- generates value of the room
 
 _Getters and setters_
 
@@ -277,7 +275,7 @@ ________________________________________________________________________________
 ## User Stories
 _______________________________________________________________________________________________________________________
 
-**Menu:** 
+**Menu:**
 1. As an admin I should be able to click on any of the menu options without trouble.
 
 
@@ -324,8 +322,9 @@ ________________________________________________________________________________
 - All financial math must use BigDecimal.
 - Dates must be LocalDate, never strings.
 - All file data must be represented in models in the application.
-- **Reservation identifiers are unique per host, not unique across the entire application**. Effectively, the combination 
+- **Reservation identifiers are unique per host, not unique across the entire application**. Effectively, the combination
   of a reservation identifier and a host identifier is required to uniquely identify a reservation.
+
 
 
 
