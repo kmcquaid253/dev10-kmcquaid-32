@@ -18,7 +18,7 @@ ________________________________________________________________________________
 data
 ├───reservations
 │            │
-│            └───[files Names].csv                           -- All reservation files will go here
+│            └───[files Names].csv                                                                                                            -- All reservation files will go here
 │
 │       
 └───guests.csv
@@ -28,55 +28,55 @@ src
 │   └───java
 │   │   └───learn
 │   │        └───solar
-│   │            │   App.java                                                                                               -- app entry point
+│   │            │   App.java                                                                                                                 -- app entry point
 │   │            │
 │   │            ├───data
-│   │            │       DataException.java                                                                                 -- data layer custom exception
+│   │            │       DataException.java                                                                                                   -- data layer custom exception
 │   │            │                       ├─── public DataAccessException(String message) 
 │   │            │                       └─── public DataAccessException( String message, Throwable innerException )
 │   │            │ 
 │   │            │ 
-│   │            │       ReservationFileRepository.java                                                                     -- concrete repository
+│   │            │       ReservationFileRepository.java                                                                                       -- concrete repository
 │   │            │                                   ├─── public List<Reservation> findAll()
 │   │            │                                   ├─── public Reservation add(Reservation toAdd)
 │   │            │                                   ├─── public boolean update(Reservation updated)
 │   │            │                                   ├─── public boolean deleteById()
-│   │            │                                   ├─── private writeAllReservation(List<Reservationl> toWrite)<- Needed to add Reservation, writes the whole List
-│   │            │                                   ├─── private Reservation convertLineToReservation(String line) <- Needed for find all AKA deserialize
-│   │            │                                   └─── public Reservation getReservationByDates(String section, int row, int column) {} <- This method will help with checking that 
-│   │            │                                                                                                                           there are no duplicate dates
+│   │            │                                   ├─── private writeAllReservation(List<Reservationl> toWrite)                             <- Needed to add Reservation, writes the whole List
+│   │            │                                   ├─── private Reservation convertLineToReservation(String line)                           <- Needed for find all AKA deserialize
+│   │            │                                   └─── public Reservation getReservationByDates(String section, int row, int column) {}    <- This method will help with checking that 
+│   │            │                                                                                                                               there are no duplicate dates
 │   │            │       ReservationRepository.java          -- repository interface
 │   │            │
 │   │            │       HostFileRepository.java             -- concrete repository
 │   │            │                   ├─── public List<Host> findAll()
 │   │            │                   ├─── public Host findByEmail(String email)
-│   │            │                   └─── private Host convertLineToHost(String line) <- Needed for findAll AKA deserialize
+│   │            │                   └─── private Host convertLineToHost(String line)           <- Needed for findAll AKA deserialize
 │   │            │                   
 │   │            │       HostRepository.java                 -- repository interface
 │   │            │
 │   │            │       GuestFileRepository                 -- concrete repository
-    │            │                  ├─── public List<Guest> findAll()
+│   │            │                  ├─── public List<Guest> findAll()
 │   │            │                  ├─── public Guest findByEmail(String email)
-│   │            │                  └─── private Guest convertLineToGuest(String line) <- Needed for findAll AKA deserialize
+│   │            │                  └─── private Guest convertLineToGuest(String line)          <- Needed for findAll AKA deserialize
 │   │            │
-│   │            │       GuestRepository                     -- repository interface
+│   │            │       GuestRepository                                                        -- repository interface
 │   │            │
 │   │            │
 │   │            ├───domain
-│   │            │       ReservationResult.java              -- domain result for handling success/failure
-│   │            │                          ├─── getPayload()
-│   │            │                          ├─── setPayload()
-│   │            │                          ├─── boolean isSuccess()
-│   │            │                          ├─── addErrorMessage(String message){}
-│   │            │                          └─── List<String> getMessages()
+│   │            │       Result.java                                                            -- domain result for handling success/failure
+│   │            │                ├─── getPayload()
+│   │            │                ├─── setPayload()
+│   │            │                ├─── boolean isSuccess()
+│   │            │                ├─── addErrorMessage(String message){}
+│   │            │                └─── List<String> getMessages()
 │   │            │                                          
-│   │            │       ReservationService.java             -- Reservation validation/rules
+│   │            │       ReservationService.java                                                -- Reservation validation/rules
 │   │            │                       ├─── addReservation(Reservation partiallyHydrated)
 │   │            │                       ├─── validate(Reservation reservation)
-│   │            │                       ├─── validateNulls(Reservation reservation) <- validation in order to add a reservation, goes along with addReservation()
-│   │            │                       ├─── viewByEmail(String hostEmail) <- in order to view a reservation you need the host email
+│   │            │                       ├─── validateNulls(Reservation reservation)            <- validation in order to add a reservation, goes along with addReservation()
+│   │            │                       ├─── viewByEmail(String hostEmail)                     <- in order to view a reservation you need the host email
 │   │            │                       ├─── deleteById()
-│   │            │                       └──  findByEmail() <- Host of email required in order to view
+│   │            │                       └──  findByEmail()                                     <- Host of email required in order to view
 │   │            │
 │   │            │       HostService.java
 │   │            │                   └─── public List<Host> LookupByEmail (String email) 
@@ -111,11 +111,18 @@ src
                 └───learn
                         └───solar
                                 ├───data
-                                │       ReservationFileRepositoryTest.java          -- ReservationFileRepository tests
-                                │       ReservationRepositoryTestDouble.java        -- helps tests the service, implements ReservationRepository
-                                │
+                                │     ReservationFileRepositoryTest.java            -- ReservationFileRepository tests
+                                │     ReservationRepositoryDouble.java              -- helps tests the service, implements ReservationRepository
+                                │     HostFileRepositoryTest.java
+                                │     HostRepositoryDouble.java
+                                │     GuestFileRepositoryTest.java
+                                └───  GuestRepositoryDouble.java
+                                │ 
+                                │ 
                                 └───domain
                                         ReservationServiceTest.java                 -- ReservationService tests
+                                        HostServiceTest.java
+                                        GuestServiceTest.java
 ```
 
 ## Methods Needed
@@ -134,7 +141,7 @@ ________________________________________________________________________________
 ### data/ ReservationRepository.java
 _______________________________________________________________________________________________________________________
 
-(Interface of ReservationFileRepository)
+(Interface of ReservationFileRepository) <- Same with HostFileRepository and GuestFileRepository
 
 Will have all methods as ReservationFile Repository
 
@@ -142,31 +149,35 @@ Will have all methods as ReservationFile Repository
 ### models/ Reservation.java
 _______________________________________________________________________________________________________________________
 #### Fields:
-int id,
-LocalDate start,
-LocalDate end,
-BigDecimal total,
+- int id,
+- LocalDate start,
+- LocalDate end,
+- BigDecimal total,
 
-int guestId?
 
-_Getters and setters_
+- int guestId?
+
+
+- _Getters and setters_
 
 ### models/ Host.java
 _______________________________________________________________________________________________________________________
 #### Fields:
 
-int id,
-String lastName,
-BigDecimal standardRate,
-BigDecimal weekendRate,
-String email,
+- int id,
+- String lastName,
+- BigDecimal standardRate,
+- BigDecimal weekendRate,
+- String email,
 
-int phone?
-String address?
-String city?
-String postalCode?
 
-public BigDecimal getValue() <- generates value of the room
+- int phone?
+- String address?
+- String city?
+- String postalCode?
+
+
+- public BigDecimal getValue() <- generates value of the room
 
 _Getters and setters_
 
@@ -174,15 +185,17 @@ _Getters and setters_
 _______________________________________________________________________________________________________________________
 #### Fields:
 
-int id,
-String lastName,
-String firstName,
-String email,
+- int id,
+- String lastName,
+- String firstName,
+- String email,
 
-int phone?
-String state?
 
-_Getters and setters_
+- int phone?
+- String state?
+
+
+- _Getters and setters_
 
 
 ### ui/ ConsoleIO.java
