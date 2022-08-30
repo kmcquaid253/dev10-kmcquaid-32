@@ -27,7 +27,7 @@ src
 ├───main
 │   └───java
 │   │   └───learn
-│   │        └───reservation
+│   │        └───dwmh
 │   │            │   App.java                                                                                                                 -- app entry point
 │   │            │
 │   │            ├───data
@@ -38,12 +38,13 @@ src
 │   │            │ 
 │   │            │       ReservationFileRepository.java                                                                                       -- concrete repository
 │   │            │                                   ├─── public List<Reservation> findAll()
+                                                     ├─── List<Reservation> findByHost()
 │   │            │                                   ├─── public Reservation add(Reservation toAdd)
 │   │            │                                   ├─── public boolean update(Reservation updated)
-│   │            │                                   ├─── public boolean deleteById()
+│   │            │                                   ├─── public boolean delete()
 │   │            │                                   ├─── private writeAllReservation(List<Reservationl> toWrite)                             <- Needed to add Reservation, writes the whole List
 │   │            │                                   ├─── private Reservation convertLineToReservation(String line)                           <- Needed for find all AKA deserialize
-│   │            │                                   └─── public Reservation getReservationByDates(String section, int row, int column) {}    <- This method will help with checking that 
+│   │            │                                   └─── public Reservation getReservationByDates()                                          <- This method will help with checking that 
 │   │            │                                                                                                                               there are no duplicate dates
 │   │            │       ReservationRepository.java          -- repository interface
 │   │            │
@@ -52,9 +53,9 @@ src
 │   │            │                   ├─── public Host findByEmail(String email)
 │   │            │                   └─── private Host convertLineToHost(String line)           <- Needed for findAll AKA deserialize
 │   │            │                   
-│   │            │       HostRepository.java                 -- repository interface
+│   │            │       HostRepository.java                                                    -- repository interface
 │   │            │
-│   │            │       GuestFileRepository                 -- concrete repository
+│   │            │       GuestFileRepository                                                    -- concrete repository
 │   │            │                  ├─── public List<Guest> findAll()
 │   │            │                  ├─── public Guest findByEmail(String email)
 │   │            │                  └─── private Guest convertLineToGuest(String line)          <- Needed for findAll AKA deserialize
@@ -71,18 +72,19 @@ src
 │   │            │                └─── List<String> getMessages()
 │   │            │                                          
 │   │            │       ReservationService.java                                                -- Reservation validation/rules
-│   │            │                       ├─── addReservation(Reservation partiallyHydrated)
+│   │            │                       ├─── Result <Reservation> addReservation()
+│   │            │                       ├─── Result <Reservation> update () 
 │   │            │                       ├─── validate(Reservation reservation)
 │   │            │                       ├─── validateNulls(Reservation reservation)            <- validation in order to add a reservation, goes along with addReservation()
 │   │            │                       ├─── viewByEmail(String hostEmail)                     <- in order to view a reservation you need the host email
 │   │            │                       ├─── deleteById()
-│   │            │                       └──  findByEmail()                                     <- Host of email required in order to view
+│   │            │                       └──  Result<List<Reservation>> findByHost()            <- Host of email required in order to view
 │   │            │
 │   │            │       HostService.java
-│   │            │                   └─── public List<Host> LookupByEmail (String email) 
+│   │            │                   └─── public List<Host> findByEmail (String email) 
 │   │            │                   
 │   │            │       GuestService.java
-│   │            │                └─── public List<Guest> LookupByEmail (String email) 
+│   │            │                └─── public List<Guest> findByEmail (String email) 
 │   │            │
 │   │            │
 │   │            ├───models
@@ -91,10 +93,35 @@ src
 │   │            │       Guest.java                          -- Guest model
 │   │            │
 │   │            └───ui  ConsoleIO                           -- All input methods
-│   │                    InvalidMenuChoiceException          -- Menu custom exception
-│   │                    MainMenuChoice                      -- enum representing the menu choices 
-│   │                    Controller.java                     -- UI controller
-│   │                    View.java                           -- all console input/output
+│   │                         ├─── print(String message) 
+│   │                         ├─── println(String message) 
+│   │                         ├─── readString(String prompt) 
+│   │                         ├─── readRequiredString(String prompt) 
+│   │                         ├─── readInt(String prompt) 
+│   │                         ├─── readInt(String prompt, int min, int max) 
+│   │                         ├─── readLocalDate(String prompt) 
+│   │                         └─── readBoolean(String prompt) 
+│   │
+│   │                         
+│   │                    InvalidMenuChoiceException                                                         -- Menu custom exception
+│   │                           ├─── InvalidMenuChoiceException(String message)
+│   │                           └─── InvalidMenuChoiceException(String message, Throwable innerException)
+│   │ 
+│   │                    MainMenuChoice                                                                     -- enum representing the menu choices 
+│   │
+│   │                    Controller.java                                                                    -- UI controller
+│   │                               ├─── run() 
+│   │                               └─── runMenu()
+│   │
+│   │                    View.java                                                                          -- all console input/output
+│   │                            ├─── displayMenu() 
+│   │                            ├─── displayReservationSummary() 
+│   │                            ├─── displayReservations() 
+│   │                            ├─── getNewReservationDetails() 
+│   │                            ├─── displayHeader(String message) 
+│   │                            ├─── enterToContinue() 
+│   │                            ├─── getStartDate() 
+│   │                            └─── getEndDate() 
 │   │
 │   │
 │   │
@@ -109,7 +136,7 @@ src
 └───test
         └───java
                 └───learn
-                        └───reservation
+                        └───dwmh
                                 ├───data
                                 │     ReservationFileRepositoryTest.java            -- ReservationFileRepository tests
                                 │     ReservationRepositoryDouble.java              -- helps tests the service, implements ReservationRepository
@@ -153,9 +180,8 @@ ________________________________________________________________________________
 - LocalDate start,
 - LocalDate end,
 - BigDecimal total,
-
-
-- int guestId?
+- Guest guest,
+- Host host,
 
 
 - _Getters and setters_
@@ -164,20 +190,20 @@ ________________________________________________________________________________
 _______________________________________________________________________________________________________________________
 #### Fields:
 
-- int id,
+- String id,
 - String lastName,
+- String firstName,
 - BigDecimal standardRate,
 - BigDecimal weekendRate,
 - String email,
+- String phone,
+- String address,
+- String city,
+- String stateCode,
+- String postalCode,
+- BigDecimal weekendRate,
+- BigDecimal standardRate
 
-
-- int phone?
-- String address?
-- String city?
-- String postalCode?
-
-
-- public BigDecimal getValue() <- generates value of the room
 
 _Getters and setters_
 
@@ -189,63 +215,13 @@ ________________________________________________________________________________
 - String lastName,
 - String firstName,
 - String email,
-
-
-- int phone?
-- String state?
+- String phone,
+- String stateCode
 
 
 - _Getters and setters_
 
 
-### ui/ ConsoleIO.java
-_______________________________________________________________________________________________________________________
-
-- print(String message) {}
-- println(String message) {}
-- readString(String prompt) {}
-- readRequiredString(String prompt) {}
-- readInt(String prompt) {}
-- readInt(String prompt, int min, int max) {}
-- readLocalDate(String prompt) {}
-- readBoolean(String prompt) {}
-
-
-### ui/ InvalidMenuChoiceException.java
-_______________________________________________________________________________________________________________________
-
-_Invalid menu choice exceptions_
-
-- InvalidMenuChoiceException(String message)
-- InvalidMenuChoiceException(String message, Throwable innerException){}
-
-
-### ui/ MainMenuChoice.java
-_______________________________________________________________________________________________________________________
-
-_Enum class with Menu options as values_
-
-
-### ui/ Controller.java
-_______________________________________________________________________________________________________________________
-
-- run() {}
-- Switch case with Menu Choice's
-- Methods that go along with the menu choices
-
-
-### ui/ View.java
-_______________________________________________________________________________________________________________________
-
-- displayMenu() {}
-- displayReservationSummary() {}
-- displayReservations() {}
-- getNewReservationDetails() {}
-- chooseReservation() {} <- for when editing a reservation
-- displayHeader(String message) {}
-- enterToContinue() {}
-- getStartDate() {}
-- getEndDate() {}
 
 _______________________________________________________________________________________________________________________
 
@@ -337,8 +313,3 @@ ________________________________________________________________________________
 - All file data must be represented in models in the application.
 - **Reservation identifiers are unique per host, not unique across the entire application**. Effectively, the combination
   of a reservation identifier and a host identifier is required to uniquely identify a reservation.
-
-
-
-
-
