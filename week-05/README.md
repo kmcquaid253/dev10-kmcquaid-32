@@ -38,7 +38,7 @@ src
 │   │            │ 
 │   │            │       ReservationFileRepository.java                                                                                       -- concrete repository
 │   │            │                                   ├─── public List<Reservation> findAll()
-                                                     ├─── List<Reservation> findByHost()
+│   │            │                                   ├─── List<Reservation> findByHost()
 │   │            │                                   ├─── public Reservation add(Reservation toAdd)
 │   │            │                                   ├─── public boolean update(Reservation updated)
 │   │            │                                   ├─── public boolean delete()
