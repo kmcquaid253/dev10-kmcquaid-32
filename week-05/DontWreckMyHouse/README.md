@@ -88,11 +88,12 @@ src
 │   │            │
 │   │            │
 │   │            ├───models
-│   │            │       Reservation.java                    -- reservation model
-│   │            │       Host.java                           -- Host model
-│   │            │       Guest.java                          -- Guest model
+│   │            │       Reservation.java                         -- reservation model
+│   │            │       Host.java                                -- Host model
+│   │            │       Guest.java                               -- Guest model
 │   │            │
-│   │            └───ui  ConsoleIO                           -- All input methods
+│   │            └───ui  
+│   │                  ConsoleIO.java                             -- All input methods
 │   │                         ├─── print(String message) 
 │   │                         ├─── println(String message) 
 │   │                         ├─── readString(String prompt) 
