@@ -1,5 +1,7 @@
 package learn.dwmh.ui;
 
+import learn.dwmh.models.Reservation;
+
 import java.util.List;
 
 public class View {
@@ -50,6 +52,26 @@ public class View {
     public void displayException(Exception ex) {
         displayHeader("A critical error occurred:");
         io.println(ex.getMessage());
+    }
+
+    public String getHostEmail() {
+        return io.readRequiredString("Host Email: ");
+    }
+
+    public void displayReservations(List<Reservation> reservations) {
+        if (reservations == null || reservations.isEmpty()) {
+            io.println("No forages found.");
+            return;
+        }
+        for (Reservation forage : reservations) {
+            io.printf("%s %s - %s:%s - Value: $%.2f%n",
+                    forage.getForager().getFirstName(),
+                    forage.getForager().getLastName(),
+                    forage.getItem().getName(),
+                    forage.getItem().getCategory(),
+                    forage.getValue()
+            );
+        }
     }
 
 

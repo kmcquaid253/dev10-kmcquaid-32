@@ -202,8 +202,6 @@ ________________________________________________________________________________
 - String city,
 - String stateCode,
 - String postalCode,
-- BigDecimal weekendRate,
-- BigDecimal standardRate
 
 
 _Getters and setters_
