@@ -27,7 +27,7 @@ src
 ├───main
 │   └───java
 │   │   └───learn
-│   │        └───solar
+│   │        └───reservation
 │   │            │   App.java                                                                                                                 -- app entry point
 │   │            │
 │   │            ├───data
@@ -109,7 +109,7 @@ src
 └───test
         └───java
                 └───learn
-                        └───solar
+                        └───reservation
                                 ├───data
                                 │     ReservationFileRepositoryTest.java            -- ReservationFileRepository tests
                                 │     ReservationRepositoryDouble.java              -- helps tests the service, implements ReservationRepository
