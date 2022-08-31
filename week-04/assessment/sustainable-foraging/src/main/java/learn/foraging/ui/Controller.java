@@ -12,6 +12,7 @@ import learn.foraging.models.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -76,8 +77,7 @@ public class  Controller {
                     kilogramsReport();
                     break;
                 case REPORT_CATEGORY_VALUE:
-                    view.displayStatus(false, "NOT IMPLEMENTED");
-                    view.enterToContinue();
+                    categoryValueReport();
                     break;
                 case VIEW_FORAGERS:
                     viewForagers();
@@ -89,29 +89,20 @@ public class  Controller {
         } while (option != MainMenuOption.EXIT);
     }
 
+    private void categoryValueReport() {
+        view.displayHeader(MainMenuOption.REPORT_CATEGORY_VALUE.getMessage());
+        LocalDate theeDay = view.getForageDate();
+
+        Map<Category, BigDecimal> report = forageService.createValueForCategory(theeDay);
+        view.displayCat(report);
+    }
+
     private void kilogramsReport() {
         view.displayHeader(MainMenuOption.REPORT_KG_PER_ITEM.getMessage());
+        //Ask user for report data
         LocalDate date = view.getForageDate();
-        List<Forage> forages = forageService.findByDate(date);
-
-//        //Create a report that displays the kilograms of each Item collected on one day.
-//        // 12. Stream rows from CSV file, store fields in HashMap
-//        Stream<String> rows = "./data/forage_data".lines();
-//        Map<String, Double> map = new HashMap<>();
-//        map = rows
-//                .map(x -> x.split(","))
-//                .filter(x -> )
-//                .filter(x -> Integer.parseInt(x[1]) > 15)
-//                .collect(Collectors.toMap(//has two lambda functions
-//                        x -> x[0],//recieves row array and returns first item
-//                        x -> Integer.parseInt(x[1])));//parses out the first item in that row array
-//        rows.close();
-//        for (String key : map.keySet()) {
-//            System.out.println(key + "  " + map.get(key));
-//        }
-//        //prints out 2 items, <key,value>
-
-
+        Map<String,Double> report = forageService.createKgPerItem(date);
+        view.displayKgReport(report);
     }
 
     // top level menu

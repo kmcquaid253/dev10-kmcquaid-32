@@ -4,16 +4,15 @@ import learn.foraging.data.DataException;
 import learn.foraging.data.ForageRepository;
 import learn.foraging.data.ForagerRepository;
 import learn.foraging.data.ItemRepository;
+import learn.foraging.models.Category;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -156,5 +155,58 @@ public class ForageService {
         if (itemRepository.findById(forage.getItem().getId()) == null) {
             result.addErrorMessage("Item does not exist.");
         }
+    }
+
+    public Map<String, Double> createKgPerItem(LocalDate date) {
+        List<Forage> dailyForages = findByDate(date);
+        Map<String, Double> report = dailyForages.stream()
+                .collect(Collectors.groupingBy(
+                        f -> f.getItem().getName(), //telling how to build keys for map
+                        Collectors.summingDouble(f -> f.getKilograms())));//telling how to build a single double
+
+        return report;
+    }
+
+    public Map<Category, BigDecimal> createValueForCategory(LocalDate theeDay) {
+        List<Forage> fromTheDay = findByDate(theeDay);
+        BigDecimal medicinal = BigDecimal.ZERO;
+        BigDecimal edible = BigDecimal.ZERO;
+        BigDecimal inedible = BigDecimal.ZERO;
+        BigDecimal poisonous = BigDecimal.ZERO;
+
+        for(Forage forage : fromTheDay){
+            BigDecimal value = calculateValue(forage);
+
+            switch (forage.getItem().getCategory()){
+                case MEDICINAL:
+                    medicinal = medicinal.add(value);
+                    break;
+                case EDIBLE:
+                    edible = edible.add(value);
+                    break;
+                case INEDIBLE:
+                    inedible = inedible.add(value);
+                    break;
+                case POISONOUS:
+                    poisonous = poisonous.add(value);
+                    break;
+            }
+        }
+        Map<Category, BigDecimal> report = new HashMap<>();
+        report.put(Category.EDIBLE, edible);
+        report.put(Category.INEDIBLE, inedible);
+        report.put(Category.MEDICINAL, medicinal);
+        report.put(Category.POISONOUS, poisonous);
+
+        return report;
+    }
+
+    private BigDecimal calculateValue(Forage forage) {
+        BigDecimal pricePer = forage.getItem().getDollarPerKilogram();
+        Double totalKilo = forage.getKilograms();
+        BigDecimal convertedNum = BigDecimal.valueOf(totalKilo);
+        BigDecimal totalPrice = pricePer.multiply(convertedNum);
+
+        return totalPrice;
     }
 }

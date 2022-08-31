@@ -7,8 +7,10 @@ import learn.foraging.models.Item;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -229,5 +231,21 @@ public class View {
                     foragers.getLastName(),
                     foragers.getState()
             );
+    }
+
+    public void displayKgReport(Map<String, Double> report) {
+        for(String itemName : report.keySet()){
+            Double totalKg = report.get(itemName);
+            String line = itemName + " " + totalKg;//flip report
+            io.println(line);
+        }
+    }
+
+    public void displayCat(Map<Category, BigDecimal> report) {
+        for(Category itemCat : report.keySet()){
+            BigDecimal totalVal = report.get(itemCat).setScale(2, RoundingMode.HALF_UP);
+            String line = itemCat + " $" + totalVal;
+            io.println(line);
+        }
     }
 }
