@@ -60,16 +60,26 @@ public class View {
 
     public void displayReservations(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
-            io.println("No forages found.");
+            io.println("No reservations found.");
             return;
         }
-        for (Reservation forage : reservations) {
-            io.printf("%s %s - %s:%s - Value: $%.2f%n",
-                    forage.getForager().getFirstName(),
-                    forage.getForager().getLastName(),
-                    forage.getItem().getName(),
-                    forage.getItem().getCategory(),
-                    forage.getValue()
+        for (Reservation reservation : reservations) {
+
+            /*
+                    private int id;
+                    private LocalDate start;
+                    private LocalDate end;
+                    private BigDecimal total;
+                    private Guest guest;
+                    private Host host;
+             */
+            io.printf("%s , %s - %s Guest: %s, %s,  Email: %s",
+                    reservation.getGuest().getId(),
+                    reservation.getStart(),
+                    reservation.getEnd(),
+                    reservation.getGuest().getLastName(),
+                    reservation.getGuest().getFirstName(),
+                    reservation.getGuest().getEmail()
             );
         }
     }

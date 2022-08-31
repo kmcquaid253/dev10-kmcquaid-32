@@ -2,19 +2,22 @@ package learn.dwmh.ui;
 
 import learn.dwmh.data.DataException;
 import learn.dwmh.domain.HostService;
+import learn.dwmh.domain.ReservationService;
 import learn.dwmh.models.Host;
+import learn.dwmh.models.Reservation;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class Controller {
-
-    private final HostService hostService;
     private final View view;
+    private final HostService hostService;
+    private final ReservationService reservationService;
 
-    public Controller(View view, HostService hostService) {
-        this.hostService = hostService;
+    public Controller(View view, HostService hostService, ReservationService reservationService) {
         this.view = view;
+        this.hostService = hostService;
+        this.reservationService = reservationService;
     }
 
     public void run() {
@@ -51,14 +54,13 @@ public class Controller {
         } while (option != MainMenuChoice.EXIT);
     }
 
-    private void viewReservationsForHost() {
-        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
-        String host = view.getHostEmail();
-        List<Host> hostEmail = hostService.findByEmail(host);
+    private void viewReservationsForHost() throws DataException {
+//        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
+//        String hostEmail = view.getHostEmail();
+//        //esadliero@boston.com
+//        List<Reservation> reservations = reservationService.findByHost(hostEmail);
+//        view.displayReservations(reservations);
+//        view.enterToContinue();
 
-        view.displayHeader("Hosts Reservation");
-
-//          fori = view.(foragersName);
-//        view.displayForagers(fori);
     }
 }

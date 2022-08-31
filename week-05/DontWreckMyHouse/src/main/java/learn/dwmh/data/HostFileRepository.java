@@ -1,5 +1,6 @@
 package learn.dwmh.data;
 
+import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 
 import java.io.BufferedReader;
@@ -8,7 +9,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HostFileRepository implements HostRepository{
 
@@ -19,10 +19,11 @@ public class HostFileRepository implements HostRepository{
     }
 
     @Override
-    public List<Host> findByEmail(String email) {
+    public Host findByEmail(String email) {
         return findAll().stream()
                 .filter(i -> i.getEmail().equalsIgnoreCase(email))
-                .collect(Collectors.toList());
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class HostFileRepository implements HostRepository{
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 
                 String[] fields = line.split(",", -1);
-                if (fields.length == 4) {
+                if (fields.length == 10) {
                     result.add(deserialize(fields));
                 }
             }
@@ -50,34 +51,29 @@ public class HostFileRepository implements HostRepository{
         /*
                 private String id;
                 private String lastName;
-                private String firstName;
-
-                private BigDecimal standardRate;
-                private BigDecimal weekendRate;
-
                 private String email;
                 private String phone;
                 private String address;
                 private String city;
                 private String stateCode;
                 private String postalCode;
+                private BigDecimal standardRate;
+                private BigDecimal weekendRate;
+
          */
 
         Host result = new Host();
 
         result.setId(fields[0]);
         result.setLastName(fields[1]);
-        result.setFirstName(fields[2]);
-
-        result.setStandardRate(BigDecimal.valueOf(Long.parseLong(fields[3])));
-        result.setWeekendRate(BigDecimal.valueOf(Long.parseLong(fields[4])));
-
-        result.setEmail(fields[5]);
-        result.setPhone(fields[6]);
-        result.setAddress(fields[7]);
-        result.setCity(fields[8]);
-        result.setStateCode(fields[9]);
-        result.setPostalCode(fields[10]);
+        result.setEmail(fields[2]);
+        result.setPhone(fields[3]);
+        result.setAddress(fields[4]);
+        result.setCity(fields[5]);
+        result.setStateCode(fields[6]);
+        result.setPostalCode(fields[7]);
+        result.setStandardRate( new BigDecimal(fields[8]));
+        result.setWeekendRate( new BigDecimal(fields[9]));
 
         return result;
     }
