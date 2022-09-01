@@ -87,15 +87,18 @@ public class ForageFileRepository implements ForageRepository {
     }
 
     @Override
-    public Forage getForageByLocation(LocalDate date, Forager forager, Item item) {//////////////////////////////////////////
-        for(Forage forage : findAll(date)){
-            if(forage.getDate() == date && forage.getForager().equals(forager) && forage.getItem().equals(item)){
+    public Forage getForageByLocation(LocalDate date, String forager, int item) {//////////////////////////////////////////
+        for(Forage forage : findByDate(date)){
+            if(forage.getDate().equals(date) &&
+                    forage.getForager().getId().equals(forager) &&
+                    forage.getItem().getId() == item){
                 return forage;
             }
         }
 
         return null;
     }
+
     private String getFilePath(LocalDate date) {
         return Paths.get(directory, date + ".csv").toString();
     }

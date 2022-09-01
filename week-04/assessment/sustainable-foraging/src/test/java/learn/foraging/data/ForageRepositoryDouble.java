@@ -45,12 +45,12 @@ public class ForageRepositoryDouble implements ForageRepository {
     }
 
     @Override
-    public List<Forage> findAll(LocalDate date) {///////////////////////////////////////////////////////////////////////
+    public List<Forage> findAll(LocalDate date) {
         return null;
     }
 
     @Override
-    public Forage getForageByLocation(LocalDate date, Forager forager, Item item) {///////////////////////////////////////
+    public Forage getForageByLocation(LocalDate date, String forager, int item) {
         return null;
     }
 }

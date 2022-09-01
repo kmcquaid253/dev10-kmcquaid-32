@@ -113,10 +113,10 @@ public class ForageService {
             return result;
         }
 
-        Forage existingForage = forageRepository.getForageByLocation(forage.getDate(), forage.getForager(), forage.getItem());///////////////////////////////////////////////////////////////////////
+        Forage existingPanel = forageRepository.getForageByLocation(forage.getDate(), forage.getForager().getId(), forage.getItem().getId());
 
-        if(existingForage != null){/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            result.addErrorMessage("Cannot add duplicate Foragers");
+        if(existingPanel != null){
+            result.addErrorMessage("[ERROR] Cannot add duplicate Foragers");
             return result;
         }
 
