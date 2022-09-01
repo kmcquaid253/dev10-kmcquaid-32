@@ -106,7 +106,6 @@ public class  Controller {
         LocalDate date = view.getForageDate();
         List<Forage> forages = forageService.findByDate(date);
         view.displayForages(forages);
-        view.enterToContinue();
     }
 
     private void viewItems() {

@@ -236,7 +236,7 @@ public class View {
     public void displayKgReport(Map<String, Double> report) {
         for(String itemName : report.keySet()){
             Double totalKg = report.get(itemName);
-            String line = itemName + " " + totalKg;//flip report
+            String line = itemName + " " + totalKg;
             io.println(line);
         }
     }
