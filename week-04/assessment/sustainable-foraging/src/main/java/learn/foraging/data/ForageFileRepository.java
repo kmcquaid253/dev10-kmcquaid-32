@@ -67,7 +67,7 @@ public class ForageFileRepository implements ForageRepository {
     }
 
     @Override
-    public List<Forage> findAll(LocalDate date) {///////////////////////////////////////////////////////////////////////////
+    public List<Forage> findAll(LocalDate date) {
         ArrayList<Forage> result = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(directory))) {
 
@@ -87,7 +87,7 @@ public class ForageFileRepository implements ForageRepository {
     }
 
     @Override
-    public Forage getForageByLocation(LocalDate date, String forager, int item) {//////////////////////////////////////////
+    public Forage getForageByLocation(LocalDate date, String forager, int item) {
         for(Forage forage : findByDate(date)){
             if(forage.getDate().equals(date) &&
                     forage.getForager().getId().equals(forager) &&

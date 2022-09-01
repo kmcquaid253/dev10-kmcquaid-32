@@ -23,7 +23,7 @@ public class ForagerFileRepository implements ForagerRepository {
     }
 
     @Override
-    public Forager add(Forager forager) throws DataException {///////////////////////////////////////////////////////////
+    public Forager add(Forager forager) throws DataException {
         List<Forager> all = findAll();
         forager.setId(java.util.UUID.randomUUID().toString());
         all.add(forager);
@@ -77,7 +77,7 @@ public class ForagerFileRepository implements ForagerRepository {
     }
 
     private void writeAll(List<Forager> all) throws DataException{
-        try (PrintWriter writer = new PrintWriter(getFilePath())) {//////////////////////////////////////////////////////
+        try (PrintWriter writer = new PrintWriter(getFilePath())) {
 
             writer.println(HEADER);
 
@@ -89,7 +89,7 @@ public class ForagerFileRepository implements ForagerRepository {
         }
     }
 
-    private String serialize(Forager item) {/////////////////////////////////////////////////////////////////////////////
+    private String serialize(Forager item) {
         return String.format("%s,%s,%s,%s",
                 item.getId(),
                 item.getFirstName(),
@@ -99,7 +99,7 @@ public class ForagerFileRepository implements ForagerRepository {
 
     private String getFilePath() {
         return Paths.get(filePath).toString();
-    }///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
     
     private Forager deserialize(String[] fields) {
         Forager result = new Forager();

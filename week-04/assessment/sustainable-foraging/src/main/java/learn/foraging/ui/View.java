@@ -34,11 +34,11 @@ public class View {
             max = Math.max(max, option.getValue());
         }
 
-        String message = String.format("Select [%s-%s]: ", min, max - 1);
+        String message = String.format("Select [%s-%s]: ", min, max);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
     }
 
-    public Forager getNewForagerDetails() {//////////////////////////////////////////////////////////////////////////////////
+    public Forager getNewForagerDetails() {
         /*
             private String id;
             private String firstName;

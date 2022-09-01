@@ -30,7 +30,7 @@ public class ForagerService {
                 .collect(Collectors.toList());
     }
 
-    public Result<Forager> add(Forager forager) throws DataException {///////////////////////////////////////////////////
+    public Result<Forager> add(Forager forager) throws DataException {
         Result<Forager> result = validate(forager);
 
         if (!result.isSuccess()) {
@@ -42,7 +42,7 @@ public class ForagerService {
         return result;
     }
 
-    private Result<Forager> validate(Forager forager) {//////////////////////////////////////////////////////////////////
+    private Result<Forager> validate(Forager forager) {
 
         Result<Forager> result = validateNulls(forager);
 
@@ -54,7 +54,7 @@ public class ForagerService {
         return result;
     }
 
-    private Result<Forager> validateNulls(Forager forager) {/////////////////////////////////////////////////////////////
+    private Result<Forager> validateNulls(Forager forager) {
         Result<Forager> result = new Result<>();
 
         if (forager == null) {
@@ -62,7 +62,7 @@ public class ForagerService {
             return result;
         }
 
-        Forager existingPanel = repository.getForagerByLocation(forager.getFirstName(), forager.getLastName(), forager.getState());///////////////////////////////////////////////////////////////////////
+        Forager existingPanel = repository.getForagerByLocation(forager.getFirstName(), forager.getLastName(), forager.getState());
 
         if(existingPanel != null){
             result.addErrorMessage("Cannot add duplicate Foragers");

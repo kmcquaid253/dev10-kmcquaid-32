@@ -87,9 +87,9 @@ public class  Controller {
 
     private void categoryValueReport() {
         view.displayHeader(MainMenuOption.REPORT_CATEGORY_VALUE.getMessage());
-        LocalDate theeDay = view.getForageDate();
+        LocalDate date = view.getForageDate();
 
-        Map<Category, BigDecimal> report = forageService.createValueForCategory(theeDay);
+        Map<Category, BigDecimal> report = forageService.createValueForCategory(date);
         view.displayCat(report);
     }
 
@@ -148,7 +148,7 @@ public class  Controller {
         }
     }
 
-    private void addForager() throws DataException {//////////////////////////////////////////////////////////////////////////////////////////
+    private void addForager() throws DataException {
         view.displayHeader(MainMenuOption.ADD_FORAGER.getMessage());
         Forager partiallyHydrated = view.getNewForagerDetails();
         Result fullyHydrated = foragerService.add(partiallyHydrated);

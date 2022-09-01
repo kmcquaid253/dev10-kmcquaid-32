@@ -5,7 +5,7 @@ import learn.foraging.models.Forager;
 import java.util.List;
 
 public interface ForagerRepository {
-    Forager getForagerByLocation(String firstName, String lastName, String state);////////////////////////////////////////
+    Forager getForagerByLocation(String firstName, String lastName, String state);
 
     Forager findById(String id);
 

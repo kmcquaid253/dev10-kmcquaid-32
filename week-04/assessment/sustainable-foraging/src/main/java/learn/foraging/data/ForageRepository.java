@@ -14,7 +14,7 @@ public interface ForageRepository {
 
     boolean update(Forage forage) throws DataException;
 
-    List<Forage> findAll(LocalDate date);////////////////////////////////////////////////////////////////////////////////
+    List<Forage> findAll(LocalDate date);
 
-    Forage getForageByLocation(LocalDate date, String forager, int item);//////////////////////////////////////////////
+    Forage getForageByLocation(LocalDate date, String forager, int item);
 }

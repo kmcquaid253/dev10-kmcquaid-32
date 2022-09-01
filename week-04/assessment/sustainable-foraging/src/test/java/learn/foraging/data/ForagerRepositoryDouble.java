@@ -65,7 +65,6 @@ public class ForagerRepositoryDouble implements ForagerRepository {
         }
 
         return toReturn;
-        //return new ArrayList<>(foragers);
     }
 
     @Override
