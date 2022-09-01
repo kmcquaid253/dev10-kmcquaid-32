@@ -23,7 +23,7 @@ class ForageServiceTest {
             new ItemRepositoryDouble());
 
     @Test
-    void shouldAdd() throws DataException {
+    void shouldNotAdd() throws DataException {
         Forage forage = new Forage();
         forage.setDate(LocalDate.now());
         forage.setForager(ForagerRepositoryDouble.FORAGER);
@@ -31,9 +31,7 @@ class ForageServiceTest {
         forage.setKilograms(0.5);
 
         Result<Forage> result = service.add(forage);
-        assertTrue(result.isSuccess());
-        assertNotNull(result.getPayload());
-        assertEquals(36, result.getPayload().getId().length());
+        assertFalse(result.isSuccess());
     }
 
     @Test

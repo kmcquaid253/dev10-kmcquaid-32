@@ -1,5 +1,6 @@
 package learn.foraging.data;
 
+import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 
 import java.util.ArrayList;
@@ -13,7 +14,26 @@ public class ForagerRepositoryDouble implements ForagerRepository {
     private final ArrayList<Forager> foragers = new ArrayList<>();
 
     public ForagerRepositoryDouble() {
-        foragers.add(FORAGER);
+
+            Forager forager = new Forager();
+
+            forager.setId("498604db-b6d6-4599-a503-3d8190fda823");
+            forager.setFirstName("Mark");
+            forager.setLastName("Cuban");
+            forager.setState("WI");
+
+            foragers.add(forager);
+            foragers.add(FORAGER);
+    }
+
+    @Override
+    public Forager getForagerByLocation(String firstName, String lastName, String state) {
+        for (Forager forager : foragers) {
+            if (forager.getFirstName().equals(firstName) && forager.getLastName().equals(lastName) && forager.getState().equals(state)) {
+                return forager;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -25,8 +45,26 @@ public class ForagerRepositoryDouble implements ForagerRepository {
     }
 
     @Override
+    public Forager add(Forager forager) throws DataException {
+        foragers.add(forager);
+        return forager;
+    }
+
+    @Override
     public List<Forager> findAll() {
-        return foragers;
+        //we return a copy of the list
+        //filled with copies of each element
+        //so that way we're not simulating writing to the file
+        //by call List.add() or by calling the setters
+        //on the objects
+
+        List<Forager> toReturn = new ArrayList<>();
+
+        for( Forager toCopy : foragers ){
+            toReturn.add( toCopy );
+        }
+
+        return toReturn;
     }
 
     @Override
@@ -38,6 +76,7 @@ public class ForagerRepositoryDouble implements ForagerRepository {
 
     private static Forager makeForager() {
         Forager forager = new Forager();
+
         forager.setId("0e4707f4-407e-4ec9-9665-baca0aabe88c");
         forager.setFirstName("Jilly");
         forager.setLastName("Sisse");

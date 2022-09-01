@@ -59,5 +59,4 @@ public class Forage {
         BigDecimal kilos = new BigDecimal(kilograms).setScale(4, RoundingMode.HALF_UP);
         return item.getDollarPerKilogram().multiply(kilos);
     }
-
 }
