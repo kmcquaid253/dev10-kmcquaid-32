@@ -34,8 +34,8 @@ public class ForageFileRepository implements ForageRepository {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 
                 String[] fields = line.split(",", -1);
-                if (fields.length == 4) {
-                    result.add(deserialize(fields, date));
+                if (fields.length == 5) {
+                    result.add(deserialize(fields));
                 }
             }
         } catch (IOException ex) {
@@ -76,8 +76,8 @@ public class ForageFileRepository implements ForageRepository {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 
                 String[] fields = line.split(",", -1);
-                if (fields.length == 4) {
-                    result.add(deserialize(fields, date));
+                if (fields.length == 5) {
+                    result.add(deserialize(fields));
                 }
             }
         } catch (IOException ex) {
@@ -89,7 +89,7 @@ public class ForageFileRepository implements ForageRepository {
     @Override
     public Forage getForageByLocation(LocalDate date, Forager forager, Item item) {//////////////////////////////////////////
         for(Forage forage : findAll(date)){
-            if(forage.getDate().equals(date) && forage.getForager().equals(forager) && forage.getItem().equals(item)){
+            if(forage.getDate() == date && forage.getForager().equals(forager) && forage.getItem().equals(item)){
                 return forage;
             }
         }
@@ -121,10 +121,10 @@ public class ForageFileRepository implements ForageRepository {
                 item.getKilograms());
     }
 
-    private Forage deserialize(String[] fields, LocalDate date) {
+    private Forage deserialize(String[] fields) {
         Forage result = new Forage();
         result.setId(fields[0]);
-        result.setDate(date);
+        result.setDate(LocalDate.parse(fields[4]));
         result.setKilograms(Double.parseDouble(fields[3]));
 
         Forager forager = new Forager();

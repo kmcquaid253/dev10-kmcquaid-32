@@ -25,13 +25,9 @@ import java.util.stream.Stream;
 @Component
 public class  Controller {
 
-    @Autowired // direct field injection
+
     private final ForagerService foragerService;
-
-    @Autowired // direct field injection
     private final ForageService forageService;
-
-    @Autowired // direct field injection
     private final ItemService itemService;
     private final View view;
 
