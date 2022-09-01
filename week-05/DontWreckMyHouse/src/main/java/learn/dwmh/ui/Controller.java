@@ -3,6 +3,7 @@ package learn.dwmh.ui;
 import learn.dwmh.data.DataException;
 import learn.dwmh.domain.HostService;
 import learn.dwmh.domain.ReservationService;
+import learn.dwmh.domain.Result;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 
@@ -36,7 +37,7 @@ public class Controller {
             option = view.selectMainMenuOption();
             switch (option) {
                 case VIEW_RESERVATION_FOR_HOST:
-                    viewReservationsForHost();
+                    viewByHost();
                     break;
                 case MAKE_A_RESERVATION:
                     view.displayStatus(false, "NOT IMPLEMENTED: ADD");
@@ -54,13 +55,16 @@ public class Controller {
         } while (option != MainMenuChoice.EXIT);
     }
 
-    private void viewReservationsForHost() throws DataException {
-//        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
-//        String hostEmail = view.getHostEmail();
+    private void viewByHost() throws DataException {
+        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
+
+//        Host email  = view.getHostEmail();
+//        Result<List<Reservation>> reservations = reservationService.findByHost(email);
 //        //esadliero@boston.com
-//        List<Reservation> reservations = reservationService.findByHost(hostEmail);
-//        view.displayReservations(reservations);
-//        view.enterToContinue();
+
+//        Host email = view.getByHost();
+//        Result<List<Reservation>> reservations = reservationService.findByHost(email);
+
 
     }
 }

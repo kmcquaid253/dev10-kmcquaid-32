@@ -9,8 +9,11 @@ public interface ReservationRepository {
 
 
     List<Reservation> findByHost(Host host);
-    Reservation add(Reservation reservation);
-    boolean update(Reservation reservation);
+    public Reservation add(Reservation toAdd);
+
+    List<Reservation> findAll();
+
+    boolean update(Reservation updated) throws DataException;
     boolean delete(Host host, int id);
 
 }

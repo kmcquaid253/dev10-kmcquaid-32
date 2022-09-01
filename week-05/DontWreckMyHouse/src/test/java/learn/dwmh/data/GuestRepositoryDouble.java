@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class GuestRepositoryDouble implements GuestRepository {
 
-    private final ArrayList<Guest> guests = new ArrayList<>();
+    private final List<Guest> guests = new ArrayList<>();
 
     public GuestRepositoryDouble() {
 
@@ -30,14 +30,27 @@ public class GuestRepositoryDouble implements GuestRepository {
         guest.setPhone("909-324-9475");
         guest.setStateCode("53215");
 
+        Guest guestTwo = new Guest();
+
+        guestTwo.setId(1);
+        guestTwo.setLastName("Snow");
+        guestTwo.setFirstName("Jon");
+        guestTwo.setEmail("jjsnow@whatsapp.com");
+        guestTwo.setPhone("262-578-9056");
+        guestTwo.setStateCode("09364");
+
 
         guests.add(guest);
+        guests.add(guestTwo);
     }
 
 
     @Override
     public Guest findByEmail(String email) {
-        return null;
+        return guests.stream()
+                .filter(i -> i.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -49,7 +62,6 @@ public class GuestRepositoryDouble implements GuestRepository {
         }
 
         return toReturn;
-        //return new ArrayList<>(foragers);
     }
 
     public Guest add(Guest guest) {

@@ -1,5 +1,6 @@
 package learn.dwmh.ui;
 
+import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 
 import java.util.List;
@@ -54,9 +55,9 @@ public class View {
         io.println(ex.getMessage());
     }
 
-    public String getHostEmail() {
-        return io.readRequiredString("Host Email: ");
-    }
+//    public Host getByHost() {
+//        return io.readRequiredString("Host Email: ");
+//    }
 
     public void displayReservations(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
@@ -85,4 +86,8 @@ public class View {
     }
 
 
+//    public Host getHostEmail() {
+//
+//        return io.readRequiredString("Host Email: ");
+//    }
 }
