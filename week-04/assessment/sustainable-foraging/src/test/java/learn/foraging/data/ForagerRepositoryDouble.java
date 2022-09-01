@@ -23,10 +23,16 @@ public class ForagerRepositoryDouble implements ForagerRepository {
             forager.setState("WI");
 
             foragers.add(forager);
+            foragers.add(FORAGER);
     }
 
     @Override
     public Forager getForagerByLocation(String firstName, String lastName, String state) {
+        for (Forager forager : foragers) {
+            if (forager.getFirstName().equals(firstName) && forager.getLastName().equals(lastName) && forager.getState().equals(state)) {
+                return forager;
+            }
+        }
         return null;
     }
 

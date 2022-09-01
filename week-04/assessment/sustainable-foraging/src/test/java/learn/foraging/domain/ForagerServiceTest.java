@@ -104,4 +104,17 @@ public class ForagerServiceTest {
         Result result = service.add(forager);
         assertFalse(result.isSuccess());
     }
+
+    @Test
+    void ShouldNotAddDuplicateForager() throws DataException{
+        Forager forager = new Forager();
+
+        forager.setId("03847362-b6d6-4599-a503-3d8190fda823");
+        forager.setFirstName("Mark");
+        forager.setLastName("Cuban");
+        forager.setState("WI");
+
+        Result result = service.add(forager);
+        assertFalse(result.isSuccess());
+    }
 }

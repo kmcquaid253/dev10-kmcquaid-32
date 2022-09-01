@@ -33,6 +33,14 @@ public class ItemService {
             return result;
         }
 
+        if(item.getCategory().equals(Category.INEDIBLE) || item.getCategory().equals(Category.POISONOUS)) {
+
+            item.getDollarPerKilogram().equals(BigDecimal.ZERO);
+            result.addErrorMessage("%/Kg must be 0.00.");
+            return result;
+        }
+
+
         if (item.getName() == null || item.getName().isBlank()) {
             result.addErrorMessage("Item name is required.");
         } else if (repository.findAll().stream()
