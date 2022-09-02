@@ -23,40 +23,18 @@ public class ReservationFileRepository implements ReservationRepository{
         this.directory = directory;
     }
 
-
-
-    @Override
-    public List<Reservation> findAll() {
-        ArrayList<Reservation> result = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(directory))) {
-
-            reader.readLine(); // read header
-
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-
-                String[] fields = line.split(",", -1);
-                if (fields.length == 6) {
-                    result.add(deserialize(fields));
-                }
-            }
-        } catch (IOException ex) {
-            // don't throw on read
-        }
-        return result;
-    }
-
     public boolean update(Reservation updated) throws DataException {
 
         boolean found = false;
 
-        List<Reservation> allReservations = findAll();
+        List<Reservation> allReservations = findByHost(updated.getHost());
 
         for (int i = 0; i < allReservations.size(); i++) {
-            if (allReservations.get(i).getHost().getEmail().equals(updated.getHost().getEmail()) &&
-                    allReservations.get(i).getGuest().getEmail().equals(updated.getGuest().getEmail())) {
+            if (
+                    allReservations.get(i).getId() == updated.getId()){
                 allReservations.set(i, updated);
                 found = true;
-                writeAll(allReservations);
+                writeAll(allReservations, updated.getHost().getId());
                 break;
             }
         }
@@ -64,8 +42,10 @@ public class ReservationFileRepository implements ReservationRepository{
     }
 
     //Needed to update reservation, writes the whole List
-    private void writeAll(List<Reservation> reservations) throws DataException {
-        try( PrintWriter writer = new PrintWriter(new FileWriter(directory))){
+    private void writeAll(List<Reservation> reservations, String hostId) throws DataException {
+        Path filepath = Paths.get(directory, hostId + ".csv");
+        String path = filepath.toString();
+        try( PrintWriter writer = new PrintWriter(new FileWriter(path))){
 
             writer.println(HEADER);
 
@@ -138,13 +118,46 @@ public class ReservationFileRepository implements ReservationRepository{
     }
 
     @Override
-    public Reservation add(Reservation toAdd) {
-        return null;
+    public Reservation add(Reservation toAdd) throws DataException {
+        List<Reservation> currentReservations = findByHost(toAdd.getHost());//gets all existing reservations by host
+
+        int maxId = 0;
+        for( Reservation currentReservation : currentReservations ){
+            if( currentReservation.getId() > maxId ){//loop through to find the max id
+                maxId = currentReservation.getId();
+            }
+        }
+
+        int newId = maxId + 1;//add one to the new id
+
+        //set the id in toAdd
+        toAdd.setId( newId );
+
+        currentReservations.add( toAdd );//add reservation to list
+
+        //  write the whole list
+        writeAll( currentReservations, toAdd.getHost().getId());
+
+        //return the hydrated Reservation object
+        return toAdd;
     }
+
 
 
     @Override
-    public boolean delete(Host host, int id) {
-        return false;
+    public boolean delete(Host hostId, int id) throws DataException {
+        List<Reservation> reservation = findByHost(hostId);
+        for (int i = 0; i < reservation.size(); i++){
+            if (reservation.get(i).getHost().getId().equals(hostId) &&
+                    reservation.get(i).getId() == id)
+            {
+                reservation.remove(i);
+                writeAll(reservation, hostId.getId());
+                return true;
+            }
+        }
+       return false;
     }
+
+
 }

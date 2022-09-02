@@ -1,5 +1,6 @@
 package learn.dwmh;
 
+import learn.dwmh.data.GuestFileRepository;
 import learn.dwmh.data.HostFileRepository;
 import learn.dwmh.data.ReservationFileRepository;
 import learn.dwmh.domain.ReservationService;
@@ -16,10 +17,15 @@ public class App {
         HostFileRepository hostFileRepository = new HostFileRepository("./data/hosts.csv");
         HostService hostService = new HostService(hostFileRepository);
 
+        GuestFileRepository guestFileRepository = new GuestFileRepository("./data/guests.csv");
+        HostService guestService = new HostService(hostFileRepository);
+
         ReservationFileRepository reservationFileRepository = new ReservationFileRepository("./data/reservations");
-        ReservationService reservationService = new ReservationService(reservationFileRepository, hostFileRepository);
+        ReservationService reservationService = new ReservationService(reservationFileRepository, hostFileRepository, guestFileRepository);
 
         Controller controller = new Controller(view, hostService,  reservationService);
         controller.run();
+
+
     }
 }

@@ -58,13 +58,10 @@ public class Controller {
     private void viewByHost() throws DataException {
         view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
 
-//        Host email  = view.getHostEmail();
-//        Result<List<Reservation>> reservations = reservationService.findByHost(email);
-//        //esadliero@boston.com
+        String email  = view.getHostEmail();
 
-//        Host email = view.getByHost();
-//        Result<List<Reservation>> reservations = reservationService.findByHost(email);
-
-
-    }
+        Result<List<Reservation>> reservations = reservationService.findByHostEmail(email);
+        view.displayReservations(reservations.getPayload());
+        //kdeclerkdc@sitemeter.com
+   }
 }

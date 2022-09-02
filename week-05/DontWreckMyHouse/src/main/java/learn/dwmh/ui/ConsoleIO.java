@@ -81,16 +81,6 @@ public class ConsoleIO {
         }
     }
 
-    public LocalDate readLocalDate(String prompt) {
-        while (true) {
-            String input = readRequiredString(prompt);
-            try {
-                return LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException ex) {
-                println(INVALID_DATE);
-            }
-        }
-    }
 
     public BigDecimal readBigDecimal(String prompt) {
         while (true) {
@@ -102,6 +92,7 @@ public class ConsoleIO {
             }
         }
     }
+
 
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
         while (true) {

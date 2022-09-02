@@ -1,5 +1,6 @@
 package learn.dwmh.ui;
 
+import learn.dwmh.domain.Result;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 
@@ -55,9 +56,9 @@ public class View {
         io.println(ex.getMessage());
     }
 
-//    public Host getByHost() {
-//        return io.readRequiredString("Host Email: ");
-//    }
+    public String getHostEmail() {
+        return io.readRequiredString("Host Email: ");
+    }
 
     public void displayReservations(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
@@ -67,15 +68,24 @@ public class View {
         for (Reservation reservation : reservations) {
 
             /*
+                    Reservation fields:
+
                     private int id;
                     private LocalDate start;
                     private LocalDate end;
                     private BigDecimal total;
                     private Guest guest;
                     private Host host;
+
+                    fields in reservation file:
+                    int id <- reservation
+                    LocalDate start_date
+                    LocalDate_endDate
+                    int id <- Guest
+                    BigDecimal total
              */
-            io.printf("%s , %s - %s Guest: %s, %s,  Email: %s",
-                    reservation.getGuest().getId(),
+            io.printf("ID:%s , %s - %s, Guest: %s, %s,  Email: %s%n",
+                    reservation.getId(),
                     reservation.getStart(),
                     reservation.getEnd(),
                     reservation.getGuest().getLastName(),
@@ -85,9 +95,7 @@ public class View {
         }
     }
 
-
 //    public Host getHostEmail() {
-//
-//        return io.readRequiredString("Host Email: ");
+//        return io.readRequired;
 //    }
 }

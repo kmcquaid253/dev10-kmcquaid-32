@@ -15,7 +15,7 @@ public class GuestService {
     }
     public List<Guest> findByEmail (String email){
         return repository.findAll().stream()
-                .filter(i -> i.getEmail().startsWith(email))
+                .filter(i -> i.getEmail().equalsIgnoreCase(email))
                 .collect(Collectors.toList());
     }
 }
