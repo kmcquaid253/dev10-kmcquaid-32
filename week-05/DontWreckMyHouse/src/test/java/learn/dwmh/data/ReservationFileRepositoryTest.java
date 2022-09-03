@@ -83,7 +83,6 @@ public class ReservationFileRepositoryTest {
 
             Files.copy( seedFilePath, testFilePath, StandardCopyOption.REPLACE_EXISTING );
         }
-
         makeHost(host);
         makeGuest(guest);
     }
@@ -95,33 +94,36 @@ public class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldAdd() throws DataException {
-//        Reservation reservation = new Reservation();
-//        reservation.setId(100);
-//        reservation.setStart(start);
-//        reservation.setEnd(end);
-//
-//
-//        Guest guest = new Guest();
-//        guest.setId(145);
-//        reservation.setGuest(guest);
-//
-//        reservation.setTotal(new BigDecimal(30));
-//
-//        reservation = repository.add(reservation);
-//
-//        assertEquals(36, reservation.getId().);
+    void shouldAddNewReservation() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setId(100);
+        reservation.setStart(start);
+        reservation.setEnd(end);
+
+
+        Guest guest = new Guest();
+        guest.setId(145);
+        reservation.setGuest(guest);
+
+        Host host1 = new Host();
+        host1.setId("jhklreg-4930-fjai-dhjkwq4234ds-cvw");
+        reservation.setHost(host1);
+
+        reservation.setTotal(new BigDecimal(30));
+
+        reservation = repository.add(reservation);
+
+        assertEquals(1, reservation.getId());
     }
 
     @Test
-    void shouldDeleteExistingByHostAndId() throws DataException{
-//        boolean actual = repository.delete("2e72f86c-b8fe-4265-b4f1-304dea8762db" ,12);
-//        assertTrue(actual);
-
+    void shouldDeleteExistingReservationByHostAndId() throws DataException{
+        boolean actual = repository.delete(host, 2);
+        assertTrue(actual);
     }
 
     @Test
-    void shouldNotUpdateMissing()throws  DataException{
+    void shouldNotUpdateNonExisting()throws  DataException{
         Reservation reservation = new Reservation();
         reservation.setId(90);
 
@@ -130,8 +132,27 @@ public class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldUpdateExisting() throws  DataException{
-
+    void shouldNotUpdateNullReservation() throws DataException {
+        assertThrows( DataException.class, () -> repository.update(null) );
     }
+
+    @Test
+    void shouldUpdateExistingReservation() throws  DataException{
+        Reservation reservation = new Reservation();
+
+        reservation.setId(11);
+        reservation.setStart(start);
+        reservation.setEnd(end);
+
+        Guest guest = new Guest();
+        guest.setId(145);
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setTotal(new BigDecimal(30));
+
+        boolean actual = repository.update(reservation);
+        assertTrue(actual);
+    }
+
 }
 

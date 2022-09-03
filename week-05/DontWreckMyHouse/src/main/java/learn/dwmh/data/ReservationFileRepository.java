@@ -24,6 +24,7 @@ public class ReservationFileRepository implements ReservationRepository{
     }
 
     public boolean update(Reservation updated) throws DataException {
+        if( updated == null ) throw new DataException("Cannot update null Reservation.");
 
         boolean found = false;
 
@@ -145,14 +146,14 @@ public class ReservationFileRepository implements ReservationRepository{
 
 
     @Override
-    public boolean delete(Host hostId, int id) throws DataException {
-        List<Reservation> reservation = findByHost(hostId);
+    public boolean delete(Host host, int id) throws DataException {
+        List<Reservation> reservation = findByHost(host);
         for (int i = 0; i < reservation.size(); i++){
-            if (reservation.get(i).getHost().getId().equals(hostId) &&
+            if (reservation.get(i).getHost().getId().equals(host) &&
                     reservation.get(i).getId() == id)
             {
                 reservation.remove(i);
-                writeAll(reservation, hostId.getId());
+                writeAll(reservation, host.getId());
                 return true;
             }
         }

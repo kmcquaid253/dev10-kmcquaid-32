@@ -8,6 +8,7 @@ import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,6 +54,21 @@ public class ReservationService {
         }
 
         return toReturn;
+    }
+
+    Result<BigDecimal> calculateTotal(Reservation reservation){
+        //host & dates are required
+        //start must be before end date
+        //host must exist
+
+        Result <BigDecimal> toReturn = new Result<>();
+
+        BigDecimal pricePer = forage.getItem().getDollarPerKilogram();
+        Double totalKilo = forage.getKilograms();
+        BigDecimal convertedNum = BigDecimal.valueOf(totalKilo);
+        BigDecimal totalPrice = pricePer.multiply(convertedNum);
+
+        return totalPrice;
     }
 
 }

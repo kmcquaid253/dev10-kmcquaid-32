@@ -48,11 +48,14 @@ public class Controller {
                     view.enterToContinue();
                     break;
                 case CANCEL_A_RESERVATION:
-                    view.displayStatus(false, "NOT IMPLEMENTED: CANCEL");
+                    cancelReservation();
                     view.enterToContinue();
                     break;
             }
         } while (option != MainMenuChoice.EXIT);
+    }
+
+    private void cancelReservation() {
     }
 
     private void viewByHost() throws DataException {
@@ -64,4 +67,6 @@ public class Controller {
         view.displayReservations(reservations.getPayload());
         //kdeclerkdc@sitemeter.com
    }
+   
+   
 }
