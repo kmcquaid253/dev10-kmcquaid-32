@@ -2,10 +2,12 @@ package learn.dwmh.domain;
 
 import learn.dwmh.data.GuestRepository;
 import learn.dwmh.models.Guest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class GuestService {
 
     private final GuestRepository repository;

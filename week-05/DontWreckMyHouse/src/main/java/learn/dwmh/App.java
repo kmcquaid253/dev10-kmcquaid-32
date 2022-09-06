@@ -8,22 +8,20 @@ import learn.dwmh.ui.ConsoleIO;
 import learn.dwmh.ui.Controller;
 import learn.dwmh.ui.View;
 import learn.dwmh.domain.HostService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 
+@ComponentScan
+@PropertySource("classpath:data.properties")
 public class App {
     public static void main(String[] args) {
-        ConsoleIO io = new ConsoleIO();
-        View view = new View(io);
 
-        HostFileRepository hostFileRepository = new HostFileRepository("./data/hosts.csv");
-        HostService hostService = new HostService(hostFileRepository);
+        ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
 
-        GuestFileRepository guestFileRepository = new GuestFileRepository("./data/guests.csv");
-        HostService guestService = new HostService(hostFileRepository);
+        Controller controller = context.getBean(Controller.class);
 
-        ReservationFileRepository reservationFileRepository = new ReservationFileRepository("./data/reservations");
-        ReservationService reservationService = new ReservationService(reservationFileRepository, hostFileRepository, guestFileRepository);
-
-        Controller controller = new Controller(view, hostService,  reservationService);
         controller.run();
 
 

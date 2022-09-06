@@ -6,15 +6,18 @@ import learn.dwmh.domain.ReservationService;
 import learn.dwmh.domain.Result;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class Controller {
     private final View view;
     private final HostService hostService;
     private final ReservationService reservationService;
 
+    @Autowired
     public Controller(View view, HostService hostService, ReservationService reservationService) {
         this.view = view;
         this.hostService = hostService;

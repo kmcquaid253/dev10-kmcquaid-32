@@ -7,18 +7,20 @@ import learn.dwmh.data.ReservationRepository;
 import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final HostRepository hostRepository;
-
     private final GuestRepository guestRepository;
 
 
@@ -42,7 +44,7 @@ public class ReservationService {
         toReturn.setPayload(reservationRepository.findByHost(matchingHost));
 
         //New work starts here
-        Map<Object, Guest> guestMap = guestRepository.findAll().stream()
+        Map<Integer, Guest> guestMap = guestRepository.findAll().stream()
                 .collect(Collectors.toMap(i -> i.getId(), i -> i));
 
 
@@ -61,11 +63,8 @@ public class ReservationService {
         Result <BigDecimal> toReturn = new Result<>();
 
         //host & dates are required
-        Host existingHost = reservation.getHost();
         LocalDate startDate = reservation.getStart();
         LocalDate endDate = reservation.getEnd();
-        //LocalDate standardRate = existingHost.getStandardRate();
-        //BigDecimal weekendRate = reservation.getHost().getWeekendRate();
 
         //start must be before end date
         boolean isBefore = startDate.isBefore(endDate);
@@ -81,16 +80,14 @@ public class ReservationService {
         }
 
         //host must exist
-        if (existingHost == null){
+        if (reservation.getHost().getId().equals(null)){
             toReturn.addErrorMessage("Host must exist");
             return toReturn;
         }
 
-        //I recommend a for loop with a LocalDate variable that you advance one day every iteration
+        //for loop with a LocalDate variable that you advance one day every iteration
         //LocalDate objects can give you a day of week enum
-
-        //for( LocalDate date : )
-
+        return toReturn;
     }
 
     public Result<Reservation> add(Reservation reservation) throws DataException {
@@ -105,11 +102,11 @@ public class ReservationService {
         return result;
 
         //cannot overlap with existing reservations for host
-
     }
 
-    public Result<Reservation> deleteById(Host host, int guestId, Reservation reservation) throws DataException {
+    public Result<Reservation> deleteById(Host hostId, int reservationId) throws DataException {
         Result<Reservation> result = new Result<>();
+        Reservation reservation = new Reservation();
 
         //validate future dates
         if(reservation.getStart().isBefore(LocalDate.now())){
@@ -117,11 +114,31 @@ public class ReservationService {
             return result;
         }
 
-        if (!reservationRepository.delete(host, guestId)) {
-            String message = String.format("Reservation %s-%s not found", host, guestId);
+        if (!reservationRepository.delete(hostId, reservationId)) {
+            String message = String.format("Reservation %s-%s not found", hostId, reservationId);
             result.addErrorMessage(message);
             return result;
         }
+        return result;
+    }
+
+    public Result<Reservation> update(Reservation updated) throws DataException {
+        //guest, host & dates are required
+        //guest & host must exist
+        //start must be before end date
+        Result<Reservation> result = validate( updated );
+
+        if( !result.isSuccess() ) return result;
+
+        if( result.isSuccess() ){
+            boolean success = reservationRepository.update( updated );
+            if( success ){
+                result.setPayload( updated );
+            } else {
+                result.addErrorMessage( "Could not find matching Reservation.");
+            }
+        }
+
         return result;
     }
 

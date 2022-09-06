@@ -10,6 +10,8 @@ public class GuestRepositoryDouble implements GuestRepository {
 
     private final List<Guest> guests = new ArrayList<>();
 
+    public final static Guest GUEST = makeGuest();
+
     public GuestRepositoryDouble() {
 
         /*
@@ -66,6 +68,19 @@ public class GuestRepositoryDouble implements GuestRepository {
 
     public Guest add(Guest guest) {
         guests.add(guest);
+        return guest;
+    }
+
+    private static Guest makeGuest() {
+        Guest guest = new Guest();
+
+        guest.setId(1);
+        guest.setLastName("Lannister");
+        guest.setFirstName("Cersie");
+        guest.setEmail("lanne.cer@gmail.com");
+        guest.setPhone("262-473-3846");
+        guest.setStateCode("83746");
+
         return guest;
     }
 }

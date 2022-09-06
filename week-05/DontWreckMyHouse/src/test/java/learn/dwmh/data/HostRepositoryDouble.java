@@ -10,6 +10,8 @@ public class HostRepositoryDouble implements HostRepository{
 
     List<Host> host = new ArrayList<>();
 
+    public final static Host HOST = makeHost();
+
     public HostRepositoryDouble(){
         /*
             private String id;
@@ -76,5 +78,23 @@ public class HostRepositoryDouble implements HostRepository{
         }
 
         return toReturn;
+    }
+
+    private static Host makeHost() {
+        Host host = new Host();
+
+        host.setId("jekbnf-478n-djnondn3-094j76");
+        host.setLastName("Martinez");
+        host.setFirstName("Jose");
+        host.setStandardRate(BigDecimal.valueOf(80.00));
+        host.setWeekendRate(BigDecimal.valueOf(100.00));
+        host.setEmail("jose.martinez@gmail.com");
+        host.setPhone("414-654-1287");
+        host.setAddress("92 W 122th st");
+        host.setCity("Milwaukee");
+        host.setStateCode("WI");
+        host.setPostalCode("37485");
+
+        return host;
     }
 }

@@ -2,6 +2,8 @@ package learn.dwmh.data;
 
 import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,11 +12,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class HostFileRepository implements HostRepository{
 
     private final String filePath;
 
-    public HostFileRepository(String filePath) {
+    public HostFileRepository(@Value("${dataFilePath}")String filePath) {
         this.filePath = filePath;
     }
 

@@ -22,14 +22,22 @@ public class HostServiceTest {
     }
 
     @Test
-    void shouldFindFirstHostByEmail(){
-        //service.findByEmail("jamieb@gmail.com");
-
-    }
-
-    @Test
     void shouldFindSecondHostByEmail(){
-        List<Host> host =service.findByEmail("dianas@gmail.co");
-        assertNotNull(host);
+        Host host = new Host();
+
+        host.setId("jekbnf-478n-djnondn3-094j76");
+        host.setLastName("Martinez");
+        host.setFirstName("Jose");
+        host.setStandardRate(BigDecimal.valueOf(80.00));
+        host.setWeekendRate(BigDecimal.valueOf(100.00));
+        host.setEmail("jose.martinez@gmail.com");
+        host.setPhone("414-654-1287");
+        host.setAddress("92 W 122th st");
+        host.setCity("Milwaukee");
+        host.setStateCode("WI");
+        host.setPostalCode("37485");
+
+        List<Host> hostOne =service.findByEmail("jose.martinez@gmail.com");
+        assertNotNull(hostOne);
     }
 }

@@ -3,9 +3,11 @@ package learn.dwmh.ui;
 import learn.dwmh.domain.Result;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class View {
     private final ConsoleIO io;
 
@@ -94,8 +96,4 @@ public class View {
             );
         }
     }
-
-//    public Host getHostEmail() {
-//        return io.readRequired;
-//    }
 }
