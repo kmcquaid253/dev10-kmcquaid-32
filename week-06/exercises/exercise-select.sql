@@ -15,7 +15,7 @@ select * from employee;
 SELECT employee_id,
 	   first_name,
        last_name
-FROM employee
+FROM employee;
 
 -- Select the employee_id, first_name, and start_date from employee
 -- where the last_name equals 'Gravel'.
@@ -24,7 +24,7 @@ FROM employee
 SELECT employee_id,
 	   first_name,
        last_name
-FROM employee WHERE last_name = 'Gravel'
+FROM employee WHERE last_name = 'Gravel';
 
 -- Select first_name, last_name, and city from customer
 -- where the city equals 'Ajax'.
@@ -33,7 +33,7 @@ SELECT first_name,
  		last_name,
          city
  FROM customer
- WHERE city = 'Ajax'
+ WHERE city = 'Ajax';
 
 -- Select last_name, email_address, and customer_since from customer
 -- for all customers with a customer_since value in the year 2019.
@@ -43,7 +43,7 @@ SELECT last_name,
 		email_address,
         customer_since
 FROM customer
-WHERE customer_since between '2019-01-01' and '2019-12-31'
+WHERE customer_since between '2019-01-01' and '2019-12-31';
 
 -- If you solved the previous task without `between`, use `between`.
 -- If you used `between`, solve it with `and`.
@@ -56,7 +56,7 @@ SELECT last_name,
         customer_since
 FROM customer
 WHERE customer_since between '2019-01-01' and '2019-12-31'
-order by customer_since desc
+order by customer_since desc;
 
 -- Select first_name, last_name, phone, and address from customer.
 -- Sort by last_name descending and first_name ascending.
@@ -66,14 +66,14 @@ SELECT first_name,
         phone,
         address
 FROM customer
-order by last_name desc, first_name asc
+order by last_name desc, first_name asc;
 
 -- Which customer city comes last in the alphabet?
 -- Expected: Woodstock
 SELECT city
 FROM customer
 order by city desc
-limit 1
+limit 1;
 
 -- Select last_name, address, and city from customers
 -- where cities are 'Toronto', 'Brampton', or 'Mississauga'.
@@ -82,7 +82,7 @@ SELECT last_name,
         address,
         city
 FROM customer
-WHERE city in ("Toronto", "Brampton","Mississauga")
+WHERE city in ("Toronto", "Brampton","Mississauga");
 
 -- If you solved the previous task without `in`, use `in`.
 -- If you used `in`, solve it with `or` conditions.
@@ -92,19 +92,19 @@ WHERE city in ("Toronto", "Brampton","Mississauga")
 -- Expected: 874 Rows
 SELECT *
 FROM customer
-WHERE postal_code not in ("M3H", "K7R","L2V", "K7S", "J6A")
+WHERE postal_code not in ("M3H", "K7R","L2V", "K7S", "J6A");
 
 -- Find customer whose last name starts with 'M'.
 -- Expected: 76 Rows
 select *
 from customer
-where last_name like 'M%'
+where last_name like 'M%';
 
 -- Find customers with a `(952)` phone area code.
 -- Expected: 5 Rows.
 select *
 from customer
-where phone like '(952)%'
+where phone like '(952)%';
 
 -- Find customers with a '.com' email_address
 -- Expected: 599 Rows.
