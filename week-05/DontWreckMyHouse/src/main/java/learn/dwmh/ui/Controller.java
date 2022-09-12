@@ -1,9 +1,11 @@
 package learn.dwmh.ui;
 
 import learn.dwmh.data.DataException;
+import learn.dwmh.domain.GuestService;
 import learn.dwmh.domain.HostService;
 import learn.dwmh.domain.ReservationService;
 import learn.dwmh.domain.Result;
+import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +13,20 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Component
 public class Controller {
     private final View view;
     private final HostService hostService;
+    private final GuestService guestService;
     private final ReservationService reservationService;
 
     @Autowired
-    public Controller(View view, HostService hostService, ReservationService reservationService) {
+    public Controller(View view, HostService hostService, ReservationService reservationService, GuestService guestService) {
         this.view = view;
         this.hostService = hostService;
         this.reservationService = reservationService;
+        this.guestService = guestService;
     }
 
     public void run() {
@@ -43,8 +48,7 @@ public class Controller {
                     viewByHost();
                     break;
                 case MAKE_A_RESERVATION:
-                    view.displayStatus(false, "NOT IMPLEMENTED: ADD");
-                    view.enterToContinue();
+                    addReservation();
                     break;
                 case EDIT_A_RESERVATION:
                     view.displayStatus(false, "NOT IMPLEMENTED: EDIT");
@@ -52,10 +56,26 @@ public class Controller {
                     break;
                 case CANCEL_A_RESERVATION:
                     cancelReservation();
-                    view.enterToContinue();
                     break;
             }
         } while (option != MainMenuChoice.EXIT);
+    }
+
+    private void addReservation() {
+        view.displayHeader(MainMenuChoice.MAKE_A_RESERVATION.getMessage());
+
+        Host host = getHost();
+
+        if (host == null) {
+            return;
+        }
+
+        Guest guest = getGuest();
+        if (guest == null) {
+            return;
+        }
+
+        Reservation reservation = view.makeReservation(host, guest);
     }
 
     private void cancelReservation() {
@@ -70,6 +90,18 @@ public class Controller {
         view.displayReservations(reservations.getPayload());
         //kdeclerkdc@sitemeter.com
    }
-   
+
+   //support methods
+    private Host getHost(){
+        String email = view.getHostEmail();
+        List<Host> hosts = hostService.findByEmail(email);
+        return view.chooseHost(hosts);
+    }
+
+    private Guest getGuest(){
+        String email = view.getGuestEmail();
+        List<Guest> guests = guestService.findByEmail(email);
+        return view.chooseGuest(guests);
+    }
    
 }
