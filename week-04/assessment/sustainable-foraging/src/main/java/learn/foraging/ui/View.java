@@ -4,12 +4,16 @@ import learn.foraging.models.Category;
 import learn.foraging.models.Forage;
 import learn.foraging.models.Forager;
 import learn.foraging.models.Item;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class View {
 
     private final ConsoleIO io;
@@ -30,8 +34,29 @@ public class View {
             max = Math.max(max, option.getValue());
         }
 
-        String message = String.format("Select [%s-%s]: ", min, max - 1);
+        String message = String.format("Select [%s-%s]: ", min, max);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
+    }
+
+    public Forager getNewForagerDetails() {
+        /*
+            private String id;
+            private String firstName;
+            private String lastName;
+            private String state;
+
+         */
+        Forager toBuild = new Forager();
+
+        String firstName = io.readRequiredString("First Name: ");
+        String lastName = io.readRequiredString("Last Name: ");
+        String state= io.readRequiredString("State: ");
+
+        toBuild.setFirstName(firstName);
+        toBuild.setLastName(lastName);
+        toBuild.setState(state);
+
+        return toBuild;
     }
 
     public LocalDate getForageDate() {
@@ -62,10 +87,12 @@ public class View {
         String message = String.format("Select a forager by their index [0-%s]: ", index);
 
         index = io.readInt(message, 0, index);
+
         if (index <= 0) {
             return null;
         }
         return foragers.get(index - 1);
+
     }
 
     public Category getItemCategory() {
@@ -191,6 +218,34 @@ public class View {
 
         for (Item item : items) {
             io.printf("%s: %s, %s, %.2f $/kg%n", item.getId(), item.getName(), item.getCategory(), item.getDollarPerKilogram());
+        }
+    }
+
+    public void displayForagers(Forager foragers) {
+        if (foragers == null) {
+            io.println("\nNo foragers found.");
+            return;
+        }
+            io.printf("%nName: %s %s  - State: %s%n",
+                    foragers.getFirstName(),
+                    foragers.getLastName(),
+                    foragers.getState()
+            );
+    }
+
+    public void displayKgReport(Map<String, Double> report) {
+        for(String itemName : report.keySet()){
+            Double totalKg = report.get(itemName);
+            String line = itemName + " " + totalKg;
+            io.println(line);
+        }
+    }
+
+    public void displayCat(Map<Category, BigDecimal> report) {
+        for(Category itemCat : report.keySet()){
+            BigDecimal totalVal = report.get(itemCat).setScale(2, RoundingMode.HALF_UP);
+            String line = itemCat + " $" + totalVal;
+            io.println(line);
         }
     }
 }

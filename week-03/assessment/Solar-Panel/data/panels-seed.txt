@@ -1,0 +1,6 @@
+Panel ID~Section~Row~Column~Panel Materials~Year Installed~Is Tracking
+1~Main House~123~125~AMORPHOUS_SILICON~2013~true
+2~Main House~54~123~COPPER_INDIUM_GALLIUM_SELENIDE~2019~true
+3~East House~43~21~CADMIUM_TELLURIDE~2013~false
+4~Main House~34~123~CADMIUM_TELLURIDE~2019~true
+5~East House~143~1~AMORPHOUS_SILICON~2013~false

@@ -14,8 +14,14 @@ public class ItemRepositoryDouble implements ItemRepository {
     private final ArrayList<Item> items = new ArrayList<>();
 
     public ItemRepositoryDouble() {
-        Item item = new Item(1, "Chanterelle", Category.EDIBLE, new BigDecimal("9.99"));
-        items.add(item);
+        Item itemOne = new Item(1, "Chanterelle", Category.EDIBLE, new BigDecimal("9.99"));
+        Item itemTwo = new Item(2, "Duckweed", Category.INEDIBLE, new BigDecimal("0.00"));
+        Item itemThree = new Item(3, "Fibercaps", Category.POISONOUS, new BigDecimal("0.00"));
+
+
+        items.add(itemOne);
+        items.add(itemTwo);
+        items.add(itemThree);
     }
 
     @Override

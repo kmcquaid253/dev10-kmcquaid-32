@@ -29,10 +29,45 @@ class ItemServiceTest {
     }
 
     @Test
-    void shouldNotSaveNullDollars() throws DataException {
-        Item item = new Item(0, "Test Item", Category.EDIBLE, null);
+    void shouldNotAddInedibleWithValueGreaterThanZero() throws DataException {
+        Item item = new Item(99, "Test Item", Category.INEDIBLE, new BigDecimal("9.00"));
         Result<Item> result = service.add(item);
         assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotAddInedibleWithValueLessThanZero() throws DataException {
+        Item item = new Item(99, "Test Item", Category.INEDIBLE, new BigDecimal("-8.23"));
+        Result<Item> result = service.add(item);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotAddPoisonousWithValueGreaterThanZero() throws DataException {
+        Item item = new Item(100, "Cherry Test", Category.POISONOUS, new BigDecimal("4.88"));
+        Result<Item> result = service.add(item);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotAddPoisonousWithValueLessThanZero() throws DataException {
+        Item item = new Item(100, "Cherry Test", Category.POISONOUS, new BigDecimal("-3.75"));
+        Result<Item> result = service.add(item);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldAddInedibleWithValueOfZero() throws DataException {
+        Item item = new Item(100, "Test Item", Category.INEDIBLE, new BigDecimal("0"));
+        Result<Item> result = service.add(item);
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    void shouldAddPoisonousWithValueOfZero() throws DataException {
+        Item item = new Item(101, "Cherry Test", Category.POISONOUS, new BigDecimal("0"));
+        Result<Item> result = service.add(item);
+        assertTrue(result.isSuccess());
     }
 
     @Test

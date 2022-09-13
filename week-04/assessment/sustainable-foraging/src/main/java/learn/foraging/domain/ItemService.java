@@ -4,11 +4,13 @@ import learn.foraging.data.DataException;
 import learn.foraging.data.ItemRepository;
 import learn.foraging.models.Category;
 import learn.foraging.models.Item;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ItemService {
 
     private final ItemRepository repository;
@@ -28,6 +30,13 @@ public class ItemService {
         Result<Item> result = new Result<>();
         if (item == null) {
             result.addErrorMessage("Item must not be null.");
+            return result;
+        }
+
+        if(!item.getDollarPerKilogram().equals(BigDecimal.ZERO) && (
+                item.getCategory().equals(Category.INEDIBLE)  || item.getCategory().equals(Category.POISONOUS))) {
+
+            result.addErrorMessage("%/Kg must be 0.00.");
             return result;
         }
 
