@@ -105,4 +105,16 @@ public class ConsoleIO {
             println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
+
+    public LocalDate readLocalDate(String prompt) {
+        while (true) {
+            String input = readRequiredString(prompt);
+            try {
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException ex) {
+                println(INVALID_DATE);
+            }
+        }
+    }
+
 }

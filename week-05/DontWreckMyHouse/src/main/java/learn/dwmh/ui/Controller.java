@@ -61,21 +61,29 @@ public class Controller {
         } while (option != MainMenuChoice.EXIT);
     }
 
-    private void addReservation() {
+    private void addReservation() throws DataException {
         view.displayHeader(MainMenuChoice.MAKE_A_RESERVATION.getMessage());
-
-        Host host = getHost();
-
-        if (host == null) {
-            return;
-        }
 
         Guest guest = getGuest();
         if (guest == null) {
             return;
         }
 
+        Host host = getHost();
+        if (host == null) {
+            return;
+        }
+
+
         Reservation reservation = view.makeReservation(host, guest);
+        Result<Reservation> result = reservationService.add(reservation);
+
+        if (!result.isSuccess()) {
+            view.displayStatus(false, result.getErrorMessages());
+        } else {
+            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     private void cancelReservation() {
@@ -94,8 +102,15 @@ public class Controller {
    //support methods
     private Host getHost(){
         String email = view.getHostEmail();
-        List<Host> hosts = hostService.findByEmail(email);
-        return view.chooseHost(hosts);
+
+        Result<List<Reservation>> reservations = reservationService.findByHostEmail(email);
+
+        List<Host> host = hostService.findByEmail(email);
+
+        view.displayReservations(reservations.getPayload());
+
+        System.out.println();
+        return view.chooseHost(host);
     }
 
     private Guest getGuest(){
