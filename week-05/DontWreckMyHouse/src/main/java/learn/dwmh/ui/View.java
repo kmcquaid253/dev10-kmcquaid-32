@@ -1,5 +1,6 @@
 package learn.dwmh.ui;
 
+import learn.dwmh.domain.GuestService;
 import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
@@ -159,4 +160,21 @@ public class View {
 
         return reservation;
     }
+
+    public Reservation getReservation() {
+        Reservation toBuild = new Reservation();
+        String email = io.readRequiredString("Host Email: ");
+
+        Guest guest = getReservation().getGuest();
+        Host host = getReservation().getHost();
+        int id = io.readInt("Reservation ID: ");
+
+        toBuild.setGuest(guest);
+        toBuild.setHost(host);
+        toBuild.setId(id);
+
+        return toBuild;
+    }
+
+
 }

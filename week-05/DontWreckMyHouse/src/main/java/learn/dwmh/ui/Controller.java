@@ -20,13 +20,15 @@ public class Controller {
     private final HostService hostService;
     private final GuestService guestService;
     private final ReservationService reservationService;
+    private final ConsoleIO io;
 
     @Autowired
-    public Controller(View view, HostService hostService, ReservationService reservationService, GuestService guestService) {
+    public Controller(View view, HostService hostService, ReservationService reservationService, GuestService guestService, ConsoleIO io) {
         this.view = view;
         this.hostService = hostService;
         this.reservationService = reservationService;
         this.guestService = guestService;
+        this.io = io;
     }
 
     public void run() {
@@ -51,14 +53,16 @@ public class Controller {
                     addReservation();
                     break;
                 case EDIT_A_RESERVATION:
-                    view.displayStatus(false, "NOT IMPLEMENTED: EDIT");
-                    view.enterToContinue();
+                    updateReservation();
                     break;
                 case CANCEL_A_RESERVATION:
                     cancelReservation();
                     break;
             }
         } while (option != MainMenuChoice.EXIT);
+    }
+
+    private void updateReservation() {
     }
 
     private void addReservation() throws DataException {
@@ -86,7 +90,37 @@ public class Controller {
         }
     }
 
-    private void cancelReservation() {
+    private void cancelReservation() throws DataException {
+        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
+
+        Guest guest = getGuest();
+        if (guest == null) {
+            return;
+        }
+
+        Host host = getHost();
+        if (host == null) {
+            return;
+        }
+
+        int id = getId();
+        if (id == null) {
+            return;
+        }
+
+        Result result = reservationService.deleteById(host, );
+
+
+        if (!result.isSuccess()) {
+            view.displayStatus(false, result.getErrorMessages());
+        } else {
+            String successMessage = String.format("Reservation deleted!");
+            view.displayStatus(true, successMessage);
+        }
+
+        //customer email: dlynessy@icio.us
+        //host email: eyearnes0@sfgate.com
+        //reservation id:2
     }
 
     private void viewByHost() throws DataException {
@@ -116,6 +150,12 @@ public class Controller {
     private Guest getGuest(){
         String email = view.getGuestEmail();
         List<Guest> guests = guestService.findByEmail(email);
+        return view.chooseGuest(guests);
+    }
+
+    private Reservation getId() {
+        String email = view.getId();
+        List<Guest> guests = guestS ervice.findByEmail(email);
         return view.chooseGuest(guests);
     }
    

@@ -117,7 +117,6 @@ public class ReservationService {
         if (!reservationRepository.delete(hostId, reservationId)) {
             String message = String.format("Reservation %s-%s not found", hostId, reservationId);
             result.addErrorMessage(message);
-            return result;
         }
         return result;
     }
