@@ -2,8 +2,13 @@ use theater;
 
 -- Find all performances in the last quarter of 2021 (Oct. 1, 2021 - Dec. 31 2021).
 -- performances = showing
-select *
-from showing
+select 
+		s.showing_id,
+        s.`date`,
+        p.`name` as ShowName
+from showing as s
+inner join play as p
+	on s.play_id = p.play_id
 where `date` between '2021-10-01' and '2021-12-31';
 
 
@@ -28,8 +33,15 @@ where email not like ("%.com");
 
 
 -- Find the three cheapest shows.
-select * 
-from showing
+select 
+		s.showing_id,
+        s.`date`,
+        s.ticket_price,
+        p.`name` as ShowName,
+        s.theater_id
+from showing as s
+inner join play as p
+	on s.play_id = p.play_id
 order by ticket_price asc
 limit 3;
 
@@ -127,12 +139,15 @@ group by customer_id;
 -- Calculate the total revenue per show based on tickets sold.
 select 
 	s.showing_id,
+    p.`name` as ShowName,
     s.`date`,
 	count(reservation_id) as TicketsSold, 
     sum(ticket_price) as TotalRevenue
 from reservation 
 inner join showing as s
 	on reservation.showing_id = s.showing_id
+inner join play as p
+	on s.play_id = p.play_id
 group by showing_id;
 
 
