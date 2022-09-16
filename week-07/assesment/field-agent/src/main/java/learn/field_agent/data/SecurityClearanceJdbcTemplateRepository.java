@@ -19,14 +19,13 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     @Override
     public SecurityClearance findById(int securityClearanceId) {
 
-//        final String sql = "select security_clearance_id, name security_clearance_name "
-//                + "from security_clearance "
-//                + "where security_clearance_id = ?;";
-//
-//        return jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
-//                .stream()
-//                .findFirst().orElse(null);
-        return null;
+        final String sql = "select security_clearance_id, name security_clearance_name "
+                + "from security_clearance "
+                + "where security_clearance_id = ?;";
+
+        return jdbcTemplate.query(sql, new SecurityClearanceMapper(), securityClearanceId)
+                .stream()
+                .findFirst().orElse(null);
     }
 
     @Override
