@@ -1,0 +1,28 @@
+GET http://localhost:8080/name
+
+###
+
+GET http://localhost:8080/current/time
+
+###
+
+GET http://localhost:8080/greet/santiago
+
+###
+
+PUT http://localhost:8080/sheep HTTP/1.1
+Content-Type: application/json
+
+{
+    "sheepCount": 1
+}
+
+###
+
+GET http://localhost:8080/todo
+Content-Type: application/json
+
+{
+    "todo": "bake"
+}
+

@@ -1,0 +1,18 @@
+GET http://localhost:8080/
+
+###
+
+GET http://localhost:8080/api/Hill
+
+###
+POST  http://localhost:8080/api/create
+Content-Type:application/json
+
+{
+    "section": "Hill",
+    "row": 100,
+    "column": 100,
+    "yearInstalled": 1999,
+    "material": "A_SI",
+    "tracking": true
+}

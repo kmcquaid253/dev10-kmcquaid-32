@@ -1,16 +1,23 @@
 package learn.solarfarm.domain;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import learn.solarfarm.data.DataAccessException;
+import learn.solarfarm.data.SolarPanelDbRepository;
 import learn.solarfarm.data.SolarPanelRepository;
 import learn.solarfarm.models.SolarPanel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.Year;
 import java.util.List;
 
+@Service
 public class SolarPanelService {
     public final static int MAX_ROW_COLUMN = 250;
 
-    private final SolarPanelRepository repository;
+    private SolarPanelRepository repository;
 
     public SolarPanelService(SolarPanelRepository repository) {
         this.repository = repository;

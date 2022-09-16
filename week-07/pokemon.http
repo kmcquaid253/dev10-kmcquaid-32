@@ -1,0 +1,13 @@
+GET https://pokeapi.co/api/v2/pokemon
+
+###
+
+GET https://pokeapi.co/api/v2/pokemon/1
+
+###
+
+GET https://pokeapi.co/api/v2/move/13/
+
+###
+
+GET http://google.com

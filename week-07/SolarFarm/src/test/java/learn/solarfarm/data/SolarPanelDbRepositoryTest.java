@@ -1,8 +1,11 @@
 package learn.solarfarm.data;
 
+import learn.solarfarm.models.Material;
 import learn.solarfarm.models.SolarPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,40 +14,60 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SolarPanelDbRepositoryTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+class SolarPanelDbRepositoryTest {
 
-    ApplicationContext ctx = new AnnotationConfigApplicationContext(DbTestConfig.class);
-
+    @Autowired
     SolarPanelDbRepository repoToTest;
 
+    @Autowired
+    JdbcTemplate template;
+
+    static boolean hasRun = false;
 
     @BeforeEach
     void setup() {
-        JdbcTemplate template = ctx.getBean(JdbcTemplate.class);
-        //because we're not retrieving rows of data
-        //we'll use update for our sql statement
-//        template.update("truncate panel");
-//        int rowsAffected = template.update(
-//                "insert into panel (section, `row`, col, year_installed, material, isTracking)\n" +
-//                "values('Main House', 50, 50, 2000, 'POLY_SI', false),\n" +
-//                "\t\t('Hill', 51, 51, 2012, 'A_SI', true),\n" +
-//                "        ('Main House', 1, 1, 2020, 'CIGS', true);");
-        template.update( "call set_known_good_state()");
-
-        repoToTest = new SolarPanelDbRepository(template);
+        if (!hasRun) {
+            hasRun = true;
+            template.update("call set_known_good_state();");
+        }
     }
 
     @Test
     void shouldFindTwoPanelsInMainHouseSection() throws DataAccessException {
         List<SolarPanel> actual = repoToTest.findBySection("Main House");
 
-        //this only checks that we get the right number of objects
-        // the repo could be doing anything
-        assertEquals(2, actual.size()); // seed data has 2 shareable memories
+        //this ONLY checks that we get the right number of objects
+        //the repo could be doing anything...
+        assertEquals(2, actual.size());
+
+        SolarPanel p1 = actual.stream().filter( sp -> sp.getId() == 1 ).findFirst().orElse(null);
+        SolarPanel p2 = actual.stream().filter( sp -> sp.getId() == 3 ).findFirst().orElse(null);
+
+        assertEquals( 1, p1.getId());
+        assertEquals("Main House", p1.getSection());
+        assertEquals(50, p1.getRow());
+        assertEquals(50, p1.getColumn());
+        assertEquals(2000, p1.getYearInstalled());
+        assertEquals(Material.POLY_SI, p1.getMaterial());
+        assertFalse( p1.isTracking() );
+
+        assertEquals(3, p2.getId());
+        assertEquals("Main House", p2.getSection());
+        assertEquals(1, p2.getRow());
+        assertEquals(1, p2.getColumn());
+        assertEquals(2020, p2.getYearInstalled());
+        assertEquals(Material.CIGS, p2.getMaterial());
+        assertTrue( p2.isTracking());
+
     }
 
     @Test
-    void findById() {
+    void shouldFindNullPanelOnFindByIdFive() throws DataAccessException {
+
+        SolarPanel actual = repoToTest.findById(5);
+
+        assertNull( actual );
     }
 
     @Test
@@ -59,4 +82,3 @@ public class SolarPanelDbRepositoryTest {
     void deleteById() {
     }
 }
-

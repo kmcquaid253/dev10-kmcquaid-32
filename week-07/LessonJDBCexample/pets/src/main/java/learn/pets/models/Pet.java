@@ -8,6 +8,16 @@ public class Pet {
     private String name;
     private String type;
 
+    // NEW: Pet constructors
+    public Pet() {
+    }
+
+    public Pet(int petId, String name, String type) {
+        this.petId = petId;
+        this.name = name;
+        this.type = type;
+    }
+
     public int getPetId() {
         return petId;
     }

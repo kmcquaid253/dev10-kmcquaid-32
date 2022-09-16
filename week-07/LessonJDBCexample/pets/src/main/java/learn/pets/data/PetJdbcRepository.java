@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 
 // NEW: required imports
 import learn.pets.models.Pet;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +15,8 @@ import java.util.List;
 
 // NEW: required imports
 
-
+@Repository
+@Profile("jdbc")
 public class PetJdbcRepository implements PetRepository {
 
     // 1. Dangerous initialization during construction
@@ -23,7 +26,7 @@ public class PetJdbcRepository implements PetRepository {
         MysqlDataSource result = new MysqlDataSource();
         // 2. connection string is:
         // [db-tech]:[db-vendor]://[host]:[port]/[database-name]
-        result.setUrl("jdbc:mysql://localhost:3306/pets?serverTimezone=UTC");
+        result.setUrl("jdbc:mysql://localhost:3306/pets");
         // 3. username
         result.setUser("root");
         // 4. password

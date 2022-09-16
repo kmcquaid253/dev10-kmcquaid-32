@@ -1,37 +1,54 @@
 package learn.solarfarm.domain;
 
 import learn.solarfarm.data.DataAccessException;
+import learn.solarfarm.data.SolarPanelRepository;
 import learn.solarfarm.data.SolarPanelRepositoryDouble;
 import learn.solarfarm.models.Material;
 import learn.solarfarm.models.SolarPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class SolarPanelServiceTest {
 
-    SolarPanelService service;
+    @MockBean
+    SolarPanelRepository repository;
 
-    @BeforeEach
-    void setup() {
-        SolarPanelRepositoryDouble repository = new SolarPanelRepositoryDouble();
-        service = new SolarPanelService(repository);
-    }
+    @Autowired
+    SolarPanelService service;
 
     @Test
     void shouldFindTwoSolarPanelsForSectionOne() throws DataAccessException {
-        List<SolarPanel> solarPanels = service.findBySection("Section One");
-        assertEquals(2, solarPanels.size());
+        ArrayList<SolarPanel> solarPanels = new ArrayList<>();
+        solarPanels.add(new SolarPanel(1, "Section One", 1, 1, 2020, Material.POLY_SI, true));
+        solarPanels.add(new SolarPanel(2, "Section One", 1, 2, 2020, Material.POLY_SI, true));
+
+        when(repository.findBySection("Section One"))
+                .thenReturn(solarPanels);
+
+        List<SolarPanel> result = service.findBySection("Section One");
+        assertEquals(2, result.size());
     }
 
     @Test
     void shouldFindSolarPanelWithAnIdOf1() throws DataAccessException {
+        SolarPanel expected = new SolarPanel(3, "Section Two", 10, 11, 2000, Material.A_SI, false);
+
+        when(repository.findById(3)).thenReturn(expected);
+
         SolarPanel solarPanel = service.findById(3);
-        assertNotNull(solarPanel);
+        assertEquals(expected, solarPanel);
     }
 
     @Test
@@ -195,6 +212,10 @@ class SolarPanelServiceTest {
 
     @Test
     void shouldNotCreateNonUniqueSectionRowColumn() throws DataAccessException {
+        ArrayList<SolarPanel> solarPanels = new ArrayList<>();
+        solarPanels.add(new SolarPanel(1, "Section One", 1, 1, 2020, Material.POLY_SI, true));
+        when(repository.findBySection("Section One")).thenReturn(solarPanels);
+
         SolarPanel solarPanel = new SolarPanel();
         solarPanel.setSection("Section One");
         solarPanel.setRow(1);
@@ -237,8 +258,7 @@ class SolarPanelServiceTest {
 
     @Test
     void shouldNotUpdateEmptySection() throws DataAccessException {
-        SolarPanel solarPanel = service.findById(1);
-        solarPanel.setSection("");
+        SolarPanel solarPanel = new SolarPanel(1, "", 1, 1, 2020, Material.POLY_SI, true);
 
         SolarPanelResult result = service.update(solarPanel);
 
@@ -282,16 +302,14 @@ class SolarPanelServiceTest {
 
     @Test
     void shouldUpdate() throws DataAccessException {
-        SolarPanel solarPanel = service.findById(1);
+        SolarPanel solarPanel = new SolarPanel(1, "Hill", 1, 1, 2020, Material.POLY_SI, true);
         solarPanel.setMaterial(Material.A_SI);
+
+        when(repository.update(solarPanel)).thenReturn(true);
 
         SolarPanelResult result = service.update(solarPanel);
 
         assertTrue(result.isSuccess());
-
-        // re-retrieve the solar panel and check if the material was updated
-        SolarPanel updatedSolarPanel = service.findById(1);
-        assertEquals(Material.A_SI, updatedSolarPanel.getMaterial());
     }
 
     @Test
@@ -305,6 +323,7 @@ class SolarPanelServiceTest {
 
     @Test
     void shouldDelete() throws DataAccessException {
+        when(repository.deleteById(anyInt())).thenReturn(true);
         SolarPanelResult result = service.deleteById(1);
 
         assertTrue(result.isSuccess());
