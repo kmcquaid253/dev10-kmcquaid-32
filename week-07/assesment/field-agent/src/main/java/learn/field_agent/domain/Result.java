@@ -2,6 +2,7 @@ package learn.field_agent.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Result<T> {
 
@@ -33,5 +34,4 @@ public class Result<T> {
         messages.add(message);
         this.type = type;
     }
-
 }

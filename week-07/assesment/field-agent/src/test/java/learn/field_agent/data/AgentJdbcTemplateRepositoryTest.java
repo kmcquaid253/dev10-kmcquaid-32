@@ -41,8 +41,6 @@ class AgentJdbcTemplateRepositoryTest {
     @Test
     void shouldFindHazel() {
         Agent hazel = repository.findById(1);
-        assertEquals(1, hazel.getAgentId());
-        assertEquals("Hazel", hazel.getFirstName());
         assertEquals(2, hazel.getAgencies().size());
     }
 
