@@ -104,6 +104,7 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
     @Override
     @Transactional
     public boolean deleteById(int agentId) {
+        jdbcTemplate.update("delete from alias where agent_id = ?;", agentId);
         jdbcTemplate.update("delete from agency_agent where agent_id = ?;", agentId);
         return jdbcTemplate.update("delete from agent where agent_id = ?;", agentId) > 0;
     }
@@ -111,7 +112,7 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
     private void addAgencies(Agent agent) {
 
         final String sql = "select aa.agency_id, aa.agent_id, aa.identifier, aa.activation_date, aa.is_active, "
-                + "sc.security_clearance_id, sc.name security_clearance_name, "
+                + "sc.security_clearance_id, sc.`name`, "
                 + "a.short_name, a.long_name "
                 + "from agency_agent aa "
                 + "inner join agency a on aa.agency_id = a.agency_id "

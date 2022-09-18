@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -26,6 +27,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     void setup() {
         knownGoodState.set();
     }
+
 
     @Test
     void shouldFindById() {
@@ -95,6 +97,15 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     }
 
     @Test
+    void shouldNotUpdateMissing(){
+        SecurityClearance securityClearance = new SecurityClearance();
+        securityClearance.setSecurityClearanceId(100);
+        securityClearance.setName("WRONG");
+
+        assertFalse(repository.update(securityClearance));
+    }
+
+    @Test
     void shouldUpdate() {
         SecurityClearance securityClearance = new SecurityClearance();
         securityClearance.setSecurityClearanceId(1);
@@ -104,19 +115,13 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldNotUpdateMissing(){
-        SecurityClearance clearance = new SecurityClearance();
-
-        clearance.setSecurityClearanceId(100);
-        clearance.setName("Incognito");
-
-        boolean success = repository.update(clearance);
-        assertFalse(success);
+    void shouldDeleteExisting() throws DataException {
+        assertTrue(repository.deleteById(2));
     }
 
     @Test
-    void shouldDeleteExisting() throws DataException {
-        assertTrue(repository.deleteById(2));
+    void shouldNotDeleteNonExisting() throws DataException {
+        assertFalse(repository.deleteById(6000));
     }
 
 }

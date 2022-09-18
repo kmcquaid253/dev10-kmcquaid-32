@@ -10,14 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/alias/api")
 public class AliasController {
 
     @Autowired
     AliasService service;
 
 
-    @DeleteMapping("/alias/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteSecurityClearanceById(@PathVariable Integer id) throws DataException {
         Result deleteResult = service.deleteById(id);
 
@@ -27,10 +27,7 @@ public class AliasController {
         return new ResponseEntity(deleteResult.getMessages().get(0), HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping("/agent/{agentId}")
-//    public Agent findById(@PathVariable int agentId) {
-//        return service.findById(agentId);
-//    }
+    
 }
 
 

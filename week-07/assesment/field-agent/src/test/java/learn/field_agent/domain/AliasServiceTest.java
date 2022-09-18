@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -21,23 +22,6 @@ public class AliasServiceTest {
     @MockBean
     AliasRepository repo;
 
-//    @Test
-//    void shouldDeleteByExistingId() throws DataException {
-//        Alias toDelete = new Alias(1, "Mist", "Quiet like mist", 4);
-//        when( repo.findById(1))
-//                .thenReturn( toDelete )
-//                .thenReturn( null );
-//        when( repo.deleteById(1))
-//                .thenReturn(true);
-//
-//        SecurityClearance found = service.findById(1);
-//        Result deleteResult = service.deleteById(1);
-//        SecurityClearance shouldBeNull = service.findById(1);
-//
-//        assertNotNull( found );
-//        assertTrue( deleteResult.isSuccess() );
-//        assertNull( shouldBeNull );
-//    }
 
     @Test
     void shouldNotDeleteByNonExistingId() throws DataException {
@@ -51,4 +35,13 @@ public class AliasServiceTest {
                 deleteResult.getMessages().get(0));
 
     }
+
+    @Test
+    void shouldDelete() throws DataException {
+        when(repo.deleteById(anyInt())).thenReturn(true);
+        Result result = service.deleteById(1);
+
+        assertTrue(result.isSuccess());
+    }
+
 }

@@ -1,9 +1,13 @@
 package learn.field_agent.data;
 
+import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,9 +26,13 @@ public class AliasJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldDelete() throws DataException {
-        assertTrue(repository.deleteById(5));
-        assertFalse(repository.deleteById(5));
+    void shouldDeleteNonExistingExisting() throws DataException {
+        assertFalse(repository.deleteById(200));
     }
+
+//    @Test
+//    void shouldDeleteExisting() throws DataException {
+//        assertTrue(repository.deleteById(2));
+//    }
 
 }
