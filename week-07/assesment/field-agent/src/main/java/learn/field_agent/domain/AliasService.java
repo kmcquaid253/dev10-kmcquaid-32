@@ -2,6 +2,7 @@ package learn.field_agent.domain;
 
 import learn.field_agent.data.AliasRepository;
 import learn.field_agent.data.DataException;
+import learn.field_agent.models.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +24,8 @@ public class AliasService {
 
         return toReturn;
     }
+
+//    public Agent findById(int agentId) {
+//        return repository.findById(agentId);
+//    }
 }

@@ -3,24 +3,21 @@ package learn.field_agent.controllers;
 import learn.field_agent.data.DataException;
 import learn.field_agent.domain.AliasService;
 import learn.field_agent.domain.Result;
-import learn.field_agent.domain.SecurityClearanceService;
-import learn.field_agent.models.SecurityClearance;
+import learn.field_agent.models.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("api/")
+@RequestMapping("/api")
 public class AliasController {
 
     @Autowired
     AliasService service;
 
 
-    @DeleteMapping("alias/{aliasId}")
+    @DeleteMapping("/alias/{id}")
     public ResponseEntity deleteSecurityClearanceById(@PathVariable Integer id) throws DataException {
         Result deleteResult = service.deleteById(id);
 
@@ -29,6 +26,11 @@ public class AliasController {
         }
         return new ResponseEntity(deleteResult.getMessages().get(0), HttpStatus.NOT_FOUND);
     }
+
+//    @GetMapping("/agent/{agentId}")
+//    public Agent findById(@PathVariable int agentId) {
+//        return service.findById(agentId);
+//    }
 }
 
 

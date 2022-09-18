@@ -106,6 +106,7 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     @Test
     void shouldNotUpdateMissing(){
         SecurityClearance clearance = new SecurityClearance();
+
         clearance.setSecurityClearanceId(100);
         clearance.setName("Incognito");
 
@@ -117,15 +118,5 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
     void shouldDeleteExisting() throws DataException {
         assertTrue(repository.deleteById(2));
     }
-
-    @Test
-    void shouldNotDeleteMissing() throws DataException {
-        assertFalse(repository.deleteById(40000));
-    }
-
-
-
-
-
 
 }

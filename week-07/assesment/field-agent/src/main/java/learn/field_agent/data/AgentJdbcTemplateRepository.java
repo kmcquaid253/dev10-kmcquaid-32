@@ -2,7 +2,9 @@ package learn.field_agent.data;
 
 import learn.field_agent.data.mappers.AgentAgencyMapper;
 import learn.field_agent.data.mappers.AgentMapper;
+import learn.field_agent.data.mappers.AliasMapper;
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -27,6 +29,7 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
     public List<Agent> findAll() {
         final String sql = "select agent_id, first_name, middle_name, last_name, dob, height_in_inches "
                 + "from agent limit 1000;";
+
         return jdbcTemplate.query(sql, new AgentMapper());
     }
 
@@ -46,6 +49,9 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
             addAgencies(agent); // 2. Map agencies and agency/agent-specific fields.
         }
 
+        if (agent != null) {
+            addAliases(agent); // 2. Map alias fields.
+        }
         return agent;
     }
 
@@ -114,5 +120,15 @@ public class AgentJdbcTemplateRepository implements AgentRepository {
 
         var agentAgencies = jdbcTemplate.query(sql, new AgentAgencyMapper(), agent.getAgentId());
         agent.setAgencies(agentAgencies);
+    }
+
+    private void addAliases(Agent agent) {
+
+        final String sql = "select a.* from alias as a "
+                + "inner join agent as ag on a.agent_id = ag.agent_id "
+                + "where ag.agent_id = ?;";
+
+        var alias = jdbcTemplate.query(sql, new AliasMapper(), agent.getAgentId());
+        agent.setAlias(alias);
     }
 }
