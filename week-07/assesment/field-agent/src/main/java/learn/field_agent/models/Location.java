@@ -1,6 +1,6 @@
 package learn.field_agent.models;
 
-public class Location {
+public class  Location {
 
     private int locationId;
     private String name;
