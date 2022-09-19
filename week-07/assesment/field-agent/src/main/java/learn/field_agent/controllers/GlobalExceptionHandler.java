@@ -22,5 +22,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity handleGenericException( Exception toHande ){
         return ResponseEntity.internalServerError().build();
     }
-    }
+}
 

@@ -3,6 +3,7 @@ package learn.field_agent.domain;
 import learn.field_agent.data.DataException;
 import learn.field_agent.data.SecurityClearanceRepository;
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +71,17 @@ class SecurityClearanceServiceTest {
     }
 
     @Test
-    void shouldNotAddEmptyName() {
-        SecurityClearance securityClearance = new SecurityClearance(5,"");
-        Result<SecurityClearance> result = service.add(securityClearance);
-        assertEquals(ResultType.INVALID, result.getType());
-        assertNull(result.getPayload());
+    void shouldNotAddNullName(){
+        SecurityClearance securityClearance = new SecurityClearance();
+
+        securityClearance.setName(null);
+
+        Result result = service.add(securityClearance);
+
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals( "Name is required",
+                result.getMessages().get(0));
     }
 
     @Test

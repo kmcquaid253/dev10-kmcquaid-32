@@ -55,8 +55,8 @@ public class Alias {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Alias alias = (Alias) o;
-        return aliasId == alias.aliasId && agentId == alias.agentId && name.equals(alias.name) && persona.equals(alias.persona);
+        Alias that = (Alias) o;
+        return aliasId == that.aliasId && agentId == that.agentId && name.equals(that.name) && persona.equals(that.persona);
     }
 
     @Override

@@ -3,8 +3,12 @@ package learn.field_agent.domain;
 import learn.field_agent.data.AliasRepository;
 import learn.field_agent.data.DataException;
 import learn.field_agent.models.Agent;
+import learn.field_agent.models.Alias;
+import learn.field_agent.models.SecurityClearance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 public class AliasService {
@@ -25,7 +29,60 @@ public class AliasService {
         return toReturn;
     }
 
-//    public Agent findById(int agentId) {
-//        return repository.findById(agentId);
-//    }
+    public Result<Alias> add(Alias alias) {
+
+        Result<Alias> result = validate(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (alias.getAliasId() != 0) {
+            result.addMessage("Alias Id cannot be set for `add` operation", ResultType.INVALID);
+            return result;
+        }
+
+        alias = repository.add(alias);
+        result.setPayload(alias);
+        return result;
+    }
+
+    public Result<Alias> update(Alias alias) {
+
+        Result<Alias> result = validate(alias);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        if (alias.getAliasId() <= 0) {
+            result.addMessage("Alias Id must be set for `update` operation", ResultType.INVALID);
+            return result;
+        }
+
+        if (!repository.update(alias)) {
+            String msg = String.format("AliasId: %s, not found", alias.getAliasId());
+            result.addMessage(msg, ResultType.NOT_FOUND);
+        }
+
+        return result;
+    }
+
+
+    //VALIDATION
+    private Result<Alias> validate(Alias alias) {
+        Result<Alias> result = new Result<>();
+        if (alias == null) {
+            result.addMessage("alias cannot be null", ResultType.INVALID);
+            return result;
+        }
+
+        if (Validations.isNullOrBlank(alias.getName())) {
+            result.addMessage("Name is required", ResultType.INVALID);
+        }
+
+        if (alias.getAgentId() <= 0) {
+            result.addMessage("Alias agent_Id is required", ResultType.INVALID);
+        }
+
+        return result;
+    }
 }
