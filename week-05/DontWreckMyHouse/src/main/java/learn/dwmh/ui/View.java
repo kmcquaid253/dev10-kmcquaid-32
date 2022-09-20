@@ -177,4 +177,7 @@ public class View {
     }
 
 
+    public int getReservationId() {
+        return io.readInt("Reservation Id: ");
+    }
 }

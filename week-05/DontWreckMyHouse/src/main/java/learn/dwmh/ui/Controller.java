@@ -62,7 +62,27 @@ public class Controller {
         } while (option != MainMenuChoice.EXIT);
     }
 
-    private void updateReservation() {
+    private void updateReservation() throws DataException {
+        Guest guest = getGuest();
+        if (guest == null) {
+            return;
+        }
+
+        Host host = getHost();
+        if (host == null) {
+            return;
+        }
+
+        //Reservation reservation = view.getReservationId();
+
+        Result<Reservation> result = reservationService.update(reservation);
+
+        if (!result.isSuccess()) {
+            view.displayStatus(false, result.getErrorMessages());
+        } else {
+            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
+            view.displayStatus(true, successMessage);
+        }
     }
 
     private void addReservation() throws DataException {
@@ -91,36 +111,33 @@ public class Controller {
     }
 
     private void cancelReservation() throws DataException {
-        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
-
-        Guest guest = getGuest();
-        if (guest == null) {
-            return;
-        }
-
-        Host host = getHost();
-        if (host == null) {
-            return;
-        }
-
-        int id = getId();
-        if (id == null) {
-            return;
-        }
-
-        Result result = reservationService.deleteById(host, );
-
-
-        if (!result.isSuccess()) {
-            view.displayStatus(false, result.getErrorMessages());
-        } else {
-            String successMessage = String.format("Reservation deleted!");
-            view.displayStatus(true, successMessage);
-        }
-
-        //customer email: dlynessy@icio.us
-        //host email: eyearnes0@sfgate.com
-        //reservation id:2
+//        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
+//
+//        Guest guest = getGuest();
+//        if (guest == null) {
+//            return;
+//        }
+//
+//        Host host = getHost();
+//        if (host == null) {
+//            return;
+//        }
+//
+//        Reservation reservation = getReservationId();
+//
+//        Result result = reservationService.deleteById(host, );
+//
+//
+//        if (!result.isSuccess()) {
+//            view.displayStatus(false, result.getErrorMessages());
+//        } else {
+//            String successMessage = String.format("Reservation deleted!");
+//            view.displayStatus(true, successMessage);
+//        }
+//
+//        //customer email: dlynessy@icio.us
+//        //host email: eyearnes0@sfgate.com
+//        //reservation id:2
     }
 
     private void viewByHost() throws DataException {
@@ -152,11 +169,4 @@ public class Controller {
         List<Guest> guests = guestService.findByEmail(email);
         return view.chooseGuest(guests);
     }
-
-    private Reservation getId() {
-        String email = view.getId();
-        List<Guest> guests = guestS ervice.findByEmail(email);
-        return view.chooseGuest(guests);
-    }
-   
 }

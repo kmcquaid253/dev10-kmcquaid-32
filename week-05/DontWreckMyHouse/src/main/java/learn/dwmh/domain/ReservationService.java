@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -87,6 +88,18 @@ public class ReservationService {
 
         //for loop with a LocalDate variable that you advance one day every iteration
         //LocalDate objects can give you a day of week enum
+
+        List<LocalDate> days = new ArrayList<>();
+        BigDecimal total = BigDecimal.ZERO;
+        for(LocalDate day : days){
+            if(day.getDayOfWeek() == DayOfWeek.FRIDAY || day.getDayOfWeek() == DayOfWeek.SATURDAY){
+                total = total.add(reservation.getHost().getWeekendRate());
+            }else {
+                total = total.add(reservation.getHost().getStandardRate());
+            }
+        }
+
+        //total = total.setScale(2);
         return toReturn;
     }
 
@@ -214,8 +227,4 @@ public class ReservationService {
             result.addErrorMessage("Guest does not exist.");
         }
     }
-
-
-
-
 }
