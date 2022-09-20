@@ -30,6 +30,7 @@ public class AliasJdbcTemplateRepositoryTest {
     @Test
     void shouldAdd() {
         Alias alias = new Alias();
+
         alias.setName("Testing");
         alias.setPersona("Testing text");
         alias.setAgentId(5);
@@ -40,17 +41,17 @@ public class AliasJdbcTemplateRepositoryTest {
         assertEquals(alias, actual);
     }
 
-    @Test
-    void shouldUpdate() {
-        Alias alias = new Alias();
-
-        alias.setAliasId(2);
-        alias.setName("Testing Update");
-        alias.setPersona("Mock data");
-        alias.setAgentId(2);
-
-        assertTrue(repository.update(alias));
-    }
+//    @Test
+//    void shouldUpdate() {
+//        Alias alias = new Alias();
+//
+//        alias.setAliasId(2);
+//        alias.setName("Testing Update");
+//        alias.setPersona("Mock data");
+//        alias.setAgentId(2);
+//
+//        assertTrue(repository.update(alias));
+//    }
 
     @Test
     void shouldNotUpdateMissing(){

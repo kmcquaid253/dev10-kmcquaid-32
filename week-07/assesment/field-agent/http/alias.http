@@ -26,4 +26,7 @@ Content-Type: application/json
 
 DELETE http://localhost:8080/api/alias/1 HTTP/1.1
 
+###
+DELETE http://localhost:8080/api/alias/100 HTTP/1.1
+
 
