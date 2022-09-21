@@ -74,7 +74,7 @@ class AgentJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldDelete() {
+    void shouldDeleteAgency() {
         assertTrue(repository.deleteById(2));
         assertFalse(repository.deleteById(2));
     }

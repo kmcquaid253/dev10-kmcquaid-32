@@ -1,6 +1,7 @@
 package learn.field_agent.data;
 
 import learn.field_agent.domain.Result;
+import learn.field_agent.models.Agency;
 import learn.field_agent.models.Agent;
 import learn.field_agent.models.SecurityClearance;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,17 +32,8 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
 
     @Test
     void shouldFindById() {
-        SecurityClearance secret = new SecurityClearance(1, "Secret");
-        SecurityClearance topSecret = new SecurityClearance(2, "Top Secret");
-
-        SecurityClearance actual = repository.findById(1);
-        assertEquals(secret, actual);
-
-        actual = repository.findById(2);
-        assertEquals(topSecret, actual);
-
-        actual = repository.findById(3);
-        assertEquals(null, actual);
+        SecurityClearance name = repository.findById(1);
+        assertEquals("Secret", name.getName());
     }
 
     @Test
@@ -50,30 +42,6 @@ class SecurityClearanceJdbcTemplateRepositoryTest {
         assertNotNull(securityClearances);
 
         assertTrue(securityClearances.size() >= 1 && securityClearances.size() <= 4);
-    }
-
-    @Test
-    void shouldFindTwoSecurityClearance(){
-        List<SecurityClearance> allSecurityClearance = repository.getAllSecurityClearance();
-        assertEquals(2, allSecurityClearance.size());
-    }
-
-    @Test
-    void shouldFindSByInputtingSpecificData() {
-        List<SecurityClearance> all = repository.getAllSecurityClearance();
-
-        assertNotNull(all);
-        // Anything 2 or bigger is good since security-clearance is being added and deleted.
-        assertTrue(all.size() >= 2);
-
-        SecurityClearance expected = new SecurityClearance();
-        expected.setSecurityClearanceId(1);
-        expected.setName("Secret");
-
-        // Ensure Secret is present (1 is left alone).
-        // Then confirm security-clearance_id 2 exists, though its fields may have changed.
-        assertTrue(all.contains(expected)
-                && all.stream().anyMatch(i -> i.getSecurityClearanceId() == 2));
     }
 
     @Test

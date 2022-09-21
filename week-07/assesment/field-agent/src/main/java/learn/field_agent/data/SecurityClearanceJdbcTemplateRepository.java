@@ -74,8 +74,8 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
     }
 
     @Override
-    @Transactional
-    public boolean deleteById(Integer id) throws DataException {
+    //@Transactional
+    public boolean deleteById(int id) throws DataException {
         /*
                 delete from agency_agent
                 where security_clearance_id = 1
@@ -84,8 +84,8 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
                 where security_clearance_id = 1
          */
 
-        int bridgeTableRows = jdbcTemplate.update(
-                "delete from agency_agent where security_clearance_id = ?;", id);
+//        int bridgeTableRows = jdbcTemplate.update(
+//                "delete from agency_agent where security_clearance_id = ?;", id);
 
         int securityClearanceTable = jdbcTemplate.update(
                 "delete from security_clearance where security_clearance_id = ?;", id);
@@ -93,7 +93,7 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
         if( securityClearanceTable < 1){
             return false;
         } else if ( securityClearanceTable > 1 ){
-            throw new DataException("Course Ids are not unique in the database!");
+            throw new DataException("Ids are not unique in the database!");
         }
 
         return true;

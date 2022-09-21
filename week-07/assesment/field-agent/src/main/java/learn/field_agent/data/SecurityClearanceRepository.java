@@ -15,6 +15,6 @@ public interface SecurityClearanceRepository {
 
     boolean update(SecurityClearance sc);
 
-    @Transactional
-    boolean deleteById(Integer id) throws DataException;
+    //@Transactional
+    boolean deleteById(int id) throws DataException;
 }

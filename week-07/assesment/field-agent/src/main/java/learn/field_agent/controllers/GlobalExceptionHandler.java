@@ -1,6 +1,7 @@
 package learn.field_agent.controllers;
 
 import learn.field_agent.data.DataException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -23,6 +24,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handelHttpMessageNotReadable(HttpMessageNotReadableException ex){
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> dataIntegrityViolationException(DataIntegrityViolationException ex){
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
 
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity handleGenericException( Exception toHande ){

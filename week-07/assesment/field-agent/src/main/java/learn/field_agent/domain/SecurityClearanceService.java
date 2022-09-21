@@ -64,7 +64,7 @@ public class SecurityClearanceService {
         return result;
     }
 
-    public Result deleteById(Integer id) throws DataException {
+    public Result deleteById(int id) throws DataException {
 
         Result toReturn = new Result();
 

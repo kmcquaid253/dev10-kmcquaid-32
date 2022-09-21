@@ -100,13 +100,18 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
-	delete from location;
-    alter table location auto_increment = 1;
-    delete from agency_agent;
 	delete from agency;
-	alter table agency auto_increment = 1;
-    delete from agent;
-    alter table agent auto_increment = 1;
+	alter table agency auto_increment = 1;   
+	delete from location;
+    alter table location auto_increment = 1;      
+	delete from security_clearance;
+	alter table security_clearance auto_increment = 1;
+    delete from agency_agent;
+    alter table agency_agent auto_increment = 1;
+     delete from agent;
+    alter table agent auto_increment = 1;  
+    delete from alias;
+    alter table alias auto_increment = 1;
     
     insert into agency(agency_id, short_name, long_name) values
         (1, 'ACME', 'Agency to Classify & Monitor Evildoers'),
@@ -134,6 +139,11 @@ begin
 		('Ulises','B','Muhammad','2008-04-01',80),
 		('Phylys','Y','Howitt','1979-03-28',68);
         
+        -- data
+	insert into security_clearance values
+		(1, 'Secret'),
+		(2, 'Top Secret');
+        
 	insert into agency_agent 
 		(agency_id, agent_id, identifier, security_clearance_id, activation_date)
     select
@@ -146,24 +156,21 @@ begin
     inner join agent
     where agent.agent_id not in (6, 8)
     and agency.agency_id != 2;
+    
+    -- alias
+    insert into alias
+		(`name`, persona, agent_id) 
+	values
+	('The unknown','This is a test', 8),
+	('Quiet One','This is mock data',7),
+	('Shhh','Im not sure what to write here',6),
+	('Who','Who is the who',5),
+	('Mist','Queit like mist',4),
+	('Whistle','Whistles through',3),
+	('Done','Done with it all',2),
+	('Silent','The silent one is silent',1);
 
 end //
--- 4. Change the statement terminator back to the original.
-delimiter ;
 
--- data
-insert into security_clearance values
-	(1, 'Secret'),
-    (2, 'Top Secret');
-    
--- insert into alias
--- 		(`name`, persona, agent_id) 
--- 	values
--- 	('The unknown','This is a test', 8),
--- 	('Quiet One','This is mock data',7),
--- 	('Shhh','Im not sure what to write here',6),
--- 	('Who','Who is the who',5),
--- 	('Mist','Queit like mist',4),
--- 	('Whistle','Whistles through',3),
--- 	('Done','Done with it all',2),
--- 	('Silent','The silent one is silent',1);  
+delimiter ;
+  
