@@ -99,7 +99,7 @@ public class ReservationService {
             }
         }
 
-        //total = total.setScale(2);
+        reservation.setTotal(total);
         return toReturn;
     }
 

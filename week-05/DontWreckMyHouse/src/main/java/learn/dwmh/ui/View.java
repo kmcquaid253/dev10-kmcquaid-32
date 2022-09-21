@@ -161,6 +161,16 @@ public class View {
         return reservation;
     }
 
+    public boolean reservationSummary(Reservation reservation){
+        displayHeader("Summary");
+
+        io.println("Start: "+  reservation.getStart());
+        io.println("End: " + reservation.getEnd());
+        io.println("Total: " + reservation.getTotal());
+
+        return io.readBoolean("Is this ok? [y/n]");
+    }
+
     public Reservation getReservation() {
         Reservation toBuild = new Reservation();
         String email = io.readRequiredString("Host Email: ");

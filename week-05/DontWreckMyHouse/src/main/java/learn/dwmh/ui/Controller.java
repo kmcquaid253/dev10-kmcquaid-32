@@ -63,26 +63,26 @@ public class Controller {
     }
 
     private void updateReservation() throws DataException {
-        Guest guest = getGuest();
-        if (guest == null) {
-            return;
-        }
-
-        Host host = getHost();
-        if (host == null) {
-            return;
-        }
-
-        //Reservation reservation = view.getReservationId();
-
-        Result<Reservation> result = reservationService.update(reservation);
-
-        if (!result.isSuccess()) {
-            view.displayStatus(false, result.getErrorMessages());
-        } else {
-            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
-            view.displayStatus(true, successMessage);
-        }
+//        Guest guest = getGuest();
+//        if (guest == null) {
+//            return;
+//        }
+//
+//        Host host = getHost();
+//        if (host == null) {
+//            return;
+//        }
+//
+//        //Reservation reservation = view.getReservationId();
+//
+//        //Result<Reservation> result = reservationService.update(reservation);
+//
+//        if (!result.isSuccess()) {
+//            view.displayStatus(false, result.getErrorMessages());
+//        } else {
+//            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
+//            view.displayStatus(true, successMessage);
+//        }
     }
 
     private void addReservation() throws DataException {
@@ -100,6 +100,13 @@ public class Controller {
 
 
         Reservation reservation = view.makeReservation(host, guest);
+
+        boolean reservationCheck= view.reservationSummary(reservation);
+
+        if(!reservationCheck){
+            return;
+        }
+
         Result<Reservation> result = reservationService.add(reservation);
 
         if (!result.isSuccess()) {
