@@ -10,6 +10,7 @@ import learn.dwmh.models.Reservation;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class ReservationService {
         return result;
     }
 
-    private BigDecimal calculateTotal(Reservation reservation, Host host){
+    private BigDecimal calculateTotal(Reservation reservation){
 
         List<LocalDate> days = new ArrayList<>();
 
@@ -122,19 +123,19 @@ public class ReservationService {
             days.add(date);
         }
 
-        BigDecimal reservationTotal = BigDecimal.ZERO; //Set initial reservationTotal to 0
+        BigDecimal totalVal = BigDecimal.ZERO; //Set initial totalVal to 0
         //for loop with a LocalDate variable that you advance one day every iteration
         //LocalDate objects can give you a day of week enum
         for(LocalDate day : days){
             if(day.getDayOfWeek() == DayOfWeek.FRIDAY ||
                     day.getDayOfWeek() == DayOfWeek.SATURDAY){
-                reservationTotal = reservationTotal.add(host.getWeekendRate());
+                totalVal = totalVal.add(reservation.getHost().getWeekendRate());
             }else{
-                reservationTotal = reservationTotal.add(host.getStandardRate());
+                totalVal = totalVal.add(reservation.getHost().getStandardRate());
             }
         }
-        reservationTotal = reservationTotal.setScale(2);
-        return reservationTotal;
+        totalVal = totalVal.setScale(2, RoundingMode.HALF_UP);
+        return totalVal;
     }
 
     private Result<Reservation> validate(Reservation reservation) {

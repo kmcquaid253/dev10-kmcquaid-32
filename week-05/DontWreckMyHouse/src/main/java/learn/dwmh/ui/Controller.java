@@ -62,25 +62,15 @@ public class Controller {
         } while (option != MainMenuChoice.EXIT);
     }
 
-    private void updateReservation() throws DataException {
-//        Guest guest = getGuest();
-//        if (guest == null) {
-//            return;
-//        }
-//
-//        Host host = getHost();
-//        if (host == null) {
-//            return;
-//        }
-//
+    private void viewByHost() throws DataException {
+        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
 
-//
-//        if (!result.isSuccess()) {
-//            view.displayStatus(false, result.getErrorMessages());
-//        } else {
-//            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
-//            view.displayStatus(true, successMessage);
-//        }
+        String email  = view.getHostEmail();
+
+        Result<List<Reservation>> reservations = reservationService.findByHostEmail(email);
+
+        view.displayReservations(reservations.getPayload());
+        //kdeclerkdc@sitemeter.com
     }
 
     private void addReservation() throws DataException {
@@ -115,6 +105,27 @@ public class Controller {
         }
     }
 
+    private void updateReservation() throws DataException {
+//        Guest guest = getGuest();
+//        if (guest == null) {
+//            return;
+//        }
+//
+//        Host host = getHost();
+//        if (host == null) {
+//            return;
+//        }
+//
+
+//
+//        if (!result.isSuccess()) {
+//            view.displayStatus(false, result.getErrorMessages());
+//        } else {
+//            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
+//            view.displayStatus(true, successMessage);
+//        }
+    }
+
     private void cancelReservation() throws DataException {
 //        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
 //
@@ -140,16 +151,6 @@ public class Controller {
 //        //host email: eyearnes0@sfgate.com
 //        //reservation id:2
     }
-
-    private void viewByHost() throws DataException {
-        view.displayHeader(MainMenuChoice.VIEW_RESERVATION_FOR_HOST.getMessage());
-
-        String email  = view.getHostEmail();
-
-        Result<List<Reservation>> reservations = reservationService.findByHostEmail(email);
-        view.displayReservations(reservations.getPayload());
-        //kdeclerkdc@sitemeter.com
-   }
 
    //support methods
     private Host getHost(){

@@ -69,9 +69,10 @@ public class View {
 
     public void displayReservations(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
-            io.println("No reservations found.");
+            io.println("\nNo reservations found.");
             return;
         }
+
         for (Reservation reservation : reservations) {
 
             /*
