@@ -73,9 +73,7 @@ public class Controller {
 //            return;
 //        }
 //
-//        //Reservation reservation = view.getReservationId();
-//
-//        //Result<Reservation> result = reservationService.update(reservation);
+
 //
 //        if (!result.isSuccess()) {
 //            view.displayStatus(false, result.getErrorMessages());
@@ -124,15 +122,11 @@ public class Controller {
 //        if (guest == null) {
 //            return;
 //        }
-//
+
 //        Host host = getHost();
 //        if (host == null) {
 //            return;
 //        }
-//
-//        Reservation reservation = getReservationId();
-//
-//        Result result = reservationService.deleteById(host, );
 //
 //
 //        if (!result.isSuccess()) {
@@ -176,4 +170,5 @@ public class Controller {
         List<Guest> guests = guestService.findByEmail(email);
         return view.chooseGuest(guests);
     }
+
 }

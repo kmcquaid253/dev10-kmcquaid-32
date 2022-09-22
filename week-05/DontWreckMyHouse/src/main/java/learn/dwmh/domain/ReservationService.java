@@ -60,49 +60,6 @@ public class ReservationService {
         return toReturn;
     }
 
-    public Result<BigDecimal> calculateTotal(Reservation reservation){
-        Result <BigDecimal> toReturn = new Result<>();
-
-        //host & dates are required
-        LocalDate startDate = reservation.getStart();
-        LocalDate endDate = reservation.getEnd();
-
-        //start must be before end date
-        boolean isBefore = startDate.isBefore(endDate);
-
-        if(startDate == null || endDate == null){
-            toReturn.addErrorMessage("Start Date and End Date are required");
-            return toReturn;
-        }
-
-        if (!isBefore){
-            toReturn.addErrorMessage("Start Date must be before end date");
-            return toReturn;
-        }
-
-        //host must exist
-        if (reservation.getHost().getId().equals(null)){
-            toReturn.addErrorMessage("Host must exist");
-            return toReturn;
-        }
-
-        //for loop with a LocalDate variable that you advance one day every iteration
-        //LocalDate objects can give you a day of week enum
-
-        List<LocalDate> days = new ArrayList<>();
-        BigDecimal total = BigDecimal.ZERO;
-        for(LocalDate day : days){
-            if(day.getDayOfWeek() == DayOfWeek.FRIDAY || day.getDayOfWeek() == DayOfWeek.SATURDAY){
-                total = total.add(reservation.getHost().getWeekendRate());
-            }else {
-                total = total.add(reservation.getHost().getStandardRate());
-            }
-        }
-
-        reservation.setTotal(total);
-        return toReturn;
-    }
-
     public Result<Reservation> add(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
 
@@ -152,6 +109,32 @@ public class ReservationService {
         }
 
         return result;
+    }
+
+    private BigDecimal calculateTotal(Reservation reservation, Host host){
+
+        List<LocalDate> days = new ArrayList<>();
+
+        for(LocalDate date = reservation.getStart(); //iteration begins at start date
+            date.isBefore(reservation.getEnd()); //checks if the end date is before the specific date ?isAfter
+            date = date.plusDays(1)){ // +1 days to the reservation
+
+            days.add(date);
+        }
+
+        BigDecimal reservationTotal = BigDecimal.ZERO; //Set initial reservationTotal to 0
+        //for loop with a LocalDate variable that you advance one day every iteration
+        //LocalDate objects can give you a day of week enum
+        for(LocalDate day : days){
+            if(day.getDayOfWeek() == DayOfWeek.FRIDAY ||
+                    day.getDayOfWeek() == DayOfWeek.SATURDAY){
+                reservationTotal = reservationTotal.add(host.getWeekendRate());
+            }else{
+                reservationTotal = reservationTotal.add(host.getStandardRate());
+            }
+        }
+        reservationTotal = reservationTotal.setScale(2);
+        return reservationTotal;
     }
 
     private Result<Reservation> validate(Reservation reservation) {

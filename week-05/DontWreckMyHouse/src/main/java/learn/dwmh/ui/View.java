@@ -1,13 +1,12 @@
 package learn.dwmh.ui;
 
-import learn.dwmh.domain.GuestService;
+import learn.dwmh.domain.ReservationService;
 import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class View {
@@ -68,10 +67,10 @@ public class View {
         return io.readRequiredString("Guest Email: ");
     }
 
-    public Host displayReservations(List<Reservation> reservations) {
+    public void displayReservations(List<Reservation> reservations) {
         if (reservations == null || reservations.isEmpty()) {
             io.println("No reservations found.");
-            return null;
+            return;
         }
         for (Reservation reservation : reservations) {
 
@@ -101,7 +100,6 @@ public class View {
                     reservation.getGuest().getEmail()
             );
         }
-        return null;
     }
     public Host chooseHost(List<Host> hosts) {
         if (hosts.size() == 0) {
@@ -166,7 +164,7 @@ public class View {
 
         io.println("Start: "+  reservation.getStart());
         io.println("End: " + reservation.getEnd());
-        io.println("Total: " + reservation.getTotal());
+        io.readBigDecimal("Total: " + reservation.getTotal());
 
         return io.readBoolean("Is this ok? [y/n]");
     }
