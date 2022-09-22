@@ -133,19 +133,19 @@ create table alias (
     where agent.agent_id not in (6, 8)
     and agency.agency_id != 2;
 --     
--- insert into alias(`name`, persona, agent_id) 
--- 	values
--- 		('The unknown','This is a test',8),
--- 		('Quiet One','This is mock data',7),
--- 		('Shhh','Im not sure what to write here',6),
---         
---         ('Who','Who is the who',5),
---         ('Mist','Queit like mist',4),
---         ('Whistle','Whistles through',3),
---         ('Done','Done with it all',2),
---         
--- 		('Silent','The silent one is silent',1);
---         
+ insert into alias(`name`, persona, agent_id) 
+ 	values
+ 		('The unknown','This is a test',8),
+ 		('Quiet One','This is mock data',7),
+ 		('Shhh','Im not sure what to write here',6),
+         
+         ('Who','Who is the who',5),
+         ('Mist','Queit like mist',4),
+         ('Whistle','Whistles through',3),
+         ('Done','Done with it all',2),
+         
+ 		('Silent','The silent one is silent',1);
+         
 --         insert into agency 
 -- 		(short_name, long_name) 
 -- 	values

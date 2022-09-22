@@ -30,9 +30,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-
-
-
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> nullPointerException(NullPointerException ex){
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity handleGenericException( Exception toHande ){

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AliasService {
@@ -17,6 +18,10 @@ public class AliasService {
 
     public AliasService(AliasRepository repository) {
         this.repository = repository;
+    }
+
+    public Alias findById(Integer id) {
+        return repository.findById(id);
     }
 
     public Result deleteById(Integer id) throws DataException {
@@ -81,6 +86,20 @@ public class AliasService {
 
         if (alias.getAgentId() <= 0) {
             result.addMessage("Alias agent_Id is required", ResultType.INVALID);
+        }
+
+        if (result.isSuccess()) {
+            List<Alias> existingAlias = repository.findByName(alias.getName());
+
+            for (Alias al : existingAlias) {
+
+                if (al.getAliasId() != alias.getAliasId() &&
+                        al.getName().equalsIgnoreCase(alias.getName())){
+                    if(Validations.isNullOrBlank(alias.getPersona())) {
+                        result.addMessage("Persona is required for duplicate names", ResultType.INVALID);
+                    }
+                }
+            }
         }
 
         return result;

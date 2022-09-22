@@ -1,16 +1,16 @@
 package learn.field_agent.data;
 
-import learn.field_agent.data.mappers.AgentMapper;
-import learn.field_agent.models.Agent;
+import learn.field_agent.data.mappers.AliasMapper;
+import learn.field_agent.data.mappers.SecurityClearanceMapper;
 import learn.field_agent.models.Alias;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class AliasJdbcTemplateRepository implements AliasRepository{
@@ -19,6 +19,11 @@ public class AliasJdbcTemplateRepository implements AliasRepository{
 
     public AliasJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Alias> findByName(String name) {
+        return jdbcTemplate.query( "SELECT * FROM alias WHERE `name`= ?;", new AliasMapper(), name);
     }
 
     @Override
@@ -57,6 +62,13 @@ public class AliasJdbcTemplateRepository implements AliasRepository{
                 alias.getPersona(),
                 alias.getAgentId(),
                 alias.getAliasId()) > 0;
+    }
+
+    @Override
+    public Alias findById(Integer id) {
+        return jdbcTemplate.query("SELECT * FROM field_agent.alias where alias_id = ?;",
+                new AliasMapper(),
+                id).stream().findFirst().orElse(null);
     }
 
 }

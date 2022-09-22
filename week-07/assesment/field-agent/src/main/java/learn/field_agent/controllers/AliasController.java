@@ -18,6 +18,16 @@ public class AliasController {
     @Autowired
     AliasService service;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Alias> getAliasById(@PathVariable Integer id){
+        Alias matchingAlias = service.findById( id );
+
+        if( matchingAlias == null ){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(matchingAlias);
+    }
+
     @PostMapping
     public ResponseEntity<Object> add(@RequestBody Alias alias) {
 
