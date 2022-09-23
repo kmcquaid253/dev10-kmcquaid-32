@@ -68,6 +68,12 @@ public class SecurityClearanceService {
 
         Result toReturn = new Result();
 
+        int rowCount = repository.countSecurityClearanceInUse(id);
+        if(rowCount > 0){
+            toReturn.addMessage("Cannot delete security clearance because it's a dependancy", ResultType.INVALID);
+            return toReturn;
+        }
+
         if(!repository.deleteById(id)){
             toReturn.addMessage("Could not find Security Clearance with Id ", ResultType.NOT_FOUND);
         }

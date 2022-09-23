@@ -6,9 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -97,5 +95,12 @@ public class SecurityClearanceJdbcTemplateRepository implements SecurityClearanc
         }
 
         return true;
+    }
+
+    @Override
+    public int countSecurityClearanceInUse(int securityClearanceId){
+        final String sql = ("select count(*) from agency_agent where security_clearance_id = ?;");
+        return jdbcTemplate.queryForObject(sql, (rowData, rowNum) ->
+                rowData.getInt(1), securityClearanceId);
     }
 }

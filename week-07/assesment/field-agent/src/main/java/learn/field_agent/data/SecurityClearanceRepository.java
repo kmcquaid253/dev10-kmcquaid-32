@@ -17,4 +17,6 @@ public interface SecurityClearanceRepository {
 
     //@Transactional
     boolean deleteById(int id) throws DataException;
+
+    int countSecurityClearanceInUse(int securityClearanceId);
 }
