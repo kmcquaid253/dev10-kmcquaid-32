@@ -209,7 +209,7 @@ public class View {
                     .orElse(null);
 
             if (selectedReservation == null) {
-                displayStatus(false, "No reservation with that id found.");
+                displayStatus(false, "No reservation with that id found.\n");
             }
         }
         return selectedReservation;
