@@ -1,7 +1,6 @@
 package learn.field_agent.data;
 
 import learn.field_agent.data.mappers.AliasMapper;
-import learn.field_agent.data.mappers.SecurityClearanceMapper;
 import learn.field_agent.models.Alias;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -26,6 +25,10 @@ public class AliasJdbcTemplateRepository implements AliasRepository{
         return jdbcTemplate.query( "SELECT * FROM alias WHERE `name`= ?;", new AliasMapper(), name);
     }
 
+    @Override
+    public List<Alias> findByPersona(String persona) {
+        return jdbcTemplate.query( "SELECT * FROM alias WHERE persona= ?;", new AliasMapper(), persona);
+    }
     @Override
     public boolean deleteById(Integer id) throws DataException {
         return jdbcTemplate.update("delete from alias where alias_id = ?;", id) > 0;

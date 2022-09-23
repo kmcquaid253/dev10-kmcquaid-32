@@ -8,6 +8,8 @@ import java.util.List;
 public interface AliasRepository {
     List<Alias> findByName(String name);
 
+    List<Alias> findByPersona(String persona);
+
     boolean deleteById(Integer id) throws DataException;
 
     Alias add(Alias alias);

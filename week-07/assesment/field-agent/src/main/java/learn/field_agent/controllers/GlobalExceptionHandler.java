@@ -35,9 +35,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity handleGenericException( Exception toHande ){
-//        return ResponseEntity.internalServerError().build();
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleGenericException( Exception toHande ){
+        return ResponseEntity.internalServerError().build();
+    }
 }
 

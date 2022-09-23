@@ -37,6 +37,7 @@ public class AliasService {
     public Result<Alias> add(Alias alias) {
 
         Result<Alias> result = validate(alias);
+
         if (!result.isSuccess()) {
             return result;
         }
@@ -90,18 +91,23 @@ public class AliasService {
 
         if (result.isSuccess()) {
             List<Alias> existingAlias = repository.findByName(alias.getName());
+            List<Alias> existingPersona = repository.findByPersona(alias.getPersona());
 
             for (Alias al : existingAlias) {
-
                 if (al.getAliasId() != alias.getAliasId() &&
-                        al.getName().equalsIgnoreCase(alias.getName())){
-                    if(Validations.isNullOrBlank(alias.getPersona())) {
+                        al.getName().equalsIgnoreCase(alias.getName())) {
+                    if (Validations.isNullOrBlank(alias.getPersona())) {
                         result.addMessage("Persona is required for duplicate names", ResultType.INVALID);
                     }
                 }
             }
+                for (Alias al : existingPersona) {
+                    if (al.getAliasId() != alias.getAliasId() &&
+                            al.getPersona().equalsIgnoreCase(alias.getPersona())) {
+                        result.addMessage("Persona cannot be duplicate", ResultType.INVALID);
+                    }
+                }
         }
-
         return result;
     }
 }
