@@ -160,25 +160,46 @@ public class Controller {
     }
 
     private void cancelReservation() throws DataException {
-//        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
-//
-//        Guest guest = getGuest();
-//        if (guest == null) {
-//            return;
-//        }
+        view.displayHeader(MainMenuChoice.CANCEL_A_RESERVATION.getMessage());
 
-//        Host host = getHost();
-//        if (host == null) {
-//            return;
-//        }
-//
-//
-//        if (!result.isSuccess()) {
-//            view.displayStatus(false, result.getErrorMessages());
-//        } else {
-//            String successMessage = String.format("Reservation deleted!");
-//            view.displayStatus(true, successMessage);
-//        }
+        Guest guest = getGuest();
+        if (guest == null) {
+            return;
+        }
+
+        Host host = getHost();
+        if (host == null) {
+            return;
+        }
+
+        Result <List<Reservation>> findResult = reservationService.findByHostEmail(host.getEmail());
+
+        if(!findResult.isSuccess()){
+            view.displayStatus(false, findResult.getErrorMessages());
+            return;
+        }
+
+        //The way we pull data out of an object we are calling a getter
+        List<Reservation> reservations = findResult.getPayload();
+
+        reservations = reservations.stream().filter( res -> res.getGuest().getId() == guest.getId()).collect(Collectors.toList());
+
+        if(reservations.isEmpty()){
+            view.displayStatus(false, "No reservations for selected host and guest");
+            return;
+        }
+
+        Reservation selected = view.chooseReservationById(reservations);
+
+        Result result = reservationService.deleteById(host, selected.getId());
+
+        if (result.isSuccess()) {
+
+            String successMessage = String.format("Reservation deleted!");
+            view.displayStatus(true, successMessage);
+        } else {
+            view.displayStatus(false, result.getErrorMessages());
+        }
 //
 //        //customer email: dlynessy@icio.us
 //        //host email: eyearnes0@sfgate.com

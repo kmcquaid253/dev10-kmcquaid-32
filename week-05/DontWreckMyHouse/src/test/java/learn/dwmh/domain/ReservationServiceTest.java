@@ -154,10 +154,10 @@ public class ReservationServiceTest {
         assertFalse(result.isSuccess());
     }
 
-    @Test
-    void shouldDelete() throws DataException{
-        Result updateResult = service.deleteById(HostRepositoryDouble.HOST, GuestRepositoryDouble.GUEST.getId());
-        assertTrue( updateResult.isSuccess() );
-    }
+//    @Test
+//    void shouldDelete() throws DataException{
+//        Result updateResult = service.deleteById(HostRepositoryDouble.HOST, GuestRepositoryDouble.GUEST.getId());
+//        assertTrue( updateResult.isSuccess() );
+//    }
 
 }

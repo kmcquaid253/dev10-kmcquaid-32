@@ -78,13 +78,13 @@ public class ReservationService {
 
     public Result<Reservation> deleteById(Host hostId, int reservationId) throws DataException {
         Result<Reservation> result = new Result<>();
-        Reservation reservation = new Reservation();
+        //Reservation reservation = new Reservation();
 
         //validate future dates
-        if(reservation.getStart().isBefore(LocalDate.now())){
-            result.addErrorMessage("Reservation date has to be in the future.");
-            return result;
-        }
+//        if(reservation.getStart().isBefore(LocalDate.now())){
+//            result.addErrorMessage("Reservation date has to be in the future.");
+//            return result;
+//        }
 
         if (!reservationRepository.delete(hostId, reservationId)) {
             String message = String.format("Reservation %s-%s not found", hostId, reservationId);
