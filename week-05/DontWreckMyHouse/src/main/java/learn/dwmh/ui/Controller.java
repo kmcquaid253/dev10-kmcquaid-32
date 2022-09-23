@@ -10,8 +10,11 @@ import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -89,7 +92,11 @@ public class Controller {
 
         Reservation reservation = view.makeReservation(host, guest);
 
-        boolean reservationCheck= view.reservationSummary(reservation);
+        BigDecimal total = reservationService.calculateTotal(reservation);
+
+        reservation.setTotal(total);
+
+        boolean reservationCheck = view.reservationSummary(reservation);
 
         if(!reservationCheck){
             return;
@@ -106,24 +113,50 @@ public class Controller {
     }
 
     private void updateReservation() throws DataException {
-//        Guest guest = getGuest();
-//        if (guest == null) {
-//            return;
-//        }
-//
-//        Host host = getHost();
-//        if (host == null) {
-//            return;
-//        }
-//
+        Guest guest = getGuest();
+        if (guest == null) {
+            return;
+        }
 
-//
-//        if (!result.isSuccess()) {
-//            view.displayStatus(false, result.getErrorMessages());
-//        } else {
-//            String successMessage = String.format("Reservation %s created.", result.getPayload().getId());
-//            view.displayStatus(true, successMessage);
-//        }
+        Host host = getHost();
+        if (host == null) {
+            return;
+        }
+
+        Result <List<Reservation>> findResult = reservationService.findByHostEmail(host.getEmail());
+        if(!findResult.isSuccess()){
+            view.displayStatus(false, findResult.getErrorMessages());
+            return;
+        }
+
+        //The way we pull data out of an object we are calling a getter
+        List<Reservation> reservations = findResult.getPayload();
+
+        reservations = reservations.stream().filter( res -> res.getGuest().getId() == guest.getId()).collect(Collectors.toList());
+
+        if(reservations.isEmpty()){
+            view.displayStatus(false, "No reservations for selected host and guest");
+            return;
+        }
+
+        Reservation selected = view.chooseReservationById(reservations);
+
+        selected = view.editReservation(selected);
+
+        BigDecimal total = reservationService.calculateTotal(selected);
+
+        selected.setTotal(total);
+
+        if(view.reservationSummary(selected)) {
+            Result<Reservation> updateResult = reservationService.update(selected);
+
+            if (!updateResult.isSuccess()) {
+                view.displayStatus(false, updateResult.getErrorMessages());
+            } else {
+                String successMessage = String.format("Reservation %s created.", updateResult.getPayload().getId());
+                view.displayStatus(true, successMessage);
+            }
+        }
     }
 
     private void cancelReservation() throws DataException {

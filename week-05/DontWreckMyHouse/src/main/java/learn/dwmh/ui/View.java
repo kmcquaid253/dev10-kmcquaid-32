@@ -1,5 +1,6 @@
 package learn.dwmh.ui;
 
+import learn.dwmh.data.DataException;
 import learn.dwmh.domain.ReservationService;
 import learn.dwmh.models.Guest;
 import learn.dwmh.models.Host;
@@ -165,7 +166,7 @@ public class View {
 
         io.println("Start: "+  reservation.getStart());
         io.println("End: " + reservation.getEnd());
-        io.readBigDecimal("Total: " + reservation.getTotal());
+        io.println("Total: $" + reservation.getTotal());
 
         return io.readBoolean("Is this ok? [y/n]");
     }
@@ -189,4 +190,43 @@ public class View {
     public int getReservationId() {
         return io.readInt("Reservation Id: ");
     }
+
+    public Reservation chooseReservationById(List<Reservation> reservations) {
+        Reservation selectedReservation = null;
+
+        while(selectedReservation == null) {
+            //display reservation
+            displayReservations(reservations);
+
+            //have user enter a reservation id
+            //loop until it's correct = reservation # exists
+
+            int reservationId = io.readInt("Select a reservation id: ");
+
+            selectedReservation = reservations.stream()
+                    .filter(i -> i.getId() == reservationId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (selectedReservation == null) {
+                displayStatus(false, "No reservation with that id found.");
+            }
+        }
+        return selectedReservation;
+    }
+
+    public Reservation editReservation(Reservation toUpdate) {
+
+        //Press [Enter] to keep original value.
+
+        io.println("Editing reservation " + toUpdate.getId());
+        io.println("Press [Enter] to keep original value.\n");
+
+        toUpdate.setStart( io.editDate( "Start Date [MM/dd/yyyy]: " + toUpdate.getStart().format(io.getFormatter()), toUpdate.getStart()) );
+        toUpdate.setEnd( io.editDate( "End Date [MM/dd/yyyy]: " + toUpdate.getEnd().format(io.getFormatter()), toUpdate.getEnd()));
+
+
+        return toUpdate;
+    }
+
 }

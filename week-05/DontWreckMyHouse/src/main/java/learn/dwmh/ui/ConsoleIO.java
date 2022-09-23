@@ -22,7 +22,14 @@ public class ConsoleIO {
             = "[INVALID] Enter a date in MM/dd/yyyy format.";
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+
 
     public void print(String message) {
         System.out.print(message);
@@ -96,6 +103,8 @@ public class ConsoleIO {
     }
 
 
+
+
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
         while (true) {
             BigDecimal result = readBigDecimal(prompt);
@@ -109,6 +118,23 @@ public class ConsoleIO {
     public LocalDate readLocalDate(String prompt) {
         while (true) {
             String input = readRequiredString(prompt);
+            try {
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException ex) {
+                println(INVALID_DATE);
+            }
+        }
+    }
+
+
+    public LocalDate editDate(String prompt, LocalDate originalVal) {
+
+        while (true) {
+            String input = readString(prompt);
+
+            if(input.equals("")){
+                return originalVal;
+            }
             try {
                 return LocalDate.parse(input, formatter);
             } catch (DateTimeParseException ex) {

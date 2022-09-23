@@ -67,12 +67,13 @@ public class ReservationService {
         if (!result.isSuccess()) {
             return result;
         }
-
+        // Do validation
         result.setPayload(reservationRepository.add(reservation));
 
         return result;
 
         //cannot overlap with existing reservations for host
+
     }
 
     public Result<Reservation> deleteById(Host hostId, int reservationId) throws DataException {
@@ -112,7 +113,7 @@ public class ReservationService {
         return result;
     }
 
-    private BigDecimal calculateTotal(Reservation reservation){
+    public BigDecimal calculateTotal(Reservation reservation){
 
         List<LocalDate> days = new ArrayList<>();
 
