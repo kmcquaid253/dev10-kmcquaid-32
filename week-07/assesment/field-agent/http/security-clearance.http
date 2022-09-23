@@ -1,0 +1,94 @@
+GET http://localhost:8080/api/security/clearance HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/security/clearance/1 HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/security/clearance/2 HTTP/1.1
+
+###
+
+GET http://localhost:8080/api/security/clearance/9 HTTP/1.1
+
+###
+
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test"
+}
+
+###
+
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+
+}
+
+###
+
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+  "name":
+}
+
+###
+
+POST http://localhost:8080/api/security/clearance HTTP/1.1
+Content-Type: application/json
+
+{
+    "security_clearance_id":10
+}
+
+
+###
+
+PUT http://localhost:8080/api/security/clearance/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "securityClearanceId": 1,
+  "name": "Top Secret Updated"
+}
+
+###
+
+PUT http://localhost:8080/api/security/clearance/50 HTTP/1.1
+Content-Type: application/json
+
+{
+  "securityClearanceId": 50,
+  "name": "TesterTwo"
+}
+
+###
+
+PUT http://localhost:8080/api/security/clearance/3 HTTP/1.1
+Content-Type: application/json
+
+{
+  "securityClearanceId": 3,
+  "name": "Top Secret"
+}
+
+###
+
+DELETE http://localhost:8080/api/security/clearance/2 HTTP/1.1
+
+###
+
+DELETE http://localhost:8080/api/security/clearance/100 HTTP/1.1
+
+###
+
+DELETE http://localhost:8080/api/security/clearance/1 HTTP/1.1
+
+
