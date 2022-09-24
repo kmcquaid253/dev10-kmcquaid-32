@@ -1,12 +1,26 @@
-fetch("http://localhost:8080/api/agent")    //simple GET request, gets all my agents data
-.then(response =>{                          //response checks the status of the response 
-    if(response.status === 200){
-        return response.json();             //json promise
-    } else{
-        console.log(response);
-    }
-})
-.then( listOfAgents => renderAgents(listOfAgents)) //if it succeeds... should have list of agents. Turn every agent into a row in our table
+const baseUrl = "http://localhost:8080/api/agent";
+
+function getAllAgents(){
+
+    fetch(baseUrl)    //simple GET request, gets all my agents data
+    .then(async response =>{                          //response checks the status of the response 
+        if(response.status === 200){
+            clearErrors();
+            return response.json();             //json promise
+        } else{
+            Promise.reject(await response.json())
+        }
+    })
+    .then( listOfAgents => renderAgents(listOfAgents)) //if it succeeds... should have list of agents. 
+                                                       //Turn every agent into a row in our table
+    .catch(error => {
+        if(error instanceof TypeError){
+            showErrors(["Could not connect to the api."]);
+        } else{
+            showErrors(error);
+        }
+    });
+}
 
 function renderAgents(agents){
 //Converting array of agent objects to an array of row
@@ -38,3 +52,64 @@ function editAgent(id){
 function deleteAgent(id){
     console.log("deleting-agent " + id)
 }
+
+function addAgent(event){
+    event.preventDefault();
+
+    //make variables using the property names to buld up an object
+    const firstName = document.getElementById("firstName").value;
+    const middleName = document.getElementById("middleName").value;
+    const lastName = document.getElementById("lastName").value;
+    const dob = document.getElementById("dob").value;
+    const heightInInches = document.getElementById("heightInInches").value;
+
+
+    const agentToAdd = {firstName, middleName, lastName, dob, heightInInches};
+
+    fetch(baseUrl, {
+        method: "POST",
+        body: JSON.stringify(agentToAdd),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    //fetch returns a response
+    .then(async response => {
+        if(response.status === 201){
+            clearErrors();
+            //if successful...
+            return response.json();
+        }
+        return Promise.reject(await response.json());
+        
+    })
+    //when response.json happens...
+    //returns hydrated agents
+    .then(addedAgent => getAllAgents())
+    .catch(error => {
+        if(error instanceof TypeError){
+            showErrors(["Could not connect to the api."]);
+        } else{
+            showErrors(error);
+        }
+    });
+}
+
+function showErrors( listOfErrorMessages ){
+
+    //looks for 'messages' div in index.html
+    const messageContainer = document.getElementById("messages");
+
+    //converts error message into a sequence of paragraphs
+    //becoming the innerHTML of the <div id="messages"></div>
+    //in my html file
+    messageContainer.innerHTML = listOfErrorMessages.map( m => "<p>" + m + "</p>" ).reduce( (prev, curr) => prev + curr ); //reduce into one big string
+
+}
+
+//when successful, clears errors
+function clearErrors(){
+    document.getElementById("messages").innerHTML = "";
+}
+
+getAllAgents();
