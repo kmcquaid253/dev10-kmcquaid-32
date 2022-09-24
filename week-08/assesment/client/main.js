@@ -14,6 +14,8 @@ function getAllAgents(){
         }
     })
     .then( listOfAgents => {
+        //Orders list of agents by id
+        listOfAgents.sort((a,b) => a.agentId - b.agentId);
         agents = [...listOfAgents];//make a copy in case renderAgents affects it
         renderAgents(listOfAgents);
     }) //if it succeeds... should have list of agents. 
@@ -37,7 +39,7 @@ const agentRows = agents.map(a => `<tr>
     <td>${a.lastName}</td>
     <td>${a.dob}</td>
     <td>${a.heightInInches}</td>
-    <td><button onClick="loadAgentForEdit(${a.agentId})">EditAgent</button><button onClick="deleteAgent(${a.agentId})">DeleteAgent</button></td>
+    <td class="text-right"><button onClick="loadAgentForEdit(${a.agentId})" class="btn btn-primary edit-btn">EditAgent</button><button onClick="deleteAgent(${a.agentId})" class="btn btn-danger">DeleteAgent</button></td>
 </tr>`);
 
 //combine all of them
@@ -65,6 +67,9 @@ function loadAgentForEdit(id){
     document.getElementById("editLastName").value = matchingAgent.lastName;
     document.getElementById("editDob").value = matchingAgent.dob;
     document.getElementById("editHeightInInches").value = matchingAgent.heightInInches;
+
+    //makes the form appear when we click 'EditAgent' button
+    document.getElementById("editForm").setAttribute("class", "d-block");
 }
 
 function editAgent(evt){
@@ -153,6 +158,7 @@ function addAgent(event){
     //fetch returns a response
     .then(async response => {
         if(response.status === 201){
+            hideAddForm();
             clearErrors();
             //if successful...
             return response.json();
@@ -170,6 +176,18 @@ function addAgent(event){
             showErrors(error);
         }
     });
+}
+
+function showAddForm(){
+    //shows the form
+    document.getElementById("addForm").setAttribute("class", "d-block");
+    //hide the button itself
+    document.getElementById("showAddFormBtn").setAttribute("class", "d-none");
+}
+
+function hideAddForm(){
+    document.getElementById("addForm").setAttribute("class", "d-none");
+    document.getElementById("showAddFormBtn").setAttribute("class", "btn btn-primary");
 }
 
 function showErrors( listOfErrorMessages ){
@@ -196,6 +214,9 @@ function clearEditForm(){
     document.getElementById("editLastName").value = "";
     document.getElementById("editDob").value = "";
     document.getElementById("editHeightInInches").value = "";
+
+    //hides the form along with clear
+    document.getElementById("editForm").setAttribute("class", "d-none");
 }
 
 function clearAddForm(){
@@ -205,6 +226,8 @@ function clearAddForm(){
     document.getElementById("dob").value = "";
     document.getElementById("heightInInches").value = "";
 
+    //hides the form 
+    hideAddForm();
 }
 
 getAllAgents();
