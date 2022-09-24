@@ -42,12 +42,12 @@ public class AgentController {
     @PutMapping("/{agentId}")
     public ResponseEntity<Object> update(@PathVariable int agentId, @RequestBody Agent agent) {
         if (agentId != agent.getAgentId()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT); //409
         }
 
         Result<Agent> result = service.update(agent);
         if (result.isSuccess()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204
         }
 
         return ErrorResponse.build(result);
@@ -56,9 +56,9 @@ public class AgentController {
     @DeleteMapping("/{agentId}")
     public ResponseEntity<Void> deleteById(@PathVariable int agentId) {
         if (service.deleteById(agentId)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);//404
     }
 
 }

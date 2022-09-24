@@ -33,12 +33,12 @@ _TODO_ Add time estimates to each of the top-level tasks
 
 ### Part3:EditAgent
 * []Supporteditingagents(2.30hours)
-  * []Retrievetheagenttoedit
-  * []Updatetheformwiththeagent'spropertyvalues
-  * []Updatetheonsubmiteventhandlertohandleboth`POST`and`PUT`requests
-  * []Settheagent'sIDontheagentobject
-  * []Use`fetch`to`PUT`theupdatedagent'sinformationtotheFieldAgentAPI
-  * []Onsuccess,refreshtheagentslist,oronfailure,displayanyvalidationerrorsfromtheAPIintheUI
+  * []Retrieve the agent to edit
+  * []Update the form with the agent's property values
+  * []Update the onsubmit event handler to handle both`POST`and`PUT`requests
+  * []Set the agent's ID on the agent object
+  * []Use`fetch`to`PUT`the updated agent's information to the Field AgentAPI
+  * []On success,refresh the agents list,or on failure,display any validation errors from the API in the UI
 
 
 ### Part4:Refinements

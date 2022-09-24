@@ -11,6 +11,28 @@
 
     <div id="messages"></div>
 
+    <form onsubmit="editAgent(event)">
+        <input type="hidden" id="editId" name="editId">
+
+        <label for="editFirstName">First Name</label>
+        <input type="text" id="editFirstName" name="editFirstName">
+
+        <label for="editMiddleName">Middle Name</label>
+        <input type="text" id="editMiddleName" name="editMiddleName">
+
+        <label for="editLastName">Last Name</label>
+        <input type="text" id="editLastName" name="editLastName">
+
+        <label for="editDob">Date Of Birth</label>
+        <input type="date" id="editDob" name="editDob">
+
+        <label for="editHeightInInches">Height In Inches</label>
+        <input type="number" id="editHeightInInches" name="editHeightInInches">
+
+        <button type="submit">Edit Agent</button>
+        <button type ="button" onclick="clearEditForm()">Cancel</button>
+    </form>
+
     <form onsubmit="addAgent(event)">
         <label for="firstName">First Name</label>
         <input type="text" id="firstName" name="firstName">
@@ -28,6 +50,7 @@
         <input type="number" id="heightInInches" name="heightInInches">
 
         <button type="submit">Add Agent</button>
+        <button type="button" onclick="clearAddForm()">Cancel</button>
     </form>
 
     <table id="agents">
