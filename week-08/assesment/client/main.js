@@ -43,7 +43,7 @@ const agentRows = agents.map(a => `<tr>
 </tr>`);
 
 //combine all of them
-const html = agentRows.reduce((prev,curr) =>prev+curr );
+const html = agentRows.reduce((prev,curr) =>prev+curr , "");
 
 //set inner html of tbody
 //#agents = table id
