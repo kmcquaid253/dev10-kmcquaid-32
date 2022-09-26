@@ -17,9 +17,12 @@
 
         <div id="messages"></div>
 
+        <!--.d-none hides elements, Hidden on all-->
         <form onsubmit="editAgent(event)" id="editForm" class="d-none">
             <h2>Edit Agent</h2>
             <input type="hidden" id="editId" name="editId">
+
+            <!--form-group wraps labels and form controls -->
             <div class="form-group">
                 <label for="editFirstName">First Name</label>
                 <input type="text" id="editFirstName" name="editFirstName" class="form-control">
@@ -54,6 +57,7 @@
         <form onsubmit="addAgent(event)" id="addForm" class="d-none">
             <h2>Add Agent</h2>
 
+            <!--Set heights using classes like .form-control, A bootstrap feature-->
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName" class="form-control">
