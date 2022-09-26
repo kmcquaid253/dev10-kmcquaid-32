@@ -1,0 +1,42 @@
+.table-striped>tbody>tr:nth-child(odd) {
+    background-color: #bcd4e6;
+}
+
+.table-striped>tbody>tr:nth-child(even) {
+    background-color: white;
+}
+.table-hover tbody tr:hover {
+    background-color: #3f00ff;
+}
+
+#tbackground{
+background-color: #4682b4;
+}
+
+form {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 5px groove #4682b4;
+    padding: 1em;
+}
+
+#demotext {
+    font-family:fantasy;
+    color: #003153;
+    font-size: 3.5em;
+    }
+
+table{
+    margin-top: 1em;
+}
+
+.edit-btn {
+    margin-right: 0.8em;
+}
+
+body {
+    background-image: url('blue.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
