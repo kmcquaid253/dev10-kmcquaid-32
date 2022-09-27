@@ -191,10 +191,9 @@ public class Controller {
 
         Reservation selected = view.chooseReservationById(reservations);
 
-        Result result = reservationService.deleteById(host, selected.getId());
+        Result<Reservation> result = reservationService.deleteById(host, selected.getId());
 
         if (result.isSuccess()) {
-
             String successMessage = String.format("Reservation deleted!");
             view.displayStatus(true, successMessage);
         } else {

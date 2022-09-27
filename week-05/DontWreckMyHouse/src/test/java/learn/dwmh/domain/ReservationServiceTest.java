@@ -1,15 +1,13 @@
 package learn.dwmh.domain;
 
-import learn.dwmh.data.DataException;
-import learn.dwmh.data.GuestRepositoryDouble;
-import learn.dwmh.data.HostRepositoryDouble;
-import learn.dwmh.data.ReservationRepositoryDouble;
+import learn.dwmh.data.*;
 import learn.dwmh.models.Host;
 import learn.dwmh.models.Reservation;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,9 +18,11 @@ public class ReservationServiceTest {
     final LocalDate endTwo = LocalDate.of(2020, 12, 28);
 
     ReservationService service = new ReservationService(
+
             new ReservationRepositoryDouble(),
             new HostRepositoryDouble(),
-            new GuestRepositoryDouble());
+            new GuestRepositoryDouble()
+    );
 
     @Test
     void shouldAddNewReservation() throws DataException {
@@ -154,10 +154,157 @@ public class ReservationServiceTest {
         assertFalse(result.isSuccess());
     }
 
-//    @Test
-//    void shouldDelete() throws DataException{
-//        Result updateResult = service.deleteById(HostRepositoryDouble.HOST, GuestRepositoryDouble.GUEST.getId());
-//        assertTrue( updateResult.isSuccess() );
-//    }
+    @Test
+    void shouldNotUpdateNonExistentReservation() throws DataException {
 
+        /*
+            private int id;
+            private LocalDate start;
+            private LocalDate end;
+            private BigDecimal total;
+            private Guest guest;
+            private Host host;
+         */
+
+        Reservation reservation = new Reservation();
+        reservation.setId(1000);
+        reservation.setStart(start);
+        reservation.setEnd(end);
+        reservation.setTotal(new BigDecimal(120));
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setHost(HostRepositoryDouble.HOST);
+
+        Result result = service.update(reservation);
+
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateReservationsWithStartDateBeforeEndDate() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setId(1);
+        reservation.setStart(end);
+        reservation.setEnd(start);
+        reservation.setTotal(new BigDecimal(120));
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setHost(HostRepositoryDouble.HOST);
+
+        Result<Reservation> result = service.update(reservation);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateReservationsWithPastDates() throws DataException{
+        Reservation reservation = new Reservation();
+
+        /*
+            private int id;
+            private LocalDate start;
+            private LocalDate end;
+            private BigDecimal total;
+            private Guest guest;
+            private Host host;
+         */
+
+        reservation.setId(1);
+        reservation.setStart(startTwo);
+        reservation.setEnd(endTwo);
+        reservation.setTotal(new BigDecimal(1600));
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setHost(HostRepositoryDouble.HOST);
+
+
+        Result<Reservation> result = service.update(reservation);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateReservationsWithNullHost() throws DataException{
+        Reservation reservation = new Reservation();
+
+        /*
+            private int id;
+            private LocalDate start;
+            private LocalDate end;
+            private BigDecimal total;
+            private Guest guest;
+            private Host host;
+         */
+
+        reservation.setId(1);
+        reservation.setStart(start);
+        reservation.setEnd(end);
+        reservation.setTotal(new BigDecimal(1600));
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setHost(null);
+
+
+        Result<Reservation> result = service.update(reservation);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotUpdateReservationsWithNullGuest() throws DataException{
+        Reservation reservation = new Reservation();
+
+        /*
+            private int id;
+            private LocalDate start;
+            private LocalDate end;
+            private BigDecimal total;
+            private Guest guest;
+            private Host host;
+         */
+
+        reservation.setId(1);
+        reservation.setStart(start);
+        reservation.setEnd(end);
+        reservation.setTotal(new BigDecimal(800));
+        reservation.setGuest(null);
+        reservation.setHost(HostRepositoryDouble.HOST);
+
+
+        Result<Reservation> result = service.update(reservation);
+        assertFalse(result.isSuccess());
+    }
+
+
+    @Test
+    void shouldNotDeleteNonExistentReservation() throws DataException {
+        Result result = service.deleteById(HostRepositoryDouble.HOST,1078);
+
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldNotDeleteReservationsWithPastDates() throws DataException{
+        Reservation reservation = new Reservation();
+
+        /*
+            private int id;
+            private LocalDate start;
+            private LocalDate end;
+            private BigDecimal total;
+            private Guest guest;
+            private Host host;
+         */
+
+        reservation.setId(1);
+        reservation.setStart(startTwo);
+        reservation.setEnd(endTwo);
+        reservation.setTotal(new BigDecimal(1600));
+        reservation.setGuest(GuestRepositoryDouble.GUEST);
+        reservation.setHost(HostRepositoryDouble.HOST);
+
+
+        Result<Reservation> result = service.update(reservation);
+        assertFalse(result.isSuccess());
+    }
+
+    @Test
+    void shouldDeleteExistentReservation() throws DataException {
+        Result result = service.deleteById(HostRepositoryDouble.HOST,1);
+
+        assertTrue(result.isSuccess());
+    }
 }

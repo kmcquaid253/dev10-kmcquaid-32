@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReservationRepositoryDouble implements ReservationRepository{
-    private final ArrayList<Reservation> reservation = new ArrayList<>();
+    private ArrayList<Reservation> reservation = new ArrayList<>();
 
     final LocalDate startOne = LocalDate.of(2022, 9, 26);
     final LocalDate endOne = LocalDate.of(2022, 9, 28);
@@ -47,7 +47,13 @@ public class ReservationRepositoryDouble implements ReservationRepository{
 
     @Override
     public boolean update(Reservation updated) throws DataException {
-        return false;
+        Reservation existingReservation = null;
+        for (Reservation res : reservation) {
+            if (res.getId() == updated.getId()) {
+                existingReservation = res;
+            }
+        }
+        return existingReservation != null;
     }
 
     @Override

@@ -61,6 +61,8 @@ public class ReservationService {
         return toReturn;
     }
 
+
+
     public Result<Reservation> add(Reservation reservation) throws DataException {
         Result<Reservation> result = validate(reservation);
 
@@ -68,11 +70,11 @@ public class ReservationService {
             return result;
         }
         // Do validation
+        //cannot overlap with existing reservations for host
+
         result.setPayload(reservationRepository.add(reservation));
 
         return result;
-
-        //cannot overlap with existing reservations for host
 
     }
 
