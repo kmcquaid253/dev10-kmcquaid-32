@@ -1,14 +1,20 @@
 import React from 'react';
-import CoinPanel from './CoinPanel';
+import PiggyBank from './PiggyBank';
 
 function App() {
   return (
     <div className="container">
       <h1>Piggy Bank</h1>
-      <div className="row">
-        <CoinPanel className="col" amount={0.25} maxClicks={5} />
-        <CoinPanel className="col" amount={0.10} maxClicks={3} />
-      </div>
+      <PiggyBank />
+      <PiggyBank coinConfig={[
+        { amount: 0.50, maxClicks: 4 },
+        { amount: 0.25, maxClicks: 4 }
+      ]} />
+      <PiggyBank coinConfig={[
+        { amount: 0.01, maxClicks: 6 },
+        { amount: 0.02, maxClicks: 3 },
+        { amount: 0.03, maxClicks: 2 }
+      ]} />
     </div>
   );
 }
