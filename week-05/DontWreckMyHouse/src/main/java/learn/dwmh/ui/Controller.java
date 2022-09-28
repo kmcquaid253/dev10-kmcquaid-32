@@ -191,7 +191,7 @@ public class Controller {
 
         Reservation selected = view.chooseReservationById(reservations);
 
-        Result<Reservation> result = reservationService.deleteById(host, selected.getId());
+        Result<Reservation> result = reservationService.delete(selected.getId(), host);
 
         if (result.isSuccess()) {
             String successMessage = String.format("Reservation deleted!");
@@ -200,8 +200,8 @@ public class Controller {
             view.displayStatus(false, result.getErrorMessages());
         }
 //
-//        //customer email: dlynessy@icio.us
-//        //host email: eyearnes0@sfgate.com
+//        //host email: kdeclerkdc@sitemeter.com
+//        //guest email: mbarrell46@usda.gov
 //        //reservation id:2
     }
 

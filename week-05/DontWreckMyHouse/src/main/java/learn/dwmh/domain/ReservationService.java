@@ -69,8 +69,6 @@ public class ReservationService {
         if (!result.isSuccess()) {
             return result;
         }
-        // Do validation
-        //cannot overlap with existing reservations for host
 
         result.setPayload(reservationRepository.add(reservation));
 
@@ -78,17 +76,17 @@ public class ReservationService {
 
     }
 
-    public Result<Reservation> deleteById(Host hostId, int reservationId) throws DataException {
+    public Result<Reservation> delete(int reservationId, Host hostId) throws DataException {
         Result<Reservation> result = new Result<>();
         //Reservation reservation = new Reservation();
 
-        //validate future dates
+        // validate future dates
 //        if(reservation.getStart().isBefore(LocalDate.now())){
 //            result.addErrorMessage("Reservation date has to be in the future.");
 //            return result;
 //        }
 
-        if (!reservationRepository.delete(hostId, reservationId)) {
+        if (!reservationRepository.delete(reservationId, hostId)) {
             String message = String.format("Reservation %s-%s not found", hostId, reservationId);
             result.addErrorMessage(message);
         }
@@ -101,7 +99,9 @@ public class ReservationService {
         //start must be before end date
         Result<Reservation> result = validate( updated );
 
-        if( !result.isSuccess() ) return result;
+        if( !result.isSuccess() ){
+            return result;
+        }
 
         if( result.isSuccess() ){
             boolean success = reservationRepository.update( updated );
@@ -202,6 +202,18 @@ public class ReservationService {
             if(reservation.getStart().isAfter(reservation.getEnd())){
                 result.addErrorMessage("Start date must be before end date.");
             }
+
+            //Validate dates don't overlap
+            List<Reservation> findResult = reservationRepository.findByHost(reservation.getHost());
+
+                for(Reservation r : findResult){
+                    if((!reservation.getStart().isBefore(r.getStart())
+                    && reservation.getEnd().isBefore(r.getStart())) ||
+                            (!reservation.getStart().isAfter(r.getEnd()) &&
+                                    !reservation.getEnd().isAfter(r.getEnd()))){
+                        result.addErrorMessage("Dates cannot overlap with existing dates!");
+                    }
+                }
     }
 
     private void validateChildrenExist(Reservation reservation, Result<Reservation> result) {

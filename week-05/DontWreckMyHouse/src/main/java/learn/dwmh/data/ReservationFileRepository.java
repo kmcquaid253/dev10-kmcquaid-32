@@ -149,11 +149,10 @@ public class ReservationFileRepository implements ReservationRepository{
 
 
     @Override
-    public boolean delete(Host host, int id) throws DataException {
+    public boolean delete(int id, Host host) throws DataException {
         List<Reservation> reservation = findByHost(host);
         for (int i = 0; i < reservation.size(); i++){
-            if (reservation.get(i).getHost().getId().equals(host) &&
-                    reservation.get(i).getId() == id)
+            if(reservation.get(i).getId() == id && reservation.get(i).getHost().equals(host) )
             {
                 reservation.remove(i);
                 writeAll(reservation, host.getId());

@@ -222,8 +222,8 @@ public class View {
         io.println("Editing reservation " + toUpdate.getId());
         io.println("Press [Enter] to keep original value.\n");
 
-        toUpdate.setStart( io.editDate( "Start Date [MM/dd/yyyy]: " + toUpdate.getStart().format(io.getFormatter()), toUpdate.getStart()) );
-        toUpdate.setEnd( io.editDate( "End Date [MM/dd/yyyy]: " + toUpdate.getEnd().format(io.getFormatter()), toUpdate.getEnd()));
+        toUpdate.setStart( io.editDate( "Start Date [MM/dd/yyyy]: " + toUpdate.getStart().format(io.getFormatter()) + ": ", toUpdate.getStart()) );
+        toUpdate.setEnd( io.editDate( "End Date [MM/dd/yyyy]: " + toUpdate.getEnd().format(io.getFormatter()) + ": ", toUpdate.getEnd()));
 
 
         return toUpdate;
