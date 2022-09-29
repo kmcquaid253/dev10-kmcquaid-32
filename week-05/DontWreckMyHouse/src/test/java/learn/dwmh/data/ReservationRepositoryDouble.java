@@ -39,9 +39,9 @@ public class ReservationRepositoryDouble implements ReservationRepository{
 
     }
     @Override
-    public List<Reservation> findByHost(Host host) {
+    public List<Reservation> findByHost(String hostId) {
         return reservation.stream()
-                .filter(i -> i.getHost().equals(host))
+                .filter(i -> i.getHost().getId().equals(hostId))
                 .collect(Collectors.toList());
     }
 
@@ -63,11 +63,10 @@ public class ReservationRepositoryDouble implements ReservationRepository{
     }
 
     @Override
-    public boolean delete(int id, Host host) throws DataException {
-        List<Reservation> all = findByHost(host);
+    public boolean delete(int id, String hostId) throws DataException {
+        List<Reservation> all = findByHost(hostId);
         for (int i = 0; i < all.size(); i++){
-            if (all.get(i).getId() == id &&
-                    all.get(i).getHost().equals(host)){
+            if (all.get(i).getId() == id){
                 all.remove(i);
                 return true;
             }

@@ -31,7 +31,6 @@ public class HostRepositoryDouble implements HostRepository{
 
         h1.setId("fbjhekr-78975-ncedn-mewklf");
         h1.setLastName("Byrd");
-        h1.setFirstName("Jamie");
         h1.setStandardRate(BigDecimal.valueOf(40.00));
         h1.setWeekendRate(BigDecimal.valueOf(90.00));
         h1.setEmail("jamieb@gmail.com");
@@ -45,7 +44,6 @@ public class HostRepositoryDouble implements HostRepository{
 
         h2.setId("suthekr-86931-cbqor-eutopd");
         h2.setLastName("Spencer");
-        h2.setFirstName("Diana");
         h2.setStandardRate(BigDecimal.valueOf(80.00));
         h2.setWeekendRate(BigDecimal.valueOf(120.00));
         h2.setEmail("dianas@gmail.com");
@@ -85,7 +83,6 @@ public class HostRepositoryDouble implements HostRepository{
 
         host.setId("jekbnf-478n-djnondn3-094j76");
         host.setLastName("Martinez");
-        host.setFirstName("Jose");
         host.setStandardRate(BigDecimal.valueOf(80.00));
         host.setWeekendRate(BigDecimal.valueOf(100.00));
         host.setEmail("jose.martinez@gmail.com");

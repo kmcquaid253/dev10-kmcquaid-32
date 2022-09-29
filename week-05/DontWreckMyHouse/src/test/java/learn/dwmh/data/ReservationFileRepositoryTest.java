@@ -103,7 +103,7 @@ public class ReservationFileRepositoryTest {
 
     @Test
     void shouldFindByHost() throws DataException {
-        List<Reservation> reservations = repository.findByHost(host);
+        List<Reservation> reservations = repository.findByHost(host.getId());
         assertEquals(12, reservations.size());
     }
 

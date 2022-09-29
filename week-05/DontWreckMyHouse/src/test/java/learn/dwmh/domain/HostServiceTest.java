@@ -27,7 +27,6 @@ public class HostServiceTest {
 
         host.setId("jekbnf-478n-djnondn3-094j76");
         host.setLastName("Martinez");
-        host.setFirstName("Jose");
         host.setStandardRate(BigDecimal.valueOf(80.00));
         host.setWeekendRate(BigDecimal.valueOf(100.00));
         host.setEmail("jose.martinez@gmail.com");

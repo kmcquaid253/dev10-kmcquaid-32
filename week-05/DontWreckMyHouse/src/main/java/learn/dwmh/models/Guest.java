@@ -2,6 +2,7 @@ package learn.dwmh.models;
 
 public class Guest {
 
+    //guest_id,first_name,last_name,email,phone,state
     private int id;
     private String firstName;
     private String lastName;

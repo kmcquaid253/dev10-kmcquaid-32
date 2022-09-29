@@ -9,11 +9,11 @@ import java.util.List;
 public interface ReservationRepository {
 
 
-    List<Reservation> findByHost(Host host);
+    List<Reservation> findByHost(String hostId);
 
     boolean update(Reservation updated) throws DataException;
 
     Reservation add(Reservation toAdd) throws DataException;
 
-    boolean delete(int id, Host host) throws DataException;
+    boolean delete(int id, String hostId) throws DataException;
 }

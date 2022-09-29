@@ -111,7 +111,7 @@ public class View {
         int index = 1;
 
         for (Host host : hosts) {
-            io.printf("%s: %s %s%n", index++, host.getFirstName(), host.getLastName());
+            io.printf("%s: %s%n", index++, host.getLastName());
         }
         index--;
 

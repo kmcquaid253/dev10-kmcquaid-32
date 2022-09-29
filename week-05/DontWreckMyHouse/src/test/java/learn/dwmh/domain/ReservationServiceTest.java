@@ -271,7 +271,7 @@ public class ReservationServiceTest {
 
     @Test
     void shouldNotDeleteNonExistentReservation() throws DataException {
-        Result result = service.delete(1078, HostRepositoryDouble.HOST);
+        Result result = service.delete(1078, HostRepositoryDouble.HOST.getId());
 
         assertFalse(result.isSuccess());
     }
@@ -303,7 +303,7 @@ public class ReservationServiceTest {
 
     @Test
     void shouldDeleteExistentReservation() throws DataException {
-        Result result = service.delete(1, HostRepositoryDouble.HOST);
+        Result result = service.delete(1, HostRepositoryDouble.HOST.getId());
 
         assertTrue(result.isSuccess());
     }

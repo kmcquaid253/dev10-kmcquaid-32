@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class Host {
 
+    //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
         private String id;
         private String lastName;
-        private String firstName;
         private BigDecimal standardRate;
         private BigDecimal weekendRate;
         private String email;
@@ -33,13 +33,6 @@ public class Host {
         this.lastName = lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public BigDecimal getStandardRate() {
         return standardRate;

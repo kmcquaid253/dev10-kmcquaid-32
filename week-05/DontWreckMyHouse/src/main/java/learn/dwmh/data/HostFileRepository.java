@@ -52,6 +52,8 @@ public class HostFileRepository implements HostRepository{
     private Host deserialize(String[] fields) {
 
         /*
+        id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
+
                 private String id;
                 private String lastName;
                 private String email;

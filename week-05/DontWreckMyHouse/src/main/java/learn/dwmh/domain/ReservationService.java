@@ -43,19 +43,23 @@ public class ReservationService {
             return toReturn;
         }
 
-        toReturn.setPayload(reservationRepository.findByHost(matchingHost));
+        toReturn.setPayload(reservationRepository.findByHost(matchingHost.getId()));
 
         //New work starts here
         Map<Integer, Guest> guestMap = guestRepository.findAll().stream()
                 .collect(Collectors.toMap(i -> i.getId(), i -> i));
 
+        Map<String, Host> hostMap = hostRepository.findAll().stream()
+                .collect(Collectors.toMap(i -> i.getId(), i -> i));
 
-        List<Reservation> result = reservationRepository.findByHost(matchingHost);
+
+        List<Reservation> result = reservationRepository.findByHost(matchingHost.getId());
         for (Reservation reservation : result) {
             reservation.setGuest(guestMap.get(reservation.getGuest().getId()));//1. id gets passed into the map get
                                                                                //2. map goes from an id to the fully hydrated object
                                                                                //3. map.get gives us back the fully hydrated object
                                                                                //4. and then passing that into the setter
+            reservation.setHost(hostMap.get(reservation.getHost().getId()));
         }
 
         return toReturn;
@@ -76,7 +80,7 @@ public class ReservationService {
 
     }
 
-    public Result<Reservation> delete(int reservationId, Host hostId) throws DataException {
+    public Result<Reservation> delete(int reservationId, String hostId) throws DataException {
         Result<Reservation> result = new Result<>();
         //Reservation reservation = new Reservation();
 
@@ -94,21 +98,26 @@ public class ReservationService {
     }
 
     public Result<Reservation> update(Reservation updated) throws DataException {
-        //guest, host & dates are required
-        //guest & host must exist
-        //start must be before end date
         Result<Reservation> result = validate( updated );
 
         if( !result.isSuccess() ){
             return result;
         }
 
-        if( result.isSuccess() ){
-            boolean success = reservationRepository.update( updated );
-            if( success ){
-                result.setPayload( updated );
+//        if( result.isSuccess() ){
+//            boolean success = reservationRepository.update( updated );
+//            if( success ){
+//                result.setPayload( updated );
+//            } else {
+//                result.addErrorMessage( "Could not find matching Reservation.");
+//            }
+//        }
+
+        if (result.isSuccess()) {
+            if (reservationRepository.update(updated)) {
+                result.setPayload(updated);
             } else {
-                result.addErrorMessage( "Could not find matching Reservation.");
+                result.addErrorMessage("Could not find matching reservation");
             }
         }
 
@@ -204,7 +213,7 @@ public class ReservationService {
             }
 
             //Validate dates don't overlap
-            List<Reservation> findResult = reservationRepository.findByHost(reservation.getHost());
+            List<Reservation> findResult = reservationRepository.findByHost(reservation.getHost().getId());
 
                 for(Reservation r : findResult){
                     if((!reservation.getStart().isBefore(r.getStart())

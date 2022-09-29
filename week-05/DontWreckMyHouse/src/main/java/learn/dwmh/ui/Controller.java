@@ -157,6 +157,10 @@ public class Controller {
                 view.displayStatus(true, successMessage);
             }
         }
+
+    //host email: kdeclerkdc@sitemeter.com
+    //guest email: lpeacheyjc@ucoz.ru
+    //reservation id:10
     }
 
     private void cancelReservation() throws DataException {
@@ -191,7 +195,7 @@ public class Controller {
 
         Reservation selected = view.chooseReservationById(reservations);
 
-        Result<Reservation> result = reservationService.delete(selected.getId(), host);
+        Result<Reservation> result = reservationService.delete(selected.getId(), host.getId());
 
         if (result.isSuccess()) {
             String successMessage = String.format("Reservation deleted!");
@@ -199,10 +203,6 @@ public class Controller {
         } else {
             view.displayStatus(false, result.getErrorMessages());
         }
-//
-//        //host email: kdeclerkdc@sitemeter.com
-//        //guest email: mbarrell46@usda.gov
-//        //reservation id:2
     }
 
    //support methods

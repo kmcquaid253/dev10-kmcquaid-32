@@ -27,22 +27,21 @@ public class ReservationFileRepository implements ReservationRepository{
     }
 
     public boolean update(Reservation updated) throws DataException {
-        if( updated == null ) throw new DataException("Cannot update null Reservation.");
-
-        boolean found = false;
-
-        List<Reservation> allReservations = findByHost(updated.getHost());
+        //if( updated == null ) throw new DataException("Cannot update null Reservation.");
+        //boolean found = false;
+        List<Reservation> allReservations = findByHost(updated.getHost().getId());
 
         for (int i = 0; i < allReservations.size(); i++) {
-            if (
-                    allReservations.get(i).getId() == updated.getId()){
-                allReservations.set(i, updated);
-                found = true;
-                writeAll(allReservations, updated.getHost().getId());
-                break;
+            if (allReservations.get(i).getId() == updated.getId()){
+
+                    allReservations.set(i, updated);
+                    //found = true;
+                    writeAll(allReservations, updated.getHost().getId());
+                    //break;
+                    return true;
             }
         }
-        return found;
+        return false;
     }
 
     //Needed to update reservation, writes the whole List
@@ -74,13 +73,12 @@ public class ReservationFileRepository implements ReservationRepository{
     private Reservation deserialize(String[] fields) {
 
         /*
-
             private int id;
             private LocalDate start;
             private LocalDate end;
+            private BigDecimal total;
             private Guest guest;
             private Host host;
-            private BigDecimal total;
          */
 
         Reservation result = new Reservation();
@@ -100,9 +98,9 @@ public class ReservationFileRepository implements ReservationRepository{
 
 
     @Override
-    public List<Reservation> findByHost(Host host) {
+    public List<Reservation> findByHost(String hostId) {
         ArrayList<Reservation> result = new ArrayList<>();
-        Path filepath = Paths.get(directory, host.getId() + ".csv");
+        Path filepath = Paths.get(directory, hostId + ".csv");
         String path = filepath.toString();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
 
@@ -112,7 +110,12 @@ public class ReservationFileRepository implements ReservationRepository{
 
                 String[] fields = line.split(",", -1);
                 if (fields.length == 5) {
-                    result.add(deserialize(fields));
+                    Reservation toAdd = deserialize((fields));
+                    Host host = new Host();
+                    host.setId(hostId);
+                    toAdd.setHost(host);
+
+                    result.add(toAdd);
                 }
             }
         } catch (IOException ex) {
@@ -123,7 +126,7 @@ public class ReservationFileRepository implements ReservationRepository{
 
     @Override
     public Reservation add(Reservation toAdd) throws DataException {
-        List<Reservation> currentReservations = findByHost(toAdd.getHost());//gets all existing reservations by host
+        List<Reservation> currentReservations = findByHost(toAdd.getHost().getId());//gets all existing reservations by host
 
         int maxId = 0;
         for( Reservation currentReservation : currentReservations ){
@@ -149,13 +152,13 @@ public class ReservationFileRepository implements ReservationRepository{
 
 
     @Override
-    public boolean delete(int id, Host host) throws DataException {
-        List<Reservation> reservation = findByHost(host);
+    public boolean delete(int id, String hostId) throws DataException {
+        List<Reservation> reservation = findByHost(hostId);
         for (int i = 0; i < reservation.size(); i++){
-            if(reservation.get(i).getId() == id && reservation.get(i).getHost().equals(host) )
+            if(reservation.get(i).getId() == id)
             {
                 reservation.remove(i);
-                writeAll(reservation, host.getId());
+                writeAll(reservation, hostId);
                 return true;
             }
         }
