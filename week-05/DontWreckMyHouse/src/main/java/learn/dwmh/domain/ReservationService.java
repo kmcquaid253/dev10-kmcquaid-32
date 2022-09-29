@@ -43,8 +43,6 @@ public class ReservationService {
             return toReturn;
         }
 
-        toReturn.setPayload(reservationRepository.findByHost(matchingHost.getId()));
-
         //New work starts here
         Map<Integer, Guest> guestMap = guestRepository.findAll().stream()
                 .collect(Collectors.toMap(i -> i.getId(), i -> i));
@@ -53,14 +51,17 @@ public class ReservationService {
                 .collect(Collectors.toMap(i -> i.getId(), i -> i));
 
 
-        List<Reservation> result = reservationRepository.findByHost(matchingHost.getId());
-        for (Reservation reservation : result) {
-            reservation.setGuest(guestMap.get(reservation.getGuest().getId()));//1. id gets passed into the map get
+        List<Reservation> matchingReservations = reservationRepository.findByHost(matchingHost.getId());
+        for (Reservation toHydrate : matchingReservations) {
+            toHydrate.setGuest(guestMap.get(toHydrate.getGuest().getId()));//1. id gets passed into the map get
                                                                                //2. map goes from an id to the fully hydrated object
                                                                                //3. map.get gives us back the fully hydrated object
                                                                                //4. and then passing that into the setter
-            reservation.setHost(hostMap.get(reservation.getHost().getId()));
+            toHydrate.setHost(hostMap.get(toHydrate.getHost().getId()));
         }
+
+        //Getting a list of reservations for given host
+        toReturn.setPayload(matchingReservations);
 
         return toReturn;
     }
