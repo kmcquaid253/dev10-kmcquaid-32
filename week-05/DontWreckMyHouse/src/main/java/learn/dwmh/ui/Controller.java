@@ -73,7 +73,6 @@ public class Controller {
         Result<List<Reservation>> reservations = reservationService.findByHostEmail(email);
 
         view.displayReservations(reservations.getPayload());
-        //kdeclerkdc@sitemeter.com
     }
 
     private void addReservation() throws DataException {
@@ -153,13 +152,13 @@ public class Controller {
             if (!updateResult.isSuccess()) {
                 view.displayStatus(false, updateResult.getErrorMessages());
             } else {
-                String successMessage = String.format("Reservation %s created.", updateResult.getPayload().getId());
+                String successMessage = String.format("Reservation %s updated.", updateResult.getPayload().getId());
                 view.displayStatus(true, successMessage);
             }
         }
 
-    //host email: kdeclerkdc@sitemeter.com
-    //guest email: lpeacheyjc@ucoz.ru
+    //host email: etorriv@yelp.com
+    //guest email: jcristofolinib2@netvibes.com
     //reservation id:10
     }
 
@@ -194,6 +193,12 @@ public class Controller {
         }
 
         Reservation selected = view.chooseReservationById(reservations);
+
+        //validate future dates
+        if(selected.getStart().isBefore(LocalDate.now())){
+            view.displayStatus(false,"Reservation date has to be in the future.");
+            return;
+        }
 
         Result<Reservation> result = reservationService.delete(selected.getId(), host.getId());
 

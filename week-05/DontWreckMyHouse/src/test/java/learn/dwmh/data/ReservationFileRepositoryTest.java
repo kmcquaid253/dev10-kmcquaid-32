@@ -131,11 +131,6 @@ public class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldNotUpdateNullReservation() throws DataException {
-        assertThrows( DataException.class, () -> repository.update(null) );
-    }
-
-    @Test
     void shouldUpdateExistingReservation() throws  DataException{
 
         reservation.setId(11);
