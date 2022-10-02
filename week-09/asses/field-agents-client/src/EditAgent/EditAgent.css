@@ -1,0 +1,51 @@
+form {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 6px double #1C6EA4;
+    padding: 1em;
+    background-color: #F0F8FF;
+}
+
+#messages {
+    min-height: 50px;
+}
+
+h5 {
+    margin-top: 2em;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #002c4c;
+}
+
+.ed-btn{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-right: 6px;
+}
+
+.can-btn {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h4 {
+    margin-top: 1em;
+    font-family:fantasy;
+    color: #002c4c;
+    font-size: 2em;
+    text-align: center;
+}
+
+body {
+    background-image: url('blue.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.font{
+    margin-top: 1em;
+    font-family:fantasy;
+    color: #002c4c;
+    font-size: 2em;
+    text-align: center;
+}

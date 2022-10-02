@@ -1,0 +1,9 @@
+.add-btn {
+    padding:22px 128px;
+	cursor: pointer;
+	text-decoration: none;
+	display:inline-block;
+	border-radius:5px;
+	box-shadow:-2px -2px 5px rgba(0,0,0,0.5);
+	border:1px solid #ccc;
+}
