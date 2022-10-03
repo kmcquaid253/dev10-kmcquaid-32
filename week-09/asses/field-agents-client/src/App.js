@@ -24,7 +24,7 @@ function App() {
             <EditAgent/>
           </Route>
           <Route path="/agent/delete/:id">
-            <DeleteAgent></DeleteAgent>
+            <DeleteAgent/>
           </Route>
           <Route path="/agent/add">
             <AddAgent/>

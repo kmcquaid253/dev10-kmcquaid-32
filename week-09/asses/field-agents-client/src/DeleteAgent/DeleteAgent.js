@@ -39,7 +39,7 @@ function DeleteAgent(){
         .then(selectedAgent => {//variable comes from the api
             setAgent(selectedAgent);
         });
-    }, []); //sending an empty array so it doesnt re-run
+    }, [id]); //sending an empty array so it doesnt re-run
 
 
     function handleSubmit(event){//take in an event to prevent it from posting
