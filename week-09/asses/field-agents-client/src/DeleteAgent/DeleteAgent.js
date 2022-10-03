@@ -70,10 +70,10 @@ function DeleteAgent(){
 
         <div className='container'>
             
-            <div id="messages" class="alert alert-danger" role="alert">
+            <div id="messages" className="alert alert-danger" role="alert">
                 <h3>WARNING</h3>
                 <h6 id='del-war'>Are you sure you want to delete the following Agent?</h6>
-                <h6 id='del-war'>CAUTION: Deleteion is permanent</h6>
+                <h6 id='del-war'>CAUTION: Deletion is permanent</h6>
             </div>
             <p></p>
             {agent ? 

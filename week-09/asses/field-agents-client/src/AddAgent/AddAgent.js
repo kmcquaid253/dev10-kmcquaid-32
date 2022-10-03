@@ -22,7 +22,7 @@ function AddAgent(){
     function handleSubmit(event){//take in an event to prevent it from posting
         event.preventDefault();
 
-        fetch(baseUrl, {
+        fetch(baseUrl,{
             method: "POST",
             body: JSON.stringify(agent),
             headers: {
@@ -52,7 +52,7 @@ function AddAgent(){
 
     function showErrors( listOfErrorMessages ){
 
-        //looks for 'messages' div in index.html
+        //looks for 'messages' div.
         const messageContainer = document.getElementById("messages");
     
         //converts error message into a sequence of paragraphs
@@ -60,6 +60,20 @@ function AddAgent(){
         //in my html file
         messageContainer.innerHTML = listOfErrorMessages.map( m => "<p>" + m + "</p>" ).reduce( (prev, curr) => prev + curr ); //reduce into one big string
     
+    }
+
+    function inputChangeHandler(inputChangedEvent){
+        const propertyName = inputChangedEvent.target.name;
+        const newValue = inputChangedEvent.target.value;
+
+        //Made a copy of the original value
+        const agentCopy = {...agent};
+
+        //update property of the copy
+        agentCopy[propertyName] = newValue;
+
+        //overwrite copy with setAgent()
+        setAgent(agentCopy);
     }
 
 
@@ -74,25 +88,39 @@ function AddAgent(){
                 <FormInput 
                     inputType={"text"} 
                     identifier={"firstName"} 
-                    labelText={"First Name"}/>
+                    labelText={"First Name"}
+                    currVal={agent.firstName} 
+                    onChangeHandler={inputChangeHandler}/>
                 <FormInput 
                     inputType={"text"} 
                     identifier={"middleName"} 
-                    labelText={"Middle Name"}/>
+                    labelText={"Middle Name"}
+                    currVal={agent.middleName} 
+                    onChangeHandler={inputChangeHandler}/>
                 <FormInput 
                     inputType={"text"} 
                     identifier={"lastName"} 
-                    labelText={"Last Name"}/>
+                    labelText={"Last Name"}
+                    currVal={agent.lastName} 
+                    onChangeHandler={inputChangeHandler}/>
                 <FormInput 
                     inputType={"date"} 
                     identifier={"dob"} 
-                    labelText={"Date of Birth"}/>
+                    labelText={"Date of Birth"}
+                    currVal={agent.dob} 
+                    onChangeHandler={inputChangeHandler}/>
+                <FormInput 
+                    inputType={"number"} 
+                    identifier={"heightInInches"} 
+                    labelText={"Height in inches"} 
+                    currVal={agent.heightInInches} 
+                    onChangeHandler={inputChangeHandler}/>
 
                 <button className='btn btn-primary'>Add</button>
                 <Link to="/agents" className="btn btn-danger">Cancel</Link>
 
                 <h5>Messages</h5>
-                <div id="messages" class="alert alert-info" role="alert"></div>
+                <div id="messages" className="alert alert-info" role="alert"></div>
             </form> 
         </div>
     );

@@ -46,7 +46,7 @@ function EditAgent(){
                 history.push("/agents")
             }else if(response.status === 409){
                 return Promise.reject(["Id mismatch between url and sent agent."]);//put string into an array because it's handeling multiple error messages
-            } else if( response.status == 400 ){
+            } else if( response.status === 400 ){
                 return Promise.reject( await response.json());
             }
         })
@@ -127,7 +127,7 @@ function EditAgent(){
                 <Link to="/agents" className="btn btn-danger can-btn">Cancel</Link>
 
                 <h5>Messages</h5>
-                <div id="messages" class="alert alert-info" role="alert"></div>
+                <div id="messages" className="alert alert-info" role="alert"></div>
             </form> :
             null}
         </div>

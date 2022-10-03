@@ -15,7 +15,7 @@ function Agent(props){
                     <p className="card-text">First Name: {props.agentData.firstName}</p>
                     <p className="card-text">Middle Name: {props.agentData.middleName}</p>
                     <p className="card-text">Last Name: {props.agentData.lastName}</p>
-                    <p className="card-text">Local Date: {props.agentData.dob}</p>
+                    <p className="card-text">Date of Birth: {props.agentData.dob}</p>
                     <p className="card-text">Height In Inches: {props.agentData.heightInInches}</p>
                 </div>
         </div>
