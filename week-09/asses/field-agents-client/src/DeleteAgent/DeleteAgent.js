@@ -5,6 +5,7 @@ import "./DeleteAgent.css";
 
 function DeleteAgent(){
 
+    //'useParams' allows us to pull the id off of the URL
     const {id} = useParams();
 
     const[agent, setAgent] = useState(null);
@@ -23,7 +24,7 @@ function DeleteAgent(){
     
     }
 
-    useEffect( () => {
+    useEffect( () => {//useEffect will only make the fetch happen once when the page first load up
         fetch("http://localhost:8080/api/agent/" + id)
         .then(
             response => {
@@ -31,7 +32,7 @@ function DeleteAgent(){
                     return response.json(); //produces new 2nd promise
                 } else{
                     //TODO: proper error handling
-                    console.log(response);
+                    showErrors(["Could not find matching agent to delete."])
                 }
             }
         )

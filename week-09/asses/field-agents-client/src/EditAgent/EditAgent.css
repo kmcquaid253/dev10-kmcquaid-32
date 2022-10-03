@@ -10,16 +10,16 @@ form {
     min-height: 50px;
 }
 
-h5 {
+h2 {
     margin-top: 2em;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #002c4c;
+    font-size: 1.4em;
 }
 
 .ed-btn{
     margin-top: 1em;
     margin-bottom: 1em;
-    margin-right: 6px;
 }
 
 .can-btn {
@@ -35,7 +35,7 @@ h4 {
     text-align: center;
 }
 
-body {
+body{
     background-image: url('blue.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;

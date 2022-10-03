@@ -1,6 +1,7 @@
 import {Link, useHistory } from "react-router-dom";
 import {useState} from 'react';
 import FormInput from '../FormInput/FormInput';
+import "./AddAgent.css";
 
   const baseUrl = "http://localhost:8080/api/agent";
 
@@ -22,6 +23,7 @@ function AddAgent(){
     function handleSubmit(event){//take in an event to prevent it from posting
         event.preventDefault();
 
+        //Use fetch to POST to the service
         fetch(baseUrl,{
             method: "POST",
             body: JSON.stringify(agent),
@@ -32,6 +34,7 @@ function AddAgent(){
         //fetch returns a response
         .then(async response => {
             if(response.status === 201){
+                //Invoking this hook returns an object
                 //if successful...
                 history.push("/agents");
             }
@@ -62,28 +65,36 @@ function AddAgent(){
     
     }
 
+    //tracks the fields and detects if changes are being made to them
+    //changes the the 'onChangeHandler' as we make changes
+    //For example: We make changes to our input, which fires the onChange event
+                // which triggers this function
     function inputChangeHandler(inputChangedEvent){
-        const propertyName = inputChangedEvent.target.name;
+        const propertyName = inputChangedEvent.target.name;//We are using the property name to update the value
         const newValue = inputChangedEvent.target.value;
 
-        //Made a copy of the original value
+        //Made a copy of agent, change the name of the copy and then call set course...
+
+        //Made copy of original object using the spread syntax
+        //this is taking all the properties, spreads them out into a sort of comma
+        //seperated list & then builds an object with those properties
         const agentCopy = {...agent};
 
         //update property of the copy
+        //put the propertyName in square brackets to 
+        //get access to whichever property was altered
         agentCopy[propertyName] = newValue;
 
         //overwrite copy with setAgent()
+        //as we are making changes we are immediately changing the agent variable
         setAgent(agentCopy);
     }
 
 
     return (
-        // <h2>
-        //     {agent ? agent.firstName : "Agent not loaded"}
-        // </h2>
 
         <div className='container'>
-            
+            <h4>Add Agent:</h4>
             <form onSubmit={handleSubmit}>
                 <FormInput 
                     inputType={"text"} 
@@ -116,11 +127,11 @@ function AddAgent(){
                     currVal={agent.heightInInches} 
                     onChangeHandler={inputChangeHandler}/>
 
-                <button className='btn btn-primary'>Add</button>
-                <Link to="/agents" className="btn btn-danger">Cancel</Link>
+                <button className='btn btn-primary btn-add'>Add</button>
+                <Link to="/agents" className="btn btn-danger btn-can">Cancel</Link>
 
-                <h5>Messages</h5>
-                <div id="messages" className="alert alert-info" role="alert"></div>
+                <h2> Error Messages</h2>
+                <div id="messages" className="alert alert-danger" role="alert"></div>
             </form> 
         </div>
     );

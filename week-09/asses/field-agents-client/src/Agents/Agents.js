@@ -15,11 +15,18 @@ function Agents(){
             })
             .then(agentList => {
                 setAgents(agentList);
+            })
+            .catch(error => {
+                if(error instanceof TypeError){
+                    showErrors(["Could not connect to the api."]);
+                } else{
+                    showErrors(error);
+                }
             });
     }
 
     //Use effect -> lambda -> to only deal with once
-    //UseEffect = when the page first loads do whats into line 22
+    //UseEffect = when the page first loads do whats in line 35
     //Keeps it from re rendering over and over again
     useEffect( 
         () => {
@@ -34,6 +41,18 @@ function Agents(){
         //This method is triggered specifically because someone clicked a button
         loadAllAgents();
     }
+
+    function showErrors( listOfErrorMessages ){
+
+        //looks for 'messages' div in index.html
+        const messageContainer = document.getElementById("messages");
+    
+        //converts error message into a sequence of paragraphs
+        //becoming the innerHTML of the <div id="messages"></div>
+        //in my html file
+        messageContainer.innerHTML = listOfErrorMessages.map( m => "<p>" + m + "</p>" ).reduce( (prev, curr) => prev + curr ); //reduce into one big string
+    
+    }
             
 
     return (
@@ -43,7 +62,7 @@ function Agents(){
         <>
         {
             <div className='container'>
-                <p></p>
+                <div id="messages" role="alert"></div>
                 <button className='btn btn-info add-btn'><Link to={"/agent/add"}>Add</Link></button>
                 <p></p>
             </div>

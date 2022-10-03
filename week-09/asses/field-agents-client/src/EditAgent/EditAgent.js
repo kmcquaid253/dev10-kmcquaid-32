@@ -5,6 +5,7 @@ import "./EditAgent.css";
 
 function EditAgent(){
 
+    //'useParams' allows us to pull the id off of the URL
     const {id} = useParams();
 
     const[agent, setAgent] = useState(null);//state that we track about the page, that way when it does update it will refresh the component
@@ -19,7 +20,7 @@ function EditAgent(){
                     return response.json(); //produces new 2nd promise
                 } else{
                     //TODO: proper error handling
-                    console.log(response);
+                    showErrors(["Could not find matching agent to edit"])
                 }
             }
         )
@@ -35,7 +36,7 @@ function EditAgent(){
         //create PUT request
         fetch("http://localhost:8080/api/agent/" + id, {
             method: "PUT",
-            body: JSON.stringify(agent),
+            body: JSON.stringify(agent),//we can just stringify agent bacause we've been changing it as we go
             headers: {
                 "Content-Type": "application/json",
             }
@@ -59,17 +60,28 @@ function EditAgent(){
         });
     }
 
+    //tracks the fields and detects if changes are being made to them
+    //changes the the 'onChangeHandler' as we make changes
+    //For example: We make changes to our input, which fires the onChange event
+                // which triggers this function
     function inputChangeHandler(inputChangedEvent){
-        const propertyName = inputChangedEvent.target.name;
+        const propertyName = inputChangedEvent.target.name; //We are using the property name to update the value
         const newValue = inputChangedEvent.target.value;
 
-        //Made a copy of the original value
+        //Made a copy of agent, change the name of the copy and then call set course...
+
+        //Made copy of original object using the spread syntax
+        //this is taking all the properties, spreads them out into a sort of comma
+        //seperated list & then builds an object with those properties
         const agentCopy = {...agent};
 
         //update property of the copy
+        //put the propertyName in square brackets to 
+        //get access to whichever property was altered
         agentCopy[propertyName] = newValue;
 
         //overwrite copy with setAgent()
+        //as we are making changes we are immediately changing the agent variable
         setAgent(agentCopy);
     }
 
@@ -124,10 +136,10 @@ function EditAgent(){
                     onChangeHandler={inputChangeHandler}/>
 
                 <button className='btn btn-primary ed-btn'>Edit</button>
-                <Link to="/agents" className="btn btn-danger can-btn">Cancel</Link>
+                <Link to="/agents" className="btn btn-warning can-btn">Cancel</Link>
 
-                <h5>Messages</h5>
-                <div id="messages" className="alert alert-info" role="alert"></div>
+                <h2>Error Messages</h2>
+                <div id="messages" className="alert alert-danger" role="alert"></div>
             </form> :
             null}
         </div>
