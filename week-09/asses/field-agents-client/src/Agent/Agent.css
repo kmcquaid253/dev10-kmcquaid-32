@@ -1,0 +1,35 @@
+.card{
+    display: inline-block;
+    width: 33.3%;
+    margin-top: 1em;
+    margin-left: 1em;
+}
+
+.edit-btn {
+    margin-right: 0.8em;
+    cursor: pointer;
+	text-decoration: none;
+	display:inline-block;
+	border-radius:5px;
+	box-shadow:-2px -2px 5px rgba(0,0,0,0.5);
+	border:1px solid rgba(155, 155, 13, 0.544);
+}
+
+.hed{
+    background-color: #1C6EA4;
+}
+
+.txt-font{
+    color: white;
+    
+}
+
+.age {
+
+	cursor: pointer;
+	text-decoration: none;
+	display:inline-block;
+	border-radius:5px;
+	box-shadow:-2px -2px 5px rgba(0,0,0,0.5);
+	border:1px solid rgba(255, 0, 0, 0.61);
+}
